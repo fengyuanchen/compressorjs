@@ -1,0 +1,18 @@
+.jumbotron {
+  border-radius: 0;
+  color: #fff;
+}
+
+.jumbotron small {
+  font-size: .875rem;
+  opacity: 0.75;
+}
+
+.jumbotron p {
+  margin-bottom: 0;
+}
+
+footer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

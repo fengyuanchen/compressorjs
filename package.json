@@ -1,0 +1,47 @@
+{
+  "name": "image-compressor",
+  "version": "0.1.0",
+  "description": "JavaScript image compression library.",
+  "main": "dist/image-compressor.common.js",
+  "module": "dist/image-compressor.esm.js",
+  "browser": "dist/image-compressor.js",
+  "license": "MIT",
+  "repository": "xkeshi/image-compressor",
+  "homepage": "https://xkeshi.github.io/image-compressor",
+  "author": "Chen Fengyuan",
+  "keywords": [
+    "image",
+    "compress",
+    "javascript",
+    "front-end",
+    "web",
+    "development"
+  ],
+  "scripts": {
+    "start": "npm run dev",
+    "build": "rollup -c",
+    "compress": "uglifyjs dist/image-compressor.js -o dist/image-compressor.min.js -c -m --comments /^!/",
+    "dev": "rollup -c -w -m",
+    "lint": "eslint src",
+    "postbuild": "npm run compress",
+    "prebuild": "npm run lint"
+  },
+  "dependencies": {
+    "blueimp-canvas-to-blob": "^3.9.0",
+    "is-blob": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.2.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.3.1",
+    "uglify-js": "^3.0.25"
+  }
+}
