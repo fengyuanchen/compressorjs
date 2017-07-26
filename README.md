@@ -1,6 +1,6 @@
 # image-compressor
 
-> A simple JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API.
+> A simple JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work. General use this to precompress an client image file before upload it.
 
 - [Website](https://xkeshi.github.io/image-compressor)
 
