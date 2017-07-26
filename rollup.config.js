@@ -35,7 +35,7 @@ module.exports = {
     }),
   ],
   banner: `/*!
- * ${pkg.name} v${pkg.version}
+ * Image Compressor v${pkg.version}
  * https://github.com/${pkg.repository}
  *
  * Copyright (c) ${now.getFullYear()} Xkeshi

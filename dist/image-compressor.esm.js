@@ -1,11 +1,11 @@
 /*!
- * image-compressor v0.1.0
+ * Image Compressor v0.2.0
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-07-25T03:10:07.935Z
+ * Date: 2017-07-26T03:07:52.034Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -176,49 +176,11 @@ var DEFAULTS = {
   error: null
 };
 
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-
-
-
-
-
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var URL = window.URL || window.webkitURL;
 var FileReader = window.FileReader;
@@ -236,7 +198,7 @@ var ImageCompressor = function () {
    * @param {Object} [options] - The options for compressing.
    */
   function ImageCompressor(file, options) {
-    classCallCheck(this, ImageCompressor);
+    _classCallCheck(this, ImageCompressor);
 
     this.result = null;
 
@@ -253,7 +215,7 @@ var ImageCompressor = function () {
    */
 
 
-  createClass(ImageCompressor, [{
+  _createClass(ImageCompressor, [{
     key: 'compress',
     value: function compress(file, options) {
       var _this = this;
@@ -334,6 +296,12 @@ var ImageCompressor = function () {
         }
 
         result.name = file.name;
+
+        // Returns original file if the result is large than it
+        if (result.size > file.size) {
+          result = file;
+        }
+
         _this.result = result;
 
         if (options.success) {
@@ -350,6 +318,7 @@ var ImageCompressor = function () {
       });
     }
   }]);
+
   return ImageCompressor;
 }();
 

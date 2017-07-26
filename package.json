@@ -1,7 +1,7 @@
 {
   "name": "image-compressor",
-  "version": "0.1.0",
-  "description": "JavaScript image compression library.",
+  "version": "0.2.0",
+  "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
   "browser": "dist/image-compressor.js",

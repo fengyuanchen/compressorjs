@@ -1,6 +1,6 @@
 # image-compressor
 
-> JavaScript image compression library.
+> A simple JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API.
 
 - [Website](https://xkeshi.github.io/image-compressor)
 
@@ -19,7 +19,7 @@
 ```
 dist/
 ├── image-compressor.js        (10 KB, UMD)
-├── image-compressor.min.js    ( 3 KB, UMD, compressed)
+├── image-compressor.min.js    ( 4 KB, UMD, compressed)
 ├── image-compressor.common.js (10 KB, CommonJS, default)
 └── image-compressor.esm.js    (10 KB, ES Module)
 ```
@@ -128,7 +128,7 @@ Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLC
 | 0.4 | 2.12 MB | 578.25 KB | 73.37% | - |
 | 0.6 | 2.12 MB | 747.85 KB | 65.56% | Recommend |
 | 0.8 | 2.12 MB | 1.18 MB | 44.14% | Recommend |
-| 1 | 2.12 MB | 6.64 MB | -213.05% | Not recommend |
+| 1 | 2.12 MB | 2.12 MB | 0% | Not recommend |
 | NaN | 2.12 MB | 2.05 MB | 3.19% | - |
 
 ### success(result)
