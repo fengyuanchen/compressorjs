@@ -113,7 +113,7 @@ export default class ImageCompressor {
         if (result) {
           result.name = file.name;
 
-          // Returns original file if the result is large than it
+          // Returns original file if the result is larger than it
           if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
             result = file;
           }
