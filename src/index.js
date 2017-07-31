@@ -94,6 +94,11 @@ export default class ImageCompressor {
           options.mimeType = file.type;
         }
 
+        // Converts PNG files over the `convertSize` to JPEGs.
+        if (file.size > options.convertSize && options.mimeType === 'image/png') {
+          options.mimeType = 'image/jpeg';
+        }
+
         if (canvas.toBlob) {
           canvas.toBlob(resolve, options.mimeType, options.quality);
         } else {

@@ -30,6 +30,14 @@ export default {
   mimeType: 'auto',
 
   /**
+   * PNG files over this value (5M by default) will be converted to JPEGs.
+   * To disable this, just set the value to `Infinity`.
+   * Check out {@link https://github.com/xkeshi/image-compressor/issues/2 #2}.
+   * @type {number}
+   */
+  convertSize: 5000000,
+
+  /**
    * The success callback for the image compressing process.
    * @type {Function}
    * @param {File} file - The compressed image File object.
