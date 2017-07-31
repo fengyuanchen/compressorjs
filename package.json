@@ -1,6 +1,6 @@
 {
   "name": "image-compressor",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
@@ -12,6 +12,8 @@
   "keywords": [
     "image",
     "compress",
+    "lossy-compression",
+    "upload",
     "javascript",
     "front-end",
     "web",
@@ -27,7 +29,7 @@
     "prebuild": "npm run lint"
   },
   "dependencies": {
-    "blueimp-canvas-to-blob": "^3.9.0",
+    "blueimp-canvas-to-blob": "^3.11.0",
     "is-blob": "^1.0.0"
   },
   "devDependencies": {
@@ -41,6 +43,6 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.0.25"
+    "uglify-js": "^3.0.27"
   }
 }

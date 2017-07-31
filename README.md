@@ -18,10 +18,10 @@
 
 ```
 dist/
-├── image-compressor.js        (10 KB, UMD)
-├── image-compressor.min.js    ( 4 KB, UMD, compressed)
-├── image-compressor.common.js (10 KB, CommonJS, default)
-└── image-compressor.esm.js    (10 KB, ES Module)
+├── image-compressor.js        (UMD)
+├── image-compressor.min.js    (UMD, compressed)
+├── image-compressor.common.js (CommonJS, default)
+└── image-compressor.esm.js    (ES Module)
 ```
 
 ## Getting started
@@ -132,6 +132,20 @@ Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLC
 | 0.8 | 2.12 MB | 1.18 MB | 44.14% | Recommend |
 | 1 | 2.12 MB | 2.12 MB | 0% | Not recommend |
 | NaN | 2.12 MB | 2.05 MB | 3.19% | - |
+
+### mimeType
+
+- Type: `string`
+- Default: `'auto'`
+
+The mime type of the output image. By default, the original mime type of the source image file will be used.
+
+### convertSize
+
+- Type: `number`
+- Default: `5000000` (5MB)
+
+PNG files over this value will be converted to JPEGs. To disable this, just set the value to `Infinity`. See #2.
 
 ### success(result)
 

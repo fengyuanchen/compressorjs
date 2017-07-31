@@ -31,7 +31,7 @@
 
   <div class="jumbotron bg-primary">
     <div class="container">
-      <h1>image-compressor <small>v0.2.0</small></h1>
+      <h1>image-compressor <small>v0.3.0</small></h1>
       <p class="lead">A simple JavaScript image compressor.</p>
     </div>
   </div>
@@ -52,20 +52,20 @@
               <h3 class="card-title">Options</h3>
               <hr>
               <div class="form-group row">
-                <label for="inputWidth" class="col-sm-2 col-form-label">width</label>
-                <div class="col-sm-10">
+                <label for="inputWidth" class="col-sm-4 col-form-label">width</label>
+                <div class="col-sm-8">
                   <input type="number" class="form-control" id="inputWidth" placeholder="width" v-model.number="options.width">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputHeight" class="col-sm-2 col-form-label">height</label>
-                <div class="col-sm-10">
+                <label for="inputHeight" class="col-sm-4 col-form-label">height</label>
+                <div class="col-sm-8">
                   <input type="number" class="form-control" id="inputHeight" placeholder="height" v-model.number="options.height">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputQuality" class="col-sm-2 col-form-label">quality</label>
-                <div class="col-sm-10">
+                <label for="inputQuality" class="col-sm-4 col-form-label">quality</label>
+                <div class="col-sm-8">
                   <select class="form-control" name="quality" id="inputQuality" v-model.number="options.quality">
                     <option value="0">0</option>
                     <option value="0.1">0.1</option>
@@ -80,6 +80,18 @@
                     <option value="1">1</option>
                     <option value="">NaN</option>
                   </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputMimeType" class="col-sm-4 col-form-label">mimeType</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputMimeType" placeholder="mimeType" v-model.number="options.mimeType">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputConvertSize" class="col-sm-4 col-form-label">convertSize</label>
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" id="inputConvertSize" placeholder="convertSize" v-model.number="options.convertSize">
                 </div>
               </div>
             </div>

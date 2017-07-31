@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v0.2.0
+ * Image Compressor v0.3.0
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-07-26T03:07:52.034Z
+ * Date: 2017-07-31T07:16:27.061Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -158,6 +158,21 @@ var DEFAULTS = {
   quality: 0.8,
 
   /**
+   * The mime type of the output image.
+   * By default, the original mime type of the source image file will be used.
+   * @type {string}
+   */
+  mimeType: 'auto',
+
+  /**
+   * PNG files over this value (5M by default) will be converted to JPEGs.
+   * To disable this, just set the value to `Infinity`.
+   * Check out {@link https://github.com/xkeshi/image-compressor/issues/2 #2}.
+   * @type {number}
+   */
+  convertSize: 5000000,
+
+  /**
    * The success callback for the image compressing process.
    * @type {Function}
    * @param {File} file - The compressed image File object.
@@ -284,10 +299,19 @@ var ImageCompressor = function () {
           canvas.height = canvasHeight;
           context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
+          if (!REGEXP_MIME_TYPE_IMAGE.test(options.mimeType)) {
+            options.mimeType = file.type;
+          }
+
+          // Converts PNG files over the `convertSize` to JPEGs.
+          if (file.size > options.convertSize && options.mimeType === 'image/png') {
+            options.mimeType = 'image/jpeg';
+          }
+
           if (canvas.toBlob) {
-            canvas.toBlob(resolve, file.type, options.quality);
+            canvas.toBlob(resolve, options.mimeType, options.quality);
           } else {
-            resolve(canvasToBlob(canvas.toDataURL(file.type, options.quality)));
+            resolve(canvasToBlob(canvas.toDataURL(options.mimeType, options.quality)));
           }
         });
       }).then(function (result) {
@@ -295,10 +319,19 @@ var ImageCompressor = function () {
           URL.revokeObjectURL(image.src);
         }
 
-        result.name = file.name;
+        if (result) {
+          // Returns original file if the result is larger than it
+          if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
+            result = file;
+          } else {
+            var date = new Date();
 
-        // Returns original file if the result is large than it
-        if (result.size > file.size) {
+            result.lastModified = date.getTime();
+            result.lastModifiedDate = date;
+            result.name = file.name;
+          }
+        } else {
+          // Returns original file if the result is null in some cases.
           result = file;
         }
 
