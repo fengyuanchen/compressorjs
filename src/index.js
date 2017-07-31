@@ -111,11 +111,15 @@ export default class ImageCompressor {
         }
 
         if (result) {
-          result.name = file.name;
-
           // Returns original file if the result is larger than it
           if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
             result = file;
+          } else {
+            const date = new Date();
+
+            result.lastModified = date.getTime();
+            result.lastModifiedDate = date;
+            result.name = file.name;
           }
         } else {
           // Returns original file if the result is null in some cases.
