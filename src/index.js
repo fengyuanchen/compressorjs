@@ -110,10 +110,15 @@ export default class ImageCompressor {
           URL.revokeObjectURL(image.src);
         }
 
-        result.name = file.name;
+        if (result) {
+          result.name = file.name;
 
-        // Returns original file if the result is large than it
-        if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
+          // Returns original file if the result is large than it
+          if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
+            result = file;
+          }
+        } else {
+          // Returns original file if the result is null in some cases.
           result = file;
         }
 
