@@ -99,14 +99,16 @@ document.getElementById('file').addEventListener('change', (e) => {
 - Type: `number`
 - Default: `undefined`
 
-The width of the output image. If not specified, the natural width of the original image will be used.
+The width of the output image. If not specified, the natural width of the original image will be used, or if the `height` option is set, the width will be computed automatically by the natural aspect ratio.
 
 ### height
 
 - Type: `number`
 - Default: `undefined`
 
-The height of the output image. If not specified, the natural height of the original image will be used.
+The height of the output image. If not specified, the natural height of the original image will be used, or if the `width` option is set, the height will be computed automatically by the natural aspect ratio.
+
+**Note:** In order to keep the same aspect ratio to the original image, if the `width` option is set, will use it compute the height automatically, which means the `height` option will be ignored.
 
 ### quality
 
