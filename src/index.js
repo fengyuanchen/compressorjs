@@ -90,10 +90,14 @@ export default class ImageCompressor {
         canvas.height = canvasHeight;
         context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
+        if (!REGEXP_MIME_TYPE_IMAGE.test(options.mimeType)) {
+          options.mimeType = file.type;
+        }
+
         if (canvas.toBlob) {
-          canvas.toBlob(resolve, file.type, options.quality);
+          canvas.toBlob(resolve, options.mimeType, options.quality);
         } else {
-          resolve(toBlob(canvas.toDataURL(file.type, options.quality)));
+          resolve(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
         }
       }))
       .then((result) => {

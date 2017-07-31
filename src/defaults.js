@@ -23,6 +23,13 @@ export default {
   quality: 0.8,
 
   /**
+   * The mime type of the output image.
+   * By default, the original mime type of the source image file will be used.
+   * @type {string}
+   */
+  mimeType: 'auto',
+
+  /**
    * The success callback for the image compressing process.
    * @type {Function}
    * @param {File} file - The compressed image File object.
