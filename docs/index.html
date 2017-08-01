@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 mb-4">
+        <div class="col-md-4 mb-4">
           <div class="card">
             <div class="card-block">
               <h3 class="card-title">Options</h3>
@@ -121,43 +121,64 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 mb-4">
+        <div class="col-md-8 mb-4">
           <div class="card mb-4">
             <div class="card-block">
               <h3 class="card-title">Input (original)</h3>
               <hr>
-              <dl class="row">
-                <dt class="col-sm-4">lastModified:</dt>
-                <dd class="col-sm-8">{{ input.lastModified }}</dd>
-                <dt class="col-sm-4">lastModifiedDate:</dt>
-                <dd class="col-sm-8">{{ input.lastModifiedDate }}</dd>
-                <dt class="col-sm-4">name:</dt>
-                <dd class="col-sm-8">{{ input.name }}</dd>
-                <dt class="col-sm-4">type:</dt>
-                <dd class="col-sm-8">{{ input.type }}</dd>
-                <dt class="col-sm-4">size:</dt>
-                <dd class="col-sm-8">{{ input.size | prettySize }}</dd>
-              </dl>
+              <div class="row">
+                <div class="col-md-4 d-flex">
+                  <div :class="[inputURL ? '' : 'col-sm-12 bg-faded']">
+                    <img v-if="inputURL" :src="inputURL" :alt="input.name">
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <dl class="row">
+                    <dt class="col-sm-4">lastModified:</dt>
+                    <dd class="col-sm-8">{{ input.lastModified || 'N/A' }}</dd>
+                    <dt class="col-sm-4">lastModifiedDate:</dt>
+                    <dd class="col-sm-8">{{ input.lastModifiedDate || 'N/A' }}</dd>
+                    <dt class="col-sm-4">name:</dt>
+                    <dd class="col-sm-8">{{ input.name || 'N/A' }}</dd>
+                    <dt class="col-sm-4">type:</dt>
+                    <dd class="col-sm-8">{{ input.type || 'N/A' }}</dd>
+                    <dt class="col-sm-4">size:</dt>
+                    <dd class="col-sm-8">{{ input.size | prettySize }}</dd>
+                  </dl>
+                </div>
+              </div>
             </div>
           </div>
           <div class="card">
             <div class="card-block">
               <h3 class="card-title">Output (compressed)</h3>
               <hr>
-              <dl class="row">
-                <dt class="col-sm-4">lastModified:</dt>
-                <dd class="col-sm-8">{{ output.lastModified }}</dd>
-                <dt class="col-sm-4">lastModifiedDate:</dt>
-                <dd class="col-sm-8">{{ output.lastModifiedDate }}</dd>
-                <dt class="col-sm-4">name:</dt>
-                <dd class="col-sm-8">{{ output.name }}</dd>
-                <dt class="col-sm-4">type:</dt>
-                <dd class="col-sm-8">{{ output.type }}</dd>
-                <dt class="col-sm-4">size:</dt>
-                <dd class="col-sm-8">{{ output.size | prettySize }}
-                  <span v-if="output.size">({{ ((1 - (output.size / input.size)) * 100).toFixed(2) }}% off)</span>
-                </dd>
-              </dl>
+              <div class="row">
+                <div class="col-md-4 d-flex">
+                  <div :class="[outputURL ? '' : 'col-sm-12 bg-faded']">
+                    <img v-if="outputURL" :src="outputURL" :alt="output.name">
+                    <div v-if="outputURL" class="text-center my-2">
+                      <a class="btn btn-sm btn-blocks btn-outline-primary" :download="output.name" :href="outputURL">Download</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <dl class="row">
+                    <dt class="col-sm-4">lastModified:</dt>
+                    <dd class="col-sm-8">{{ output.lastModified || 'N/A' }}</dd>
+                    <dt class="col-sm-4">lastModifiedDate:</dt>
+                    <dd class="col-sm-8">{{ output.lastModifiedDate || 'N/A' }}</dd>
+                    <dt class="col-sm-4">name:</dt>
+                    <dd class="col-sm-8">{{ output.name || 'N/A' }}</dd>
+                    <dt class="col-sm-4">type:</dt>
+                    <dd class="col-sm-8">{{ output.type || 'N/A' }}</dd>
+                    <dt class="col-sm-4">size:</dt>
+                    <dd class="col-sm-8">{{ output.size | prettySize }}
+                      <span v-if="output.size">({{ ((1 - (output.size / input.size)) * 100).toFixed(2) }}% off)</span>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
             </div>
           </div>
         </div>
