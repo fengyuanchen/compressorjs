@@ -1,3 +1,7 @@
+img {
+  max-width: 100%;
+}
+
 .jumbotron {
   border-radius: 0;
   color: #fff;

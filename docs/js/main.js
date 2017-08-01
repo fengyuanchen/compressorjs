@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
   var Vue = window.Vue;
+  var URL = window.URL || window.webkitURL;
   var ImageCompressor = window.ImageCompressor;
 
   new Vue({
@@ -21,6 +22,11 @@ window.addEventListener('DOMContentLoaded', () => {
           convertSize: 5000000,
           success: function (file) {
             console.log('Output: ', file);
+
+            if (URL) {
+              vm.outputURL = URL.createObjectURL(file);
+            }
+
             vm.output = file;
             vm.$refs.input.value = '';
           },
@@ -28,6 +34,8 @@ window.addEventListener('DOMContentLoaded', () => {
             window.alert(e.message);
           },
         },
+        inputURL: '',
+        outputURL: '',
         input: {},
         output: {},
       };
@@ -46,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
           return size + ' B';
         }
 
-        return '';
+        return 'N/A';
       },
     },
 
@@ -57,6 +65,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         console.log('Input: ', file);
+
+        if (URL) {
+          this.inputURL = URL.createObjectURL(file);
+        }
+
         this.input = file;
         new ImageCompressor(file, this.options);
       },

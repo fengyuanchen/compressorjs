@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v0.3.0
+ * Image Compressor v0.4.0
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-07-31T07:16:27.061Z
+ * Date: 2017-08-01T07:03:56.383Z
  */
 
 'use strict';
@@ -137,6 +137,30 @@ var index = function (x) {
 
 var DEFAULTS = {
   /**
+   * The max width of the output image.
+   * @type {number}
+   */
+  maxWidth: Infinity,
+
+  /**
+   * The max height of the output image.
+   * @type {number}
+   */
+  maxHeight: Infinity,
+
+  /**
+   * The min width of the output image.
+   * @type {number}
+   */
+  minWidth: 0,
+
+  /**
+   * The min height of the output image.
+   * @type {number}
+   */
+  minHeight: 0,
+
+  /**
    * The width of the output image.
    * If not specified, the natural width of the source image will be used.
    * @type {number}
@@ -193,15 +217,86 @@ var DEFAULTS = {
   error: null
 };
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var REGEXP_IMAGE_TYPE = /^image\/.+$/;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+/**
+ * Check if the given value is a mime type of image.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given is a mime type of image, else `false`.
+ */
+function isImageType(value) {
+  return REGEXP_IMAGE_TYPE.test(value);
+}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/**
+ * Convert image type to extension.
+ * @param {string} value - The image type to convert.
+ * @param {boolean} [includeDot=true] - Include a leading dot or not.
+ * @returns {boolean} Returns the image extension.
+ */
+function imageTypeToExtension(value) {
+  var includeDot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+  var extension = isImageType(value) ? value.substr(6) : '';
+
+  if (extension === 'jpeg') {
+    extension = 'jpg';
+  }
+
+  if (extension && includeDot) {
+    extension = '.' + extension;
+  }
+
+  return extension;
+}
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
 
 var URL = window.URL || window.webkitURL;
 var FileReader = window.FileReader;
-var REGEXP_MIME_TYPE_IMAGE = /^image\/.+$/;
+var REGEXP_EXTENSION = /\.\w+$/;
 
 /**
  * Creates a new image compressor.
@@ -215,7 +310,7 @@ var ImageCompressor = function () {
    * @param {Object} [options] - The options for compressing.
    */
   function ImageCompressor(file, options) {
-    _classCallCheck(this, ImageCompressor);
+    classCallCheck(this, ImageCompressor);
 
     this.result = null;
 
@@ -232,7 +327,7 @@ var ImageCompressor = function () {
    */
 
 
-  _createClass(ImageCompressor, [{
+  createClass(ImageCompressor, [{
     key: 'compress',
     value: function compress(file, options) {
       var _this = this;
@@ -247,7 +342,7 @@ var ImageCompressor = function () {
           return;
         }
 
-        if (!REGEXP_MIME_TYPE_IMAGE.test(file.type)) {
+        if (!isImageType(file.type)) {
           reject('The first argument must be an image File or Blob object.');
           return;
         }
@@ -286,8 +381,36 @@ var ImageCompressor = function () {
           var canvas = document.createElement('canvas');
           var context = canvas.getContext('2d');
           var aspectRatio = width / height;
+          var maxWidth = Math.max(options.maxWidth, 0) || Infinity;
+          var maxHeight = Math.max(options.maxHeight, 0) || Infinity;
+          var minWidth = Math.max(options.minWidth, 0) || 0;
+          var minHeight = Math.max(options.minHeight, 0) || 0;
           var canvasWidth = width;
           var canvasHeight = height;
+
+          if (maxWidth < Infinity && maxHeight < Infinity) {
+            if (maxHeight * aspectRatio > maxWidth) {
+              maxHeight = maxWidth / aspectRatio;
+            } else {
+              maxWidth = maxHeight * aspectRatio;
+            }
+          } else if (maxWidth < Infinity) {
+            maxHeight = maxWidth / aspectRatio;
+          } else if (maxHeight < Infinity) {
+            maxWidth = maxHeight * aspectRatio;
+          }
+
+          if (minWidth > 0 && minHeight > 0) {
+            if (minHeight * aspectRatio > minWidth) {
+              minHeight = minWidth / aspectRatio;
+            } else {
+              minWidth = minHeight * aspectRatio;
+            }
+          } else if (minWidth > 0) {
+            minHeight = minWidth / aspectRatio;
+          } else if (minHeight > 0) {
+            minWidth = minHeight * aspectRatio;
+          }
 
           if (options.width > 0) {
             canvasWidth = options.width;
@@ -297,11 +420,12 @@ var ImageCompressor = function () {
             canvasWidth = canvasHeight * aspectRatio;
           }
 
+          canvasWidth = Math.min(Math.max(canvasWidth, minWidth), maxWidth);
+          canvasHeight = Math.min(Math.max(canvasHeight, minHeight), maxHeight);
           canvas.width = canvasWidth;
           canvas.height = canvasHeight;
-          context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
-          if (!REGEXP_MIME_TYPE_IMAGE.test(options.mimeType)) {
+          if (!isImageType(options.mimeType)) {
             options.mimeType = file.type;
           }
 
@@ -309,6 +433,15 @@ var ImageCompressor = function () {
           if (file.size > options.convertSize && options.mimeType === 'image/png') {
             options.mimeType = 'image/jpeg';
           }
+
+          // If the output image is JPEG
+          if (options.mimeType === 'image/jpeg') {
+            // Override the default fill color (#000, black) with #fff (white)
+            context.fillStyle = '#fff';
+            context.fillRect(0, 0, canvasWidth, canvasHeight);
+          }
+
+          context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
           if (canvas.toBlob) {
             canvas.toBlob(resolve, options.mimeType, options.quality);
@@ -323,7 +456,7 @@ var ImageCompressor = function () {
 
         if (result) {
           // Returns original file if the result is larger than it
-          if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
+          if (result.size > file.size && !(options.width > 0 || options.height > 0 || options.maxWidth < Infinity || options.maxHeight < Infinity || options.minWidth > 0 || options.minHeight > 0)) {
             result = file;
           } else {
             var date = new Date();
@@ -331,6 +464,11 @@ var ImageCompressor = function () {
             result.lastModified = date.getTime();
             result.lastModifiedDate = date;
             result.name = file.name;
+
+            // Convert the extension to match its type
+            if (result.name && result.type !== file.type) {
+              result.name = result.name.replace(REGEXP_EXTENSION, imageTypeToExtension(result.type));
+            }
           }
         } else {
           // Returns original file if the result is null in some cases.
@@ -353,7 +491,6 @@ var ImageCompressor = function () {
       });
     }
   }]);
-
   return ImageCompressor;
 }();
 

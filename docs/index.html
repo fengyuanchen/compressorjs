@@ -31,7 +31,7 @@
 
   <div class="jumbotron bg-primary">
     <div class="container">
-      <h1>image-compressor <small>v0.3.0</small></h1>
+      <h1>image-compressor <small>v0.4.0</small></h1>
       <p class="lead">A simple JavaScript image compressor.</p>
     </div>
   </div>
@@ -154,7 +154,7 @@
               <h3 class="card-title">Output (compressed)</h3>
               <hr>
               <div class="row">
-                <div class="col-md-4 d-flex">
+                <div class="col-md-4 d-flex justify-content-center">
                   <div :class="[outputURL ? '' : 'col-sm-12 bg-faded']">
                     <img v-if="outputURL" :src="outputURL" :alt="output.name">
                     <div v-if="outputURL" class="text-center my-2">
