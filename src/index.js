@@ -118,7 +118,6 @@ export default class ImageCompressor {
         canvasHeight = Math.min(Math.max(canvasHeight, minHeight), maxHeight);
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
-        context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
         if (!REGEXP_MIME_TYPE_IMAGE.test(options.mimeType)) {
           options.mimeType = file.type;
@@ -128,6 +127,15 @@ export default class ImageCompressor {
         if (file.size > options.convertSize && options.mimeType === 'image/png') {
           options.mimeType = 'image/jpeg';
         }
+
+        // If the output image is JPEG
+        if (options.mimeType === 'image/jpeg') {
+          // Override the default fill color (#000, black) with #fff (white)
+          context.fillStyle = '#fff';
+          context.fillRect(0, 0, canvasWidth, canvasHeight);
+        }
+
+        context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
         if (canvas.toBlob) {
           canvas.toBlob(resolve, options.mimeType, options.quality);
