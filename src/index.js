@@ -1,10 +1,14 @@
 import toBlob from 'blueimp-canvas-to-blob';
 import isBlob from 'is-blob';
 import DEFAULTS from './defaults';
+import {
+  isImageType,
+  imageTypeToExtension,
+} from './utils';
 
 const URL = window.URL || window.webkitURL;
 const FileReader = window.FileReader;
-const REGEXP_MIME_TYPE_IMAGE = /^image\/.+$/;
+const REGEXP_EXTENSION = /\.\w+$/;
 
 /**
  * Creates a new image compressor.
@@ -41,7 +45,7 @@ export default class ImageCompressor {
         return;
       }
 
-      if (!REGEXP_MIME_TYPE_IMAGE.test(file.type)) {
+      if (!isImageType(file.type)) {
         reject('The first argument must be an image File or Blob object.');
         return;
       }
@@ -119,7 +123,7 @@ export default class ImageCompressor {
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
 
-        if (!REGEXP_MIME_TYPE_IMAGE.test(options.mimeType)) {
+        if (!isImageType(options.mimeType)) {
           options.mimeType = file.type;
         }
 
@@ -162,6 +166,14 @@ export default class ImageCompressor {
             result.lastModified = date.getTime();
             result.lastModifiedDate = date;
             result.name = file.name;
+
+            // Convert the extension to match its type
+            if (result.name && result.type !== file.type) {
+              result.name = result.name.replace(
+                REGEXP_EXTENSION,
+                imageTypeToExtension(result.type),
+              );
+            }
           }
         } else {
           // Returns original file if the result is null in some cases.
