@@ -231,7 +231,7 @@ imageCompressor.compress(file, options)
 - Safari (latest)
 - Opera (latest)
 - Edge (latest)
-- Internet Explorer 11+
+- Internet Explorer 10+ (also requires `babel-polyfill` for `Promise` support)
 
 ## Versioning
 
