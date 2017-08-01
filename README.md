@@ -30,7 +30,7 @@ dist/
 
 - [Download the latest release](https://github.com/xkeshi/image-compressor/archive/master.zip).
 - Clone the repository: `git clone https://github.com/xkeshi/image-compressor.git`.
-- Install with [NPM](https://npmjs.com): `npm install xkeshi/image-compressor`.
+- Install with [NPM](https://npmjs.com): `npm install xkeshi/image-compressor --force`.
 
 ### Usage
 
@@ -173,7 +173,7 @@ The mime type of the output image. By default, the original mime type of the sou
 - Type: `number`
 - Default: `5000000` (5MB)
 
-PNG files over this value will be converted to JPEGs. To disable this, just set the value to `Infinity`. See #2.
+PNG files over this value will be converted to JPEGs. To disable this, just set the value to `Infinity`. See [#2](https://github.com/xkeshi/image-compressor/issues/2).
 
 ### success(result)
 
@@ -231,7 +231,7 @@ imageCompressor.compress(file, options)
 - Safari (latest)
 - Opera (latest)
 - Edge (latest)
-- Internet Explorer 10+ (also requires `babel-polyfill` for `Promise` support)
+- Internet Explorer 10+ (requires `babel-polyfill` for `Promise` support)
 
 ## Versioning
 

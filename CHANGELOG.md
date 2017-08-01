@@ -9,13 +9,13 @@
 ## 0.3.0 (Jul 31, 2017)
 
 - Add 2 new options: `mimeType` and `convertSize` (#2).
-- If the result is larger than original one, but the `width` or `height` options is also set, then not to return original one (#2).
+- If the result is greater than original one, but the `width` or `height` options is also set, then not to return original one (#2).
 - Return original image file if the result is null in some cases.
 - Add last modified date to output File object.
 
 ## 0.2.0 (Jul 26, 2017)
 
-- Return original image file if the result is larger than it.
+- Return original image file if the result is greater than it.
 
 ## 0.1.0 (Jul 25, 2017)
 
