@@ -10,10 +10,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
       return {
         options: {
+          maxWidth: undefined,
+          maxHeight: undefined,
+          minWidth: 0,
+          minHeight: 0,
           width: undefined,
           height: undefined,
           quality: 0.8,
-          mimeType: 'auto',
+          mimeType: '',
           convertSize: 5000000,
           success: function (file) {
             console.log('Output: ', file);

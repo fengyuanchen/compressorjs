@@ -75,8 +75,36 @@ export default class ImageCompressor {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         const aspectRatio = width / height;
+        let maxWidth = Math.max(options.maxWidth, 0) || Infinity;
+        let maxHeight = Math.max(options.maxHeight, 0) || Infinity;
+        let minWidth = Math.max(options.minWidth, 0) || 0;
+        let minHeight = Math.max(options.minHeight, 0) || 0;
         let canvasWidth = width;
         let canvasHeight = height;
+
+        if (maxWidth < Infinity && maxHeight < Infinity) {
+          if (maxHeight * aspectRatio > maxWidth) {
+            maxHeight = maxWidth / aspectRatio;
+          } else {
+            maxWidth = maxHeight * aspectRatio;
+          }
+        } else if (maxWidth < Infinity) {
+          maxHeight = maxWidth / aspectRatio;
+        } else if (maxHeight < Infinity) {
+          maxWidth = maxHeight * aspectRatio;
+        }
+
+        if (minWidth > 0 && minHeight > 0) {
+          if (minHeight * aspectRatio > minWidth) {
+            minHeight = minWidth / aspectRatio;
+          } else {
+            minWidth = minHeight * aspectRatio;
+          }
+        } else if (minWidth > 0) {
+          minHeight = minWidth / aspectRatio;
+        } else if (minHeight > 0) {
+          minWidth = minHeight * aspectRatio;
+        }
 
         if (options.width > 0) {
           canvasWidth = options.width;
@@ -86,6 +114,8 @@ export default class ImageCompressor {
           canvasWidth = canvasHeight * aspectRatio;
         }
 
+        canvasWidth = Math.min(Math.max(canvasWidth, minWidth), maxWidth);
+        canvasHeight = Math.min(Math.max(canvasHeight, minHeight), maxHeight);
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
@@ -112,7 +142,11 @@ export default class ImageCompressor {
 
         if (result) {
           // Returns original file if the result is larger than it
-          if (result.size > file.size && !(options.width > 0 || options.height > 0)) {
+          if (result.size > file.size && !(
+            options.width > 0 || options.height > 0 ||
+            options.maxWidth < Infinity || options.maxHeight < Infinity ||
+            options.minWidth > 0 || options.minHeight > 0)
+          ) {
             result = file;
           } else {
             const date = new Date();

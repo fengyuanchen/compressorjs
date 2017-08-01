@@ -16,7 +16,7 @@
 
 ## Main
 
-```
+```txt
 dist/
 ├── image-compressor.js        (UMD)
 ├── image-compressor.min.js    (UMD, compressed)
@@ -93,6 +93,34 @@ document.getElementById('file').addEventListener('change', (e) => {
 [⬆ back to top](#table-of-contents)
 
 ## Options
+
+### maxWidth
+
+- Type: `number`
+- Default: `Infinity`
+
+The max width of the output image. The value should be greater then `0`.
+
+### maxHeight
+
+- Type: `number`
+- Default: `Infinity`
+
+The max height of the output image. The value should be greater then `0`.
+
+### minWidth
+
+- Type: `number`
+- Default: `0`
+
+The min width of the output image. The value should be greater then `0` and should not be greater than the `maxWidth`.
+
+### minHeight
+
+- Type: `number`
+- Default: `0`
+
+The min height of the output image. The value should be greater then `0` and should not be greater than the `maxHeight`.
 
 ### width
 
