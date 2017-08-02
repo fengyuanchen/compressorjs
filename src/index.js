@@ -153,7 +153,7 @@ export default class ImageCompressor {
         }
 
         if (result) {
-          // Returns original file if the result is larger than it
+          // Returns original file if the result is greater than it and without size related options
           if (result.size > file.size && !(
             options.width > 0 || options.height > 0 ||
             options.maxWidth < Infinity || options.maxHeight < Infinity ||
