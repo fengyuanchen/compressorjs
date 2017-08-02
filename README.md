@@ -175,6 +175,14 @@ The mime type of the output image. By default, the original mime type of the sou
 
 PNG files over this value will be converted to JPEGs. To disable this, just set the value to `Infinity`. See [#2](https://github.com/xkeshi/image-compressor/issues/2).
 
+**Examples** (in Chrome 59):
+
+| convertSize | Input size (type) | Output size (type) | Compression ratio |
+| --- | --- | --- | --- | --- |
+| 5 MB | 1.87 MB (PNG) | 1.87 MB (PNG) | 0% |
+| 5 MB | 5.66 MB (PNG) | 464.69 KB (JPEG) | 91.98% |
+| 5 MB | 9.74 MB (PNG) | 872.13 KB (JPEG) | 91.26% |
+
 ### success(result)
 
 - Type: `Function`
