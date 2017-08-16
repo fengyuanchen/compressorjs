@@ -24,20 +24,18 @@ window.addEventListener('DOMContentLoaded', () => {
             console.log('Output: ', file);
 
             if (URL) {
-              vm.outputURL = URL.createObjectURL(file);
+              file.outputURL=URL.createObjectURL(file);
             }
 
-            vm.output = file;
+            vm.output.push(file);
             vm.$refs.input.value = '';
           },
           error: function (e) {
             window.alert(e.message);
           },
         },
-        inputURL: '',
-        outputURL: '',
-        input: {},
-        output: {},
+        input: [{}],
+        output: [{}],
       };
     },
 
@@ -63,19 +61,20 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!file) {
           return;
         }
-
-        console.log('Input: ', file);
-
-        if (URL) {
-          this.inputURL = URL.createObjectURL(file);
+        this.input = [];
+        this.output = [];
+        for(var i = 0 ; i < file.length ; ++i){
+          if (URL) {
+            file[i].inputURL = URL.createObjectURL(file[i]);
+          }
+          this.input.push(file[i]);
+          new ImageCompressor(file[i], this.options);
         }
 
-        this.input = file;
-        new ImageCompressor(file, this.options);
       },
 
       change: function (e) {
-        this.compress(e.target.files ? e.target.files[0] : null);
+        this.compress(e.target.files ? e.target.files : null);
       },
 
       dragover: function(e) {
@@ -84,7 +83,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       drop: function(e) {
         e.preventDefault();
-        this.compress(e.dataTransfer.files ? e.dataTransfer.files[0] : null);
+        this.compress(e.dataTransfer.files ? e.dataTransfer.files : null);
       },
     },
   });
