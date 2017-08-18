@@ -9,7 +9,7 @@ import {
 const URL = window.URL || window.webkitURL;
 const FileReader = window.FileReader;
 const REGEXP_EXTENSION = /\.\w+$/;
-
+const CANVASLIMIT = 4096; // ios <= 4096*4096 android > 4096*4096
 /**
  * Creates a new image compressor.
  * @class
@@ -79,22 +79,22 @@ export default class ImageCompressor {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         const aspectRatio = width / height;
-        let maxWidth = Math.max(options.maxWidth, 0) || Infinity;
-        let maxHeight = Math.max(options.maxHeight, 0) || Infinity;
+        let maxWidth = Math.max(options.maxWidth, 0) || CANVASLIMIT;
+        let maxHeight = Math.max(options.maxHeight, 0) || CANVASLIMIT;
         let minWidth = Math.max(options.minWidth, 0) || 0;
         let minHeight = Math.max(options.minHeight, 0) || 0;
         let canvasWidth = width;
         let canvasHeight = height;
 
-        if (maxWidth < Infinity && maxHeight < Infinity) {
+        if (maxWidth < CANVASLIMIT && maxHeight < CANVASLIMIT) {
           if (maxHeight * aspectRatio > maxWidth) {
             maxHeight = maxWidth / aspectRatio;
           } else {
             maxWidth = maxHeight * aspectRatio;
           }
-        } else if (maxWidth < Infinity) {
+        } else if (maxWidth < CANVASLIMIT) {
           maxHeight = maxWidth / aspectRatio;
-        } else if (maxHeight < Infinity) {
+        } else if (maxHeight < CANVASLIMIT) {
           maxWidth = maxHeight * aspectRatio;
         }
 
@@ -120,8 +120,14 @@ export default class ImageCompressor {
 
         canvasWidth = Math.min(Math.max(canvasWidth, minWidth), maxWidth);
         canvasHeight = Math.min(Math.max(canvasHeight, minHeight), maxHeight);
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+      
+        if (canvasWidth > CANVASLIMIT || canvasHeight > CANVASLIMIT) {
+          const ratio = Math.max(canvasWidth / CANVASLIMIT, canvasHeight / CANVASLIMIT);
+          canvasWidth = Math.floor(canvasWidth / ratio);
+          canvasHeight = Math.floor(canvasHeight / ratio);
+        }
+        canvas.width = Math.min(canvasWidth, CANVASLIMIT);
+        canvas.height = Math.min(canvasHeight, CANVASLIMIT);
 
         if (!isImageType(options.mimeType)) {
           options.mimeType = file.type;
@@ -139,7 +145,7 @@ export default class ImageCompressor {
           context.fillRect(0, 0, canvasWidth, canvasHeight);
         }
 
-        context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
+        context.drawImage(image, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight);
 
         if (canvas.toBlob) {
           canvas.toBlob(resolve, options.mimeType, options.quality);
