@@ -101,6 +101,8 @@ document.getElementById('file').addEventListener('change', (e) => {
 
 The max width of the output image. The value should be greater then `0`.
 
+> Avoid to get a blank output image, you might need to set the `maxWidth` and `maxHeight` options to limited numbers, because of [the size limits of a canvas element](https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element).
+
 ### maxHeight
 
 - Type: `number`
