@@ -6,30 +6,29 @@ const pkg = require('./package');
 const now = new Date();
 
 module.exports = {
-  entry: 'src/index.js',
-  targets: [
+  input: 'src/index.js',
+  output: [
     {
-      dest: 'dist/image-compressor.js',
+      file: 'dist/image-compressor.js',
+      format: 'umd',
     },
     {
-      dest: 'dist/image-compressor.common.js',
+      file: 'dist/image-compressor.common.js',
       format: 'cjs',
     },
     {
-      dest: 'dist/image-compressor.esm.js',
+      file: 'dist/image-compressor.esm.js',
       format: 'es',
     },
     {
-      dest: 'docs/js/image-compressor.js',
+      file: 'docs/js/image-compressor.js',
+      format: 'umd',
     },
   ],
-  format: 'umd',
-  moduleName: 'ImageCompressor',
+  name: 'ImageCompressor',
   plugins: [
+    nodeResolve(),
     commonjs(),
-    nodeResolve({
-      jsnext: true,
-    }),
     babel({
       exclude: 'node_modules/**',
     }),
