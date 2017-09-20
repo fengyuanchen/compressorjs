@@ -26,11 +26,11 @@ dist/
 
 ## Getting started
 
-### Installation
+### Install
 
-- [Download the latest release](https://github.com/xkeshi/image-compressor/archive/master.zip).
-- Clone the repository: `git clone https://github.com/xkeshi/image-compressor.git`.
-- Install with [NPM](https://npmjs.com): `npm install xkeshi/image-compressor --force`.
+```bash
+npm install @xkeshi/image-compressor
+```
 
 ### Usage
 
@@ -62,7 +62,7 @@ The options for compressing. Check out the available [options](#options).
 
 ```js
 import axios from 'axios';
-import ImageCompressor from 'image-compressor';
+import ImageCompressor from '@xkeshi/image-compressor';
 
 document.getElementById('file').addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -93,6 +93,15 @@ document.getElementById('file').addEventListener('change', (e) => {
 [⬆ back to top](#table-of-contents)
 
 ## Options
+
+### checkOrientation
+
+- Type: `boolean`
+- Default: `true`
+
+Indicates if read the image's Exif Orientation value (JPEG image only), and then rotate or flip the image automatically with the value.
+
+**Note:** Don't trust this all the time as some JPEG images have incorrect (not standard) Orientation values.
 
 ### maxWidth
 
@@ -151,17 +160,17 @@ Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLC
 
 **Note:** This option only available for `image/jpeg` and `image/webp` images.
 
-**Examples** (in Chrome 59):
+**Examples** (in Chrome 61):
 
 | Quality | Input size | Output size | Compression ratio | Description |
 | --- | --- | --- | --- | --- |
-| 0 | 2.12 MB | 229.56 KB | 89.43% | - |
-| 0.2 | 2.12 MB | 422.82 KB | 80.53% | - |
-| 0.4 | 2.12 MB | 578.25 KB | 73.37% | - |
-| 0.6 | 2.12 MB | 747.85 KB | 65.56% | Recommend |
-| 0.8 | 2.12 MB | 1.18 MB | 44.14% | Recommend |
+| 0 | 2.12 MB | 114.61 KB | 94.72% | - |
+| 0.2 | 2.12 MB | 349.57 KB | 83.90% | - |
+| 0.4 | 2.12 MB | 517.10 KB | 76.18% | - |
+| 0.6 | 2.12 MB | 694.99 KB | 67.99% | Recommend |
+| 0.8 | 2.12 MB | 1.14 MB | 46.41% | Recommend |
 | 1 | 2.12 MB | 2.12 MB | 0% | Not recommend |
-| NaN | 2.12 MB | 2.05 MB | 3.19% | - |
+| NaN | 2.12 MB | 2.01 MB | 5.02% | - |
 
 ### mimeType
 
@@ -177,13 +186,13 @@ The mime type of the output image. By default, the original mime type of the sou
 
 PNG files over this value will be converted to JPEGs. To disable this, just set the value to `Infinity`. See [#2](https://github.com/xkeshi/image-compressor/issues/2).
 
-**Examples** (in Chrome 59):
+**Examples** (in Chrome 61):
 
 | convertSize | Input size (type) | Output size (type) | Compression ratio |
 | --- | --- | --- | --- |
 | 5 MB | 1.87 MB (PNG) | 1.87 MB (PNG) | 0% |
-| 5 MB | 5.66 MB (PNG) | 464.69 KB (JPEG) | 91.98% |
-| 5 MB | 9.74 MB (PNG) | 872.13 KB (JPEG) | 91.26% |
+| 5 MB | 5.66 MB (PNG) | 450.24 KB (JPEG) | 92.23% |
+| 5 MB | 9.74 MB (PNG) | 883.89 KB (JPEG) | 91.14% |
 
 ### success(result)
 

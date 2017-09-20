@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0 (Sep 20, 2017)
+
+- Add new option `checkOrientation` for rotating or flipping an image with its Exif Orientation information (#10).
+- **BREAKING CHANGE:** Publish to NPM with scoped name (`@xkeshi/image-compressor`).
+
 ## 0.4.0 (Aug 1, 2017)
 
 - Add 4 new options: `maxWidth`, `maxHeight`, `minWidth` and `minHeight`.
