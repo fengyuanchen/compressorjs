@@ -1,5 +1,12 @@
 export default {
   /**
+   * Indicates if read the image's Exif Orientation information,
+   * and then rotate or flip the image automatically.
+   * @type {boolean}
+   */
+  checkOrientation: true,
+
+  /**
    * The max width of the output image.
    * @type {number}
    */

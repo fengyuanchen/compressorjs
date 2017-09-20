@@ -4,10 +4,13 @@ import DEFAULTS from './defaults';
 import {
   isImageType,
   imageTypeToExtension,
+  arrayBufferToDataURL,
+  getOrientation,
+  parseOrientation,
 } from './utils';
 
+const { ArrayBuffer, FileReader } = window;
 const URL = window.URL || window.webkitURL;
-const FileReader = window.FileReader;
 const REGEXP_EXTENSION = /\.\w+$/;
 
 /**
@@ -37,54 +40,87 @@ export default class ImageCompressor {
   compress(file, options) {
     const image = new Image();
 
-    options = { ...DEFAULTS, ...options };
+    options = {
+      ...DEFAULTS,
+      ...options,
+    };
+
+    if (!ArrayBuffer) {
+      options.checkOrientation = false;
+    }
 
     return new Promise((resolve, reject) => {
       if (!isBlob(file)) {
-        reject('The first argument must be a File or Blob object.');
+        reject(new Error('The first argument must be a File or Blob object.'));
         return;
       }
 
-      if (!isImageType(file.type)) {
-        reject('The first argument must be an image File or Blob object.');
+      const mimeType = file.type;
+
+      if (!isImageType(mimeType)) {
+        reject(new Error('The first argument must be an image File or Blob object.'));
         return;
       }
 
-      if (URL) {
+      if (!URL && !FileReader) {
+        reject(new Error('The current browser does not support image compression.'));
+        return;
+      }
+
+      if (URL && !options.checkOrientation) {
         resolve(URL.createObjectURL(file));
       } else if (FileReader) {
         const reader = new FileReader();
+        const checkOrientation = options.checkOrientation && mimeType === 'image/jpeg';
 
-        reader.onload = e => resolve(e.file.result);
-        reader.onabort = reject;
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      } else {
-        reject('The current browser does not support image compression.');
-      }
-    })
-      .then(url => new Promise((resolve, reject) => {
-        image.onload = () => {
-          resolve({
-            width: image.naturalWidth,
-            height: image.naturalHeight,
+        reader.onload = ({ target }) => {
+          const { result } = target;
+
+          resolve(checkOrientation ? {
+            url: arrayBufferToDataURL(result, mimeType),
+            ...parseOrientation(getOrientation(result)),
+          } : {
+            url: result,
           });
         };
+        reader.onabort = reject;
+        reader.onerror = reject;
+
+        if (checkOrientation) {
+          reader.readAsArrayBuffer(file);
+        } else {
+          reader.readAsDataURL(file);
+        }
+      }
+    })
+      .then(data => new Promise((resolve, reject) => {
+        image.onload = () => resolve({
+          ...data,
+          naturalWidth: image.naturalWidth,
+          naturalHeight: image.naturalHeight,
+        });
         image.onabort = reject;
         image.onerror = reject;
         image.alt = file.name;
-        image.src = url;
+        image.src = data.url;
       }))
-      .then(({ width, height }) => new Promise((resolve) => {
+      .then(({
+        naturalWidth,
+        naturalHeight,
+        rotate = 0,
+        scaleX = 1,
+        scaleY = 1,
+      }) => new Promise((resolve) => {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
-        const aspectRatio = width / height;
+        const aspectRatio = naturalWidth / naturalHeight;
+        const rotated = rotate % 180 === 90;
         let maxWidth = Math.max(options.maxWidth, 0) || Infinity;
         let maxHeight = Math.max(options.maxHeight, 0) || Infinity;
         let minWidth = Math.max(options.minWidth, 0) || 0;
         let minHeight = Math.max(options.minHeight, 0) || 0;
-        let canvasWidth = width;
-        let canvasHeight = height;
+        let width = naturalWidth;
+        let height = naturalHeight;
 
         if (maxWidth < Infinity && maxHeight < Infinity) {
           if (maxHeight * aspectRatio > maxWidth) {
@@ -111,17 +147,46 @@ export default class ImageCompressor {
         }
 
         if (options.width > 0) {
-          canvasWidth = options.width;
-          canvasHeight = canvasWidth / aspectRatio;
+          ({ width } = options);
+          height = width / aspectRatio;
         } else if (options.height > 0) {
-          canvasHeight = options.height;
-          canvasWidth = canvasHeight * aspectRatio;
+          ({ height } = options);
+          width = height * aspectRatio;
         }
 
-        canvasWidth = Math.min(Math.max(canvasWidth, minWidth), maxWidth);
-        canvasHeight = Math.min(Math.max(canvasHeight, minHeight), maxHeight);
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+        width = Math.min(Math.max(width, minWidth), maxWidth);
+        height = Math.min(Math.max(height, minHeight), maxHeight);
+
+        const destX = -width / 2;
+        const destY = -height / 2;
+        const destWidth = width;
+        const destHeight = height;
+
+        if (rotated) {
+          ({ width, height } = {
+            width: height,
+            height: width,
+          });
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // Override the default fill color (#000, black)
+        context.fillStyle = 'transparent';
+        context.fillRect(0, 0, width, height);
+        context.save();
+        context.translate(width / 2, height / 2);
+        context.rotate((rotate * Math.PI) / 180);
+        context.scale(scaleX, scaleY);
+        context.drawImage(
+          image,
+          Math.floor(destX),
+          Math.floor(destY),
+          Math.floor(destWidth),
+          Math.floor(destHeight),
+        );
+        context.restore();
 
         if (!isImageType(options.mimeType)) {
           options.mimeType = file.type;
@@ -131,15 +196,6 @@ export default class ImageCompressor {
         if (file.size > options.convertSize && options.mimeType === 'image/png') {
           options.mimeType = 'image/jpeg';
         }
-
-        // If the output image is JPEG
-        if (options.mimeType === 'image/jpeg') {
-          // Override the default fill color (#000, black) with #fff (white)
-          context.fillStyle = '#fff';
-          context.fillRect(0, 0, canvasWidth, canvasHeight);
-        }
-
-        context.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 
         if (canvas.toBlob) {
           canvas.toBlob(resolve, options.mimeType, options.quality);
@@ -193,7 +249,7 @@ export default class ImageCompressor {
           throw err;
         }
 
-        options.error(new Error(err));
+        options.error(err);
       });
   }
 }
