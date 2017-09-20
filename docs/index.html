@@ -8,11 +8,10 @@
   <meta name="keywords" content="JS, JavaScript, image-compressor, front-end, frontend, web development">
   <meta name="author" content="Chen Fengyuan">
   <title>image-compressor</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
 </head>
 <body>
-  <header class="navbar navbar-light navbar-toggleable-md">
+  <header class="navbar navbar-light navbar-expand-md">
     <nav class="container">
       <a class="navbar-brand" href="./">image-compressor</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,10 +28,10 @@
     </nav>
   </header>
 
-  <div class="jumbotron bg-primary">
+  <div class="jumbotron rounded-0 bg-primary text-white">
     <div class="container">
-      <h1>image-compressor <small>v0.4.0</small></h1>
-      <p class="lead">A simple JavaScript image compressor.</p>
+      <h1>image-compressor <small class="h6">v0.4.0</small></h1>
+      <p class="lead mb-0">A simple JavaScript image compressor.</p>
     </div>
   </div>
 
@@ -40,15 +39,15 @@
     <h3>Example</h3>
     <hr>
     <div id="app">
-      <div class="card bg-faded mb-4" @change="change" @dragover="dragover" @drop="drop">
-        <div class="card-block">
+      <div class="card bg-light mb-4" @change="change" @dragover="dragover" @drop="drop">
+        <div class="card-body">
           <div class="p-5 text-center">Drop image here or <input type="file" id="file" accept="image/jpeg,image/jpg,image/jpe,image/png,image/gif,image/webp,image/bmp,image/tiff" ref="input"></div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4 mb-4">
           <div class="card">
-            <div class="card-block">
+            <div class="card-body">
               <h3 class="card-title">Options</h3>
               <hr>
               <div class="form-group row">
@@ -123,14 +122,15 @@
         </div>
         <div class="col-md-8 mb-4">
           <div class="card mb-4">
-            <div class="card-block">
+            <div class="card-body">
               <h3 class="card-title">Input (original)</h3>
               <hr>
               <div class="row">
                 <div class="col-md-4 d-flex">
-                  <div :class="[inputURL ? '' : 'col-sm-12 bg-faded']">
-                    <img v-if="inputURL" :src="inputURL" :alt="input.name">
+                  <div class="w-100 text-center" v-if="inputURL">
+                    <img class="mw-100" :src="inputURL" :alt="input.name">
                   </div>
+                  <div v-else class="w-100 bg-light"></div>
                 </div>
                 <div class="col-md-8">
                   <dl class="row">
@@ -150,17 +150,18 @@
             </div>
           </div>
           <div class="card">
-            <div class="card-block">
+            <div class="card-body">
               <h3 class="card-title">Output (compressed)</h3>
               <hr>
               <div class="row">
                 <div class="col-md-4 d-flex justify-content-center">
-                  <div :class="[outputURL ? '' : 'col-sm-12 bg-faded']">
-                    <img v-if="outputURL" :src="outputURL" :alt="output.name">
-                    <div v-if="outputURL" class="text-center my-2">
-                      <a class="btn btn-sm btn-blocks btn-outline-primary" :download="output.name" :href="outputURL">Download</a>
+                  <div class="w-100 text-center" v-if="outputURL">
+                    <img class="mw-100" :src="outputURL" :alt="output.name">
+                    <div class="mt-2">
+                      <a class="btn btn-sm btn-blocks btn-outline-primary mt-2" :download="output.name" :href="outputURL" title="Download the compressed image">Download</a>
                     </div>
                   </div>
+                  <div v-else class="w-100 bg-light"></div>
                 </div>
                 <div class="col-md-8">
                   <dl class="row">
@@ -189,9 +190,9 @@
   <footer></footer>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/vue@2.4.2/dist/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/vue@2.4.4/dist/vue.min.js"></script>
   <script src="js/image-compressor.js"></script>
   <script src="js/main.js"></script>
 </body>
