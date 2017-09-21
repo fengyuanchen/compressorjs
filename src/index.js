@@ -114,7 +114,6 @@ export default class ImageCompressor {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         const aspectRatio = naturalWidth / naturalHeight;
-        const rotated = rotate % 180 === 90;
         let maxWidth = Math.max(options.maxWidth, 0) || Infinity;
         let maxHeight = Math.max(options.maxHeight, 0) || Infinity;
         let minWidth = Math.max(options.minWidth, 0) || 0;
@@ -162,7 +161,7 @@ export default class ImageCompressor {
         const destWidth = width;
         const destHeight = height;
 
-        if (rotated) {
+        if (Math.abs(rotate) % 180 === 90) {
           ({ width, height } = {
             width: height,
             height: width,
