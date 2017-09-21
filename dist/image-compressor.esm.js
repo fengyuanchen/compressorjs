@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v0.5.0
+ * Image Compressor v0.5.1
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-09-20T06:50:56.479Z
+ * Date: 2017-09-21T02:42:37.387Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -726,7 +726,6 @@ var ImageCompressor = function () {
           var canvas = document.createElement('canvas');
           var context = canvas.getContext('2d');
           var aspectRatio = naturalWidth / naturalHeight;
-          var rotated = rotate % 180 === 90;
           var maxWidth = Math.max(options.maxWidth, 0) || Infinity;
           var maxHeight = Math.max(options.maxHeight, 0) || Infinity;
           var minWidth = Math.max(options.minWidth, 0) || 0;
@@ -778,7 +777,7 @@ var ImageCompressor = function () {
           var destWidth = width;
           var destHeight = height;
 
-          if (rotated) {
+          if (Math.abs(rotate) % 180 === 90) {
             var _width$height = {
               width: height,
               height: width

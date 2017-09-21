@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 (Sep 21, 2017)
+
+- Fix rotation error when the orientation value is 8 (rotated -90 degrees).
+
 ## 0.5.0 (Sep 20, 2017)
 
 - Add new option `checkOrientation` for rotating or flipping an image with its Exif Orientation information (#10).

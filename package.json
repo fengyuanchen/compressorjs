@@ -1,6 +1,6 @@
 {
   "name": "@xkeshi/image-compressor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
@@ -10,7 +10,6 @@
   "homepage": "https://xkeshi.github.io/image-compressor",
   "author": {
     "name": "Chen Fengyuan",
-    "email": "chenfengyuan@outlook.com",
     "url": "http://chenfengyuan.com"
   },
   "files": [
