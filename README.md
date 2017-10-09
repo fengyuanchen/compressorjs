@@ -76,7 +76,7 @@ document.getElementById('file').addEventListener('change', (e) => {
     success(result) {
       const formData = new FormData();
 
-      formData.append('file', result);
+      formData.append('file', result, result.name);
 
       // Send the compressed image file to server with XMLHttpRequest.
       axios.post('/path/to/upload', formData).then(() => {
