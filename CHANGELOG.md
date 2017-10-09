@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2 (Sep 30, 2017)
+
+- Improve browser compatibility for orientation checking.
+
 ## 0.5.1 (Sep 21, 2017)
 
 - Fix rotation error when the orientation value is 8 (rotated -90 degrees).

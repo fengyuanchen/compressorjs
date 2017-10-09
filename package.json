@@ -1,6 +1,6 @@
 {
   "name": "@xkeshi/image-compressor",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
@@ -28,13 +28,13 @@
     "development"
   ],
   "scripts": {
-    "start": "npm run dev",
     "build": "rollup -c",
     "compress": "uglifyjs dist/image-compressor.js -o dist/image-compressor.min.js -c -m --comments /^!/",
-    "dev": "rollup -c -w -m",
+    "dev": "rollup -c -m -w",
     "lint": "eslint src --fix",
     "postbuild": "npm run compress",
-    "prebuild": "npm run lint"
+    "prebuild": "npm run lint",
+    "start": "npm run dev"
   },
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.14.0",
@@ -45,14 +45,14 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^4.7.1",
-    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
     "eslint-plugin-import": "^2.7.0",
     "rollup": "^0.50.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.1.1"
+    "uglify-js": "^3.1.3"
   }
 }

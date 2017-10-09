@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v0.5.1
+ * Image Compressor v0.5.2
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-09-21T02:42:37.387Z
+ * Date: 2017-10-09T02:40:37.129Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -306,11 +306,15 @@ var btoa = _window$1.btoa;
 
 function arrayBufferToDataURL(arrayBuffer, mimeType) {
   var uint8 = new Uint8Array(arrayBuffer);
-  var data = '';
+  var length = uint8.length;
 
-  uint8.forEach(function (value) {
-    data += fromCharCode(value);
-  });
+  var data = '';
+  var i = void 0;
+
+  // TypedArray.prototype.forEach is not supported in some browsers.
+  for (i = 0; i < length; i += 1) {
+    data += fromCharCode(uint8[i]);
+  }
 
   return 'data:' + mimeType + ';base64,' + btoa(data);
 }
