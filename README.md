@@ -1,4 +1,6 @@
-# image-compressor [![Downloads](https://img.shields.io/npm/dt/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor) [![Version](https://img.shields.io/npm/v/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor) [![License](https://img.shields.io/npm/l/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor)
+# image-compressor
+
+[![Downloads](https://img.shields.io/npm/dt/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor) [![Version](https://img.shields.io/npm/v/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor) [![License](https://img.shields.io/npm/l/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor)
 
 > A simple JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work. General use this to precompress a client image file before upload it.
 
