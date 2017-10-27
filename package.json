@@ -5,6 +5,7 @@
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
   "browser": "dist/image-compressor.js",
+  "types": "types/index.d.ts",
   "repository": "xkeshi/image-compressor",
   "homepage": "https://xkeshi.github.io/image-compressor",
   "license": "MIT",
