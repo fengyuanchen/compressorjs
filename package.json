@@ -15,7 +15,8 @@
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "types"
   ],
   "keywords": [
     "image",
