@@ -5,11 +5,11 @@
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
   "browser": "dist/image-compressor.js",
-  "license": "MIT",
   "repository": "xkeshi/image-compressor",
   "homepage": "https://xkeshi.github.io/image-compressor",
+  "license": "MIT",
   "author": {
-    "name": "Fengyuan Chen",
+    "name": "Chen Fengyuan",
     "url": "http://chenfengyuan.com"
   },
   "files": [
