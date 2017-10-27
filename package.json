@@ -14,7 +14,6 @@
     "url": "http://chenfengyuan.com"
   },
   "files": [
-    "src",
     "dist",
     "types"
   ],
@@ -36,7 +35,8 @@
     "lint": "eslint src --fix",
     "postbuild": "npm run compress",
     "prebuild": "npm run lint",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.14.0",
