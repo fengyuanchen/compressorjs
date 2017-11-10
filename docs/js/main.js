@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', function () {
   var Vue = window.Vue;
   var URL = window.URL || window.webkitURL;
   var ImageCompressor = window.ImageCompressor;
