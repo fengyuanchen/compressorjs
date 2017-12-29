@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v0.5.2
+ * Image Compressor v0.5.3
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-10-09T02:40:37.129Z
+ * Date: 2017-12-29T06:11:20.022Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -812,20 +812,32 @@ var ImageCompressor = function () {
             options.mimeType = 'image/jpeg';
           }
 
+          var done = function done(result) {
+            resolve({
+              naturalWidth: naturalWidth,
+              naturalHeight: naturalHeight,
+              result: result
+            });
+          };
+
           if (canvas.toBlob) {
-            canvas.toBlob(resolve, options.mimeType, options.quality);
+            canvas.toBlob(done, options.mimeType, options.quality);
           } else {
-            resolve(canvasToBlob(canvas.toDataURL(options.mimeType, options.quality)));
+            done(canvasToBlob(canvas.toDataURL(options.mimeType, options.quality)));
           }
         });
-      }).then(function (result) {
+      }).then(function (_ref3) {
+        var naturalWidth = _ref3.naturalWidth,
+            naturalHeight = _ref3.naturalHeight,
+            result = _ref3.result;
+
         if (URL) {
           URL.revokeObjectURL(image.src);
         }
 
         if (result) {
           // Returns original file if the result is greater than it and without size related options
-          if (result.size > file.size && !(options.width > 0 || options.height > 0 || options.maxWidth < Infinity || options.maxHeight < Infinity || options.minWidth > 0 || options.minHeight > 0)) {
+          if (result.size > file.size && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight)) {
             result = file;
           } else {
             var date = new Date();

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3 (Dec 29, 2017)
+
+- Improve the conditions for returning original file when the result size greater then original one.
+
 ## 0.5.2 (Sep 30, 2017)
 
 - Improve browser compatibility for orientation checking.

@@ -1,6 +1,6 @@
 {
   "name": "@xkeshi/image-compressor",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
@@ -31,11 +31,11 @@
   ],
   "scripts": {
     "build": "rollup -c",
+    "clear": "del-cli dist",
     "compress": "uglifyjs dist/image-compressor.js -o dist/image-compressor.min.js -c -m --comments /^!/",
     "dev": "rollup -c -m -w",
     "lint": "eslint src --fix",
-    "postbuild": "npm run compress",
-    "prebuild": "npm run lint",
+    "release": "npm run clear && npm run lint && npm run build && npm run compress",
     "start": "npm run dev"
   },
   "dependencies": {
@@ -44,16 +44,18 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^4.8.0",
-    "eslint-config-airbnb-base": "^12.0.2",
-    "eslint-plugin-import": "^2.7.0",
-    "rollup": "^0.50.0",
-    "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-commonjs": "^8.2.1",
+    "del-cli": "^1.1.0",
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "rollup": "^0.50.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.1.3"
+    "uglify-js": "^3.3.3"
   }
 }
