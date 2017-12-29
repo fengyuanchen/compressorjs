@@ -4,36 +4,7 @@ const babel = require('rollup-plugin-babel');
 const pkg = require('./package');
 
 const now = new Date();
-
-module.exports = {
-  input: 'src/index.js',
-  output: [
-    {
-      file: 'dist/image-compressor.js',
-      format: 'umd',
-    },
-    {
-      file: 'dist/image-compressor.common.js',
-      format: 'cjs',
-    },
-    {
-      file: 'dist/image-compressor.esm.js',
-      format: 'es',
-    },
-    {
-      file: 'docs/js/image-compressor.js',
-      format: 'umd',
-    },
-  ],
-  name: 'ImageCompressor',
-  plugins: [
-    nodeResolve(),
-    commonjs(),
-    babel({
-      exclude: 'node_modules/**',
-    }),
-  ],
-  banner: `/*!
+const banner = `/*!
  * Image Compressor v${pkg.version}
  * https://github.com/${pkg.repository}
  *
@@ -42,5 +13,40 @@ module.exports = {
  *
  * Date: ${now.toISOString()}
  */
-`,
+`;
+
+module.exports = {
+  input: 'src/index.js',
+  output: [
+    {
+      banner,
+      file: 'dist/image-compressor.js',
+      format: 'umd',
+      name: 'ImageCompressor',
+    },
+    {
+      banner,
+      file: 'dist/image-compressor.common.js',
+      format: 'cjs',
+    },
+    {
+      banner,
+      file: 'dist/image-compressor.esm.js',
+      format: 'es',
+    },
+    {
+      banner,
+      file: 'docs/js/image-compressor.js',
+      format: 'umd',
+      name: 'ImageCompressor',
+    },
+  ],
+  plugins: [
+    nodeResolve(),
+    babel({
+      exclude: 'node_modules/**',
+      plugins: ['external-helpers']
+    }),
+    commonjs(),
+  ],
 };
