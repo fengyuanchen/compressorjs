@@ -196,13 +196,25 @@ export default class ImageCompressor {
           options.mimeType = 'image/jpeg';
         }
 
+        const done = (result) => {
+          resolve({
+            naturalWidth,
+            naturalHeight,
+            result,
+          });
+        };
+
         if (canvas.toBlob) {
-          canvas.toBlob(resolve, options.mimeType, options.quality);
+          canvas.toBlob(done, options.mimeType, options.quality);
         } else {
-          resolve(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
+          done(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
         }
       }))
-      .then((result) => {
+      .then(({
+        naturalWidth,
+        naturalHeight,
+        result,
+      }) => {
         if (URL) {
           URL.revokeObjectURL(image.src);
         }
@@ -210,9 +222,8 @@ export default class ImageCompressor {
         if (result) {
           // Returns original file if the result is greater than it and without size related options
           if (result.size > file.size && !(
-            options.width > 0 || options.height > 0 ||
-            options.maxWidth < Infinity || options.maxHeight < Infinity ||
-            options.minWidth > 0 || options.minHeight > 0)
+            options.width > naturalWidth || options.height > naturalHeight ||
+            options.minWidth > naturalWidth || options.minHeight > naturalHeight)
           ) {
             result = file;
           } else {
