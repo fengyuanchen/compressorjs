@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0 (Jan 15, 2018)
+
+- Publish to NPM with a new name: `image-compressor.js`.
+
 ## 0.5.3 (Dec 29, 2017)
 
 - Improve the conditions for returning original file when the result size greater then original one.

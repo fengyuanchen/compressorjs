@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v0.5.3
+ * Image Compressor v1.0.0
  * https://github.com/xkeshi/image-compressor
  *
- * Copyright (c) 2017 Xkeshi
+ * Copyright (c) 2017-2018 Xkeshi
  * Released under the MIT license
  *
- * Date: 2017-12-29T06:11:20.022Z
+ * Date: 2018-01-15T09:12:33.649Z
  */
 
 (function (global, factory) {
@@ -36,8 +36,6 @@ var canvasToBlob = createCommonjsModule(function (module) {
 /* global atob, Blob, define */
 
 (function (window) {
-  'use strict';
-
   var CanvasPrototype =
     window.HTMLCanvasElement && window.HTMLCanvasElement.prototype;
   var hasBlobConstructor =
@@ -148,7 +146,6 @@ var canvasToBlob = createCommonjsModule(function (module) {
 });
 
 /* globals Blob */
-'use strict';
 var toString = Object.prototype.toString;
 
 var isBlob = function (x) {
@@ -300,8 +297,8 @@ function getStringFromCharCode(dataView, start, length) {
   return str;
 }
 
-var _window$1 = window;
-var btoa = _window$1.btoa;
+var _window = window;
+var btoa = _window.btoa;
 
 /**
  * Transform array buffer to Data URL.
@@ -456,123 +453,6 @@ function parseOrientation(orientation) {
   };
 }
 
-var asyncGenerator = function () {
-  function AwaitValue(value) {
-    this.value = value;
-  }
-
-  function AsyncGenerator(gen) {
-    var front, back;
-
-    function send(key, arg) {
-      return new Promise(function (resolve, reject) {
-        var request = {
-          key: key,
-          arg: arg,
-          resolve: resolve,
-          reject: reject,
-          next: null
-        };
-
-        if (back) {
-          back = back.next = request;
-        } else {
-          front = back = request;
-          resume(key, arg);
-        }
-      });
-    }
-
-    function resume(key, arg) {
-      try {
-        var result = gen[key](arg);
-        var value = result.value;
-
-        if (value instanceof AwaitValue) {
-          Promise.resolve(value.value).then(function (arg) {
-            resume("next", arg);
-          }, function (arg) {
-            resume("throw", arg);
-          });
-        } else {
-          settle(result.done ? "return" : "normal", result.value);
-        }
-      } catch (err) {
-        settle("throw", err);
-      }
-    }
-
-    function settle(type, value) {
-      switch (type) {
-        case "return":
-          front.resolve({
-            value: value,
-            done: true
-          });
-          break;
-
-        case "throw":
-          front.reject(value);
-          break;
-
-        default:
-          front.resolve({
-            value: value,
-            done: false
-          });
-          break;
-      }
-
-      front = front.next;
-
-      if (front) {
-        resume(front.key, front.arg);
-      } else {
-        back = null;
-      }
-    }
-
-    this._invoke = send;
-
-    if (typeof gen.return !== "function") {
-      this.return = undefined;
-    }
-  }
-
-  if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-      return this;
-    };
-  }
-
-  AsyncGenerator.prototype.next = function (arg) {
-    return this._invoke("next", arg);
-  };
-
-  AsyncGenerator.prototype.throw = function (arg) {
-    return this._invoke("throw", arg);
-  };
-
-  AsyncGenerator.prototype.return = function (arg) {
-    return this._invoke("return", arg);
-  };
-
-  return {
-    wrap: function (fn) {
-      return function () {
-        return new AsyncGenerator(fn.apply(this, arguments));
-      };
-    },
-    await: function (value) {
-      return new AwaitValue(value);
-    }
-  };
-}();
-
-
-
-
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -617,9 +497,9 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
-var _window = window;
-var ArrayBuffer$1 = _window.ArrayBuffer;
-var FileReader = _window.FileReader;
+var _window$1 = window;
+var ArrayBuffer$1 = _window$1.ArrayBuffer;
+var FileReader = _window$1.FileReader;
 
 var URL = window.URL || window.webkitURL;
 var REGEXP_EXTENSION = /\.\w+$/;
