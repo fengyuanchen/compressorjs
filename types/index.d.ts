@@ -20,6 +20,6 @@ declare class ImageCompressor {
   compress(file: File|Blob, options?: ImageCompressor.Options): Promise<Blob>;
 }
 
-declare module '@xkeshi/image-compressor' {
+declare module 'image-compressor.js' {
   export default ImageCompressor;
 }

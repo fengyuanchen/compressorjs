@@ -1,6 +1,6 @@
 # image-compressor
 
-[![Downloads](https://img.shields.io/npm/dm/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor) [![Version](https://img.shields.io/npm/v/@xkeshi/image-compressor.svg)](https://www.npmjs.com/package/@xkeshi/image-compressor)
+[![Downloads](https://img.shields.io/npm/dm/image-compressor.js.svg)](https://www.npmjs.com/package/image-compressor.js) [![Version](https://img.shields.io/npm/v/image-compressor.js.svg)](https://www.npmjs.com/package/image-compressor.js)
 
 > A simple JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work. General use this to precompress a client image file before upload it.
 
@@ -31,7 +31,7 @@ dist/
 ### Install
 
 ```shell
-npm install @xkeshi/image-compressor
+npm install image-compressor.js
 ```
 
 ### Usage
@@ -64,7 +64,7 @@ The options for compressing. Check out the available [options](#options).
 
 ```js
 import axios from 'axios';
-import ImageCompressor from '@xkeshi/image-compressor';
+import ImageCompressor from 'image-compressor.js';
 
 document.getElementById('file').addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -252,7 +252,7 @@ imageCompressor.compress(file, options)
 - Safari (latest)
 - Opera (latest)
 - Edge (latest)
-- Internet Explorer 10+ (requires `babel-polyfill` for `Promise` support)
+- Internet Explorer 10+ (requires a `Promise` polyfill as [es6-promise](https://github.com/stefanpenner/es6-promise))
 
 ## Versioning
 

@@ -8,7 +8,7 @@ const banner = `/*!
  * Image Compressor v${pkg.version}
  * https://github.com/${pkg.repository}
  *
- * Copyright (c) ${now.getFullYear()} Xkeshi
+ * Copyright (c) 2017-${now.getFullYear()} Xkeshi
  * Released under the ${pkg.license} license
  *
  * Date: ${now.toISOString()}
@@ -45,7 +45,7 @@ module.exports = {
     nodeResolve(),
     babel({
       exclude: 'node_modules/**',
-      plugins: ['external-helpers']
+      plugins: ['external-helpers'],
     }),
     commonjs(),
   ],

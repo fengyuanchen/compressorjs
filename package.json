@@ -1,6 +1,6 @@
 {
-  "name": "@xkeshi/image-compressor",
-  "version": "0.5.3",
+  "name": "image-compressor.js",
+  "version": "1.0.0",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
@@ -48,14 +48,14 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "del-cli": "^1.1.0",
-    "eslint": "^4.14.0",
+    "eslint": "^4.15.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "rollup": "^0.50.1",
+    "rollup": "^0.54.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.3.3"
+    "uglify-js": "^3.3.7"
   }
 }
