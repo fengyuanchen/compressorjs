@@ -171,8 +171,21 @@ export default class ImageCompressor {
         canvas.width = width;
         canvas.height = height;
 
+
+        if (!isImageType(options.mimeType)) {
+          options.mimeType = file.type;
+        }
+
+        let defaultFillStyle = 'transparent';
+
+        // Converts PNG files over the `convertSize` to JPEGs.
+        if (file.size > options.convertSize && options.mimeType === 'image/png') {
+          defaultFillStyle = '#fff';
+          options.mimeType = 'image/jpeg';
+        }
+
         // Override the default fill color (#000, black)
-        context.fillStyle = 'transparent';
+        context.fillStyle = defaultFillStyle;
         context.fillRect(0, 0, width, height);
         context.save();
         context.translate(width / 2, height / 2);
@@ -186,15 +199,6 @@ export default class ImageCompressor {
           Math.floor(destHeight),
         );
         context.restore();
-
-        if (!isImageType(options.mimeType)) {
-          options.mimeType = file.type;
-        }
-
-        // Converts PNG files over the `convertSize` to JPEGs.
-        if (file.size > options.convertSize && options.mimeType === 'image/png') {
-          options.mimeType = 'image/jpeg';
-        }
 
         const done = (result) => {
           resolve({
