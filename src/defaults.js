@@ -69,7 +69,27 @@ export default {
   convertSize: 5000000,
 
   /**
-   * The success callback for the image compressing process.
+   * The hook function to execute before draw the image into the canvas for compression.
+   * @type {Function}
+   * @param {CanvasRenderingContext2D} context - The 2d rendering context of the canvas.
+   * @param {HTMLCanvasElement} canvas - The canvas for compression.
+   * @example
+   * function (context, canvas) { context.fillStyle = '#fff' }
+   */
+  beforeDraw: null,
+
+  /**
+   * The hook function to execute after drew the image into the canvas for compression.
+   * @type {Function}
+   * @param {CanvasRenderingContext2D} context - The 2d rendering context of the canvas.
+   * @param {HTMLCanvasElement} canvas - The canvas for compression.
+   * @example
+   * function (context, canvas) { context.filter = grayscale(100%) }
+   */
+  drew: null,
+
+  /**
+   * The hook function to execute when success to compress the image.
    * @type {Function}
    * @param {File} file - The compressed image File object.
    * @example
@@ -78,7 +98,7 @@ export default {
   success: null,
 
   /**
-   * The error callback for the image compressing process.
+   * The hook function to execute when fail to compress the image.
    * @type {Function}
    * @param {Error} err - An Error object.
    * @example

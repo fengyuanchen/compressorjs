@@ -191,6 +191,11 @@ export default class ImageCompressor {
         context.translate(width / 2, height / 2);
         context.rotate((rotate * Math.PI) / 180);
         context.scale(scaleX, scaleY);
+
+        if (options.beforeDraw) {
+          options.beforeDraw.call(this, context, canvas);
+        }
+
         context.drawImage(
           image,
           Math.floor(destX),
@@ -198,6 +203,11 @@ export default class ImageCompressor {
           Math.floor(destWidth),
           Math.floor(destHeight),
         );
+
+        if (options.drew) {
+          options.drew.call(this, context, canvas);
+        }
+
         context.restore();
 
         const done = (result) => {
@@ -253,7 +263,7 @@ export default class ImageCompressor {
         this.result = result;
 
         if (options.success) {
-          options.success(result);
+          options.success.call(this, result);
         }
 
         return Promise.resolve(result);
@@ -263,7 +273,7 @@ export default class ImageCompressor {
           throw err;
         }
 
-        options.error(err);
+        options.error.call(this, err);
       });
   }
 }

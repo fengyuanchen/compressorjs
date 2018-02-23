@@ -196,6 +196,42 @@ PNG files over this value will be converted to JPEGs. To disable this, just set 
 | 5 MB | 5.66 MB (PNG) | 450.24 KB (JPEG) | 92.23% |
 | 5 MB | 9.74 MB (PNG) | 883.89 KB (JPEG) | 91.14% |
 
+### beforeDraw(context, canvas)
+
+- Type: `Function`
+- Default: `null`
+- Parameters:
+  - `context`: The 2d rendering context of the canvas.
+  - `canvas`: The canvas for compression.
+
+The hook function to execute before draw the image into the canvas for compression.
+
+```js
+new ImageCompressor(file, {
+  beforeDraw(context) {
+    context.fillStyle = '#fff';
+  },
+});
+```
+
+### drew(context, canvas)
+
+- Type: `Function`
+- Default: `null`
+- Parameters:
+  - `context`: The 2d rendering context of the canvas.
+  - `canvas`: The canvas for compression.
+
+The hook function to execute after drew the image into the canvas for compression.
+
+```js
+new ImageCompressor(file, {
+  drew(context) {
+    context.filter = grayscale(100%);
+  },
+});
+```
+
 ### success(result)
 
 - Type: `Function`
@@ -203,7 +239,7 @@ PNG files over this value will be converted to JPEGs. To disable this, just set 
 - Parameters:
   - `result`: The compressed image (a `Blob` object).
 
-The success callback for the image compressing process.
+The hook function to execute when success to compress the image.
 
 ### error(err)
 
@@ -212,7 +248,7 @@ The success callback for the image compressing process.
 - Parameters:
   - `err`: The compression error (an `Error` object).
 
-The error callback for the image compressing process.
+The hook function to execute when fail to compress the image.
 
 [⬆ back to top](#table-of-contents)
 

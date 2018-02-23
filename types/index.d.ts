@@ -10,6 +10,8 @@ declare namespace ImageCompressor {
     quality?: number;
     mimeType?: string;
     convertSize?: number;
+    beforeDraw?(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void;
+    drew?(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void;
     success?(file: Blob): void;
     error?(error: Error): void;
   }
