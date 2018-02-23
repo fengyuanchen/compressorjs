@@ -32,6 +32,7 @@
   "scripts": {
     "build": "rollup -c",
     "clear": "del-cli dist",
+    "commitmsg": "commitlint -e",
     "compress": "uglifyjs dist/image-compressor.js -o dist/image-compressor.min.js -c -m --comments /^!/",
     "dev": "rollup -c -m -w",
     "lint": "eslint src --fix",
@@ -43,19 +44,22 @@
     "is-blob": "^1.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^6.1.2",
+    "@commitlint/config-angular": "^6.1.2",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "del-cli": "^1.1.0",
-    "eslint": "^4.15.0",
+    "eslint": "^4.18.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "rollup": "^0.54.0",
+    "eslint-plugin-import": "^2.9.0",
+    "husky": "^0.14.3",
+    "rollup": "^0.54.1",
     "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.3",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.3.7"
+    "uglify-js": "^3.3.12"
   }
 }
