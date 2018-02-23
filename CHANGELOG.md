@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 (Feb 23, 2018)
+
+- Add 2 new options: `beforeDraw` and `drew`.
+
 ## 1.0.0 (Jan 15, 2018)
 
 - Publish to NPM with a new name: `image-compressor.js`.
