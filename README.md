@@ -82,14 +82,14 @@ document.getElementById('file').addEventListener('change', (e) => {
 
       // Send the compressed image file to server with XMLHttpRequest.
       axios.post('/path/to/upload', formData).then(() => {
-        console.log('Upload success!');
+        console.log('Upload success');
       });
     },
     error(e) {
       console.log(e.message);
     },
   });
-})
+});
 ```
 
 [⬆ back to top](#table-of-contents)

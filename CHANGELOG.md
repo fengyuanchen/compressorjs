@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 (Feb 28, 2018)
+
+- Fix a bug of the `mimeType` option (#27).
+
 ## 1.1.0 (Feb 23, 2018)
 
 - Add 2 new options: `beforeDraw` and `drew`.

@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v1.1.0
+ * Image Compressor v1.1.1
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017-2018 Xkeshi
  * Released under the MIT license
  *
- * Date: 2018-02-23T03:26:38.379Z
+ * Date: 2018-02-28T02:34:44.169Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -750,7 +750,7 @@ var ImageCompressor = function () {
 
         if (result) {
           // Returns original file if the result is greater than it and without size related options
-          if (result.size > file.size && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight)) {
+          if (result.size > file.size && options.mimeType === file.type && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight)) {
             result = file;
           } else {
             var date = new Date();

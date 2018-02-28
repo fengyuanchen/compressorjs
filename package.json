@@ -1,10 +1,10 @@
 {
   "name": "image-compressor.js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
-  "browser": "dist/image-compressor.js",
+  "unpkg": "dist/image-compressor.js",
   "types": "types/index.d.ts",
   "repository": "xkeshi/image-compressor",
   "homepage": "https://xkeshi.github.io/image-compressor",

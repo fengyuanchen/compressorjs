@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
       return {
         options: {
+          checkOrientation: true,
           maxWidth: undefined,
           maxHeight: undefined,
           minWidth: 0,
