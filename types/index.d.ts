@@ -18,7 +18,7 @@ declare namespace ImageCompressor {
 }
 
 declare class ImageCompressor {
-  constructor(file: File|Blob, options?: ImageCompressor.Options);
+  constructor(file?: File|Blob, options?: ImageCompressor.Options);
   compress(file: File|Blob, options?: ImageCompressor.Options): Promise<Blob>;
 }
 
