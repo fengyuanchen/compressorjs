@@ -5,7 +5,7 @@
  * Copyright (c) 2017-2018 Xkeshi
  * Released under the MIT license
  *
- * Date: 2018-02-28T02:34:44.169Z
+ * Date: 2018-03-04T15:15:04.581Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -673,8 +673,8 @@ var ImageCompressor = function () {
             width = height * aspectRatio;
           }
 
-          width = Math.min(Math.max(width, minWidth), maxWidth);
-          height = Math.min(Math.max(height, minHeight), maxHeight);
+          width = Math.floor(Math.min(Math.max(width, minWidth), maxWidth));
+          height = Math.floor(Math.min(Math.max(height, minHeight), maxHeight));
 
           var destX = -width / 2;
           var destY = -height / 2;
@@ -717,7 +717,7 @@ var ImageCompressor = function () {
             options.beforeDraw.call(_this, context, canvas);
           }
 
-          context.drawImage(image, Math.floor(destX), Math.floor(destY), Math.floor(destWidth), Math.floor(destHeight));
+          context.drawImage(image, Math.floor(destX), Math.floor(destY), destWidth, destHeight);
 
           if (options.drew) {
             options.drew.call(_this, context, canvas);
@@ -789,3 +789,4 @@ var ImageCompressor = function () {
 }();
 
 export default ImageCompressor;
+//# sourceMappingURL=image-compressor.esm.js.map
