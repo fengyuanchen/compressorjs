@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v1.1.1
+ * Image Compressor v1.1.2
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017-2018 Xkeshi
  * Released under the MIT license
  *
- * Date: 2018-02-28T02:34:44.169Z
+ * Date: 2018-03-20T07:03:20.939Z
  */
 
 (function (global, factory) {
@@ -585,7 +585,9 @@ var ImageCompressor = function () {
         }
 
         if (URL && !options.checkOrientation) {
-          resolve(URL.createObjectURL(file));
+          resolve({
+            url: URL.createObjectURL(file)
+          });
         } else if (FileReader) {
           var reader = new FileReader();
           var checkOrientation = options.checkOrientation && mimeType === 'image/jpeg';

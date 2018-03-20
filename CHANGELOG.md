@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 (Mar 20, 2018)
+
+- Fix wrong resolve value when the `checkOrientation` option is set to `false`.
+
 ## 1.1.1 (Feb 28, 2018)
 
 - Fix a bug of the `mimeType` option (#27).
