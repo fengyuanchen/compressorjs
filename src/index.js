@@ -68,7 +68,9 @@ export default class ImageCompressor {
       }
 
       if (URL && !options.checkOrientation) {
-        resolve(URL.createObjectURL(file));
+        resolve({
+          url: URL.createObjectURL(file),
+        });
       } else if (FileReader) {
         const reader = new FileReader();
         const checkOrientation = options.checkOrientation && mimeType === 'image/jpeg';
