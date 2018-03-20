@@ -18,8 +18,8 @@ declare namespace ImageCompressor {
 }
 
 declare class ImageCompressor {
-  constructor(file?: File|Blob, options?: ImageCompressor.Options);
-  compress(file: File|Blob, options?: ImageCompressor.Options): Promise<Blob>;
+  constructor(file?: File | Blob, options?: ImageCompressor.Options);
+  compress(file: File | Blob, options?: ImageCompressor.Options): Promise<Blob>;
 }
 
 declare module 'image-compressor.js' {
