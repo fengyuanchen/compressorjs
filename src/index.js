@@ -231,7 +231,7 @@ export default class ImageCompressor {
         naturalHeight,
         result,
       }) => {
-        if (URL) {
+        if (URL && !options.checkOrientation) {
           URL.revokeObjectURL(image.src);
         }
 
