@@ -6,6 +6,7 @@ import {
   imageTypeToExtension,
   arrayBufferToDataURL,
   getOrientation,
+  normalizeDecimalNumber,
   parseOrientation,
 } from './utils';
 
@@ -170,9 +171,8 @@ export default class ImageCompressor {
           });
         }
 
-        canvas.width = width;
-        canvas.height = height;
-
+        canvas.width = normalizeDecimalNumber(width);
+        canvas.height = normalizeDecimalNumber(height);
 
         if (!isImageType(options.mimeType)) {
           options.mimeType = file.type;
@@ -200,10 +200,10 @@ export default class ImageCompressor {
 
         context.drawImage(
           image,
-          Math.floor(destX),
-          Math.floor(destY),
-          Math.floor(destWidth),
-          Math.floor(destHeight),
+          Math.floor(normalizeDecimalNumber(destX)),
+          Math.floor(normalizeDecimalNumber(destY)),
+          Math.floor(normalizeDecimalNumber(destWidth)),
+          Math.floor(normalizeDecimalNumber(destHeight)),
         );
 
         if (options.drew) {
