@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v1.1.2
+ * Image Compressor v1.1.3
  * https://github.com/xkeshi/image-compressor
  *
  * Copyright (c) 2017-2018 Xkeshi
  * Released under the MIT license
  *
- * Date: 2018-03-20T07:03:20.939Z
+ * Date: 2018-03-23T01:35:12.857Z
  */
 
 'use strict';
@@ -469,6 +469,21 @@ function parseOrientation(orientation) {
   };
 }
 
+var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/}
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+function normalizeDecimalNumber(value) {
+  var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
+
+  return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
+}
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -694,8 +709,8 @@ var ImageCompressor = function () {
             height = _width$height.height;
           }
 
-          canvas.width = width;
-          canvas.height = height;
+          canvas.width = normalizeDecimalNumber(width);
+          canvas.height = normalizeDecimalNumber(height);
 
           if (!isImageType(options.mimeType)) {
             options.mimeType = file.type;
@@ -721,7 +736,7 @@ var ImageCompressor = function () {
             options.beforeDraw.call(_this, context, canvas);
           }
 
-          context.drawImage(image, Math.floor(destX), Math.floor(destY), Math.floor(destWidth), Math.floor(destHeight));
+          context.drawImage(image, Math.floor(normalizeDecimalNumber(destX)), Math.floor(normalizeDecimalNumber(destY)), Math.floor(normalizeDecimalNumber(destWidth)), Math.floor(normalizeDecimalNumber(destHeight)));
 
           if (options.drew) {
             options.drew.call(_this, context, canvas);
@@ -748,7 +763,7 @@ var ImageCompressor = function () {
             naturalHeight = _ref3.naturalHeight,
             result = _ref3.result;
 
-        if (URL) {
+        if (URL && !options.checkOrientation) {
           URL.revokeObjectURL(image.src);
         }
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3 (Mar 23, 2018)
+
+- Fix black line at the bottom (#31).
+- Skip to revoke blob url when the `checkOrientation` option is set to `false` (#35).
+
 ## 1.1.2 (Mar 20, 2018)
 
 - Fix wrong resolve value when the `checkOrientation` option is set to `false`.
