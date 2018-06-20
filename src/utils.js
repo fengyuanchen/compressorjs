@@ -61,13 +61,19 @@ const { btoa } = window;
  */
 export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   const uint8 = new Uint8Array(arrayBuffer);
-  const { length } = uint8;
   let data = '';
-  let i;
 
-  // TypedArray.prototype.forEach is not supported in some browsers.
-  for (i = 0; i < length; i += 1) {
-    data += fromCharCode(uint8[i]);
+  // TypedArray.prototype.forEach is not supported in some browsers as IE.
+  if (typeof uint8.forEach === 'function') {
+    uint8.forEach((value) => {
+      data += fromCharCode(value);
+    });
+  } else {
+    const { length } = uint8;
+
+    for (let i = 0; i < length; i += 1) {
+      data += fromCharCode(uint8[i]);
+    }
   }
 
   return `data:${mimeType};base64,${btoa(data)}`;
