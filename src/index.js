@@ -86,8 +86,12 @@ export default class ImageCompressor {
             url: result,
           });
         };
-        reader.onabort = reject;
-        reader.onerror = reject;
+        reader.onabort = () => {
+          reject(new Error('Aborted to load the image with FileReader.'));
+        };
+        reader.onerror = () => {
+          reject(new Error('Failed to load the image with FileReader.'));
+        };
 
         if (checkOrientation) {
           reader.readAsArrayBuffer(file);
@@ -102,8 +106,12 @@ export default class ImageCompressor {
           naturalWidth: image.naturalWidth,
           naturalHeight: image.naturalHeight,
         });
-        image.onabort = reject;
-        image.onerror = reject;
+        image.onabort = () => {
+          reject(new Error('Aborted to load the image.'));
+        };
+        image.onerror = () => {
+          reject(new Error('Failed to load the image.'));
+        };
         image.alt = file.name;
         image.src = data.url;
       }))
