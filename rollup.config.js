@@ -1,52 +1,53 @@
-const commonjs = require('rollup-plugin-commonjs');
-const nodeResolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
+const changeCase = require('change-case');
+const commonjs = require('rollup-plugin-commonjs');
+const createBanner = require('create-banner');
+const nodeResolve = require('rollup-plugin-node-resolve');
 const pkg = require('./package');
 
-const now = new Date();
-const banner = `/*!
- * Image Compressor v${pkg.version}
- * https://github.com/${pkg.repository}
- *
- * Copyright (c) 2017-${now.getFullYear()} Xkeshi
- * Released under the ${pkg.license} license
- *
- * Date: ${now.toISOString()}
- */
-`;
+pkg.name = pkg.name.replace('.js', '');
+
+const name = changeCase.pascalCase(pkg.name);
+const banner = createBanner({
+  case: 'Title Case',
+  data: {
+    name,
+    year: '2017-present',
+  },
+});
 
 module.exports = {
   input: 'src/index.js',
   output: [
     {
       banner,
-      file: 'dist/image-compressor.js',
+      name,
+      file: `dist/${pkg.name}.js`,
       format: 'umd',
-      name: 'ImageCompressor',
     },
     {
       banner,
-      file: 'dist/image-compressor.common.js',
+      file: `dist/${pkg.name}.common.js`,
       format: 'cjs',
     },
     {
       banner,
-      file: 'dist/image-compressor.esm.js',
-      format: 'es',
+      file: `dist/${pkg.name}.esm.js`,
+      format: 'esm',
     },
     {
       banner,
-      file: 'docs/js/image-compressor.js',
+      name,
+      file: `docs/js/${pkg.name}.js`,
       format: 'umd',
-      name: 'ImageCompressor',
     },
   ],
   plugins: [
     nodeResolve(),
+    commonjs(),
     babel({
       exclude: 'node_modules/**',
       plugins: ['external-helpers'],
     }),
-    commonjs(),
   ],
 };
