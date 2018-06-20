@@ -1,11 +1,11 @@
 /*!
- * Image Compressor v1.1.3
- * https://github.com/xkeshi/image-compressor
+ * Image Compressor v1.1.4
+ * https://xkeshi.github.io/image-compressor
  *
- * Copyright (c) 2017-2018 Xkeshi
+ * Copyright 2017-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-03-23T01:35:12.857Z
+ * Date: 2018-06-20T07:28:41.051Z
  */
 
 function createCommonjsModule(fn, module) {
@@ -13,23 +13,8 @@ function createCommonjsModule(fn, module) {
 }
 
 var canvasToBlob = createCommonjsModule(function (module) {
-/*
- * JavaScript Canvas to Blob
- * https://github.com/blueimp/JavaScript-Canvas-to-Blob
- *
- * Copyright 2012, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
- *
- * Based on stackoverflow user Stoive's code snippet:
- * http://stackoverflow.com/q/4998908
- */
-
-/* global atob, Blob, define */
-
 (function (window) {
+
   var CanvasPrototype =
     window.HTMLCanvasElement && window.HTMLCanvasElement.prototype;
   var hasBlobConstructor =
@@ -131,7 +116,7 @@ var canvasToBlob = createCommonjsModule(function (module) {
     undefined(function () {
       return dataURLtoBlob
     });
-  } else if ('object' === 'object' && module.exports) {
+  } else if (module.exports) {
     module.exports = dataURLtoBlob;
   } else {
     window.dataURLtoBlob = dataURLtoBlob;
@@ -311,8 +296,8 @@ function getStringFromCharCode(dataView, start, length) {
   return str;
 }
 
-var _window = window;
-var btoa = _window.btoa;
+var _window = window,
+    btoa = _window.btoa;
 
 /**
  * Transform array buffer to Data URL.
@@ -323,14 +308,20 @@ var btoa = _window.btoa;
 
 function arrayBufferToDataURL(arrayBuffer, mimeType) {
   var uint8 = new Uint8Array(arrayBuffer);
-  var length = uint8.length;
-
   var data = '';
-  var i = void 0;
 
-  // TypedArray.prototype.forEach is not supported in some browsers.
-  for (i = 0; i < length; i += 1) {
-    data += fromCharCode(uint8[i]);
+  // TypedArray.prototype.forEach is not supported in some browsers as IE.
+  if (typeof uint8.forEach === 'function') {
+    uint8.forEach(function (value) {
+      data += fromCharCode(value);
+    });
+  } else {
+    var length = uint8.length;
+
+
+    for (var i = 0; i < length; i += 1) {
+      data += fromCharCode(uint8[i]);
+    }
   }
 
   return 'data:' + mimeType + ';base64,' + btoa(data);
@@ -506,12 +497,6 @@ var createClass = function () {
   };
 }();
 
-
-
-
-
-
-
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
@@ -526,9 +511,9 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
-var _window$1 = window;
-var ArrayBuffer$1 = _window$1.ArrayBuffer;
-var FileReader = _window$1.FileReader;
+var _window$1 = window,
+    ArrayBuffer$1 = _window$1.ArrayBuffer,
+    FileReader = _window$1.FileReader;
 
 var URL = window.URL || window.webkitURL;
 var REGEXP_EXTENSION = /\.\w+$/;
@@ -612,8 +597,12 @@ var ImageCompressor = function () {
               url: result
             });
           };
-          reader.onabort = reject;
-          reader.onerror = reject;
+          reader.onabort = function () {
+            reject(new Error('Aborted to load the image with FileReader.'));
+          };
+          reader.onerror = function () {
+            reject(new Error('Failed to load the image with FileReader.'));
+          };
 
           if (checkOrientation) {
             reader.readAsArrayBuffer(file);
@@ -629,8 +618,12 @@ var ImageCompressor = function () {
               naturalHeight: image.naturalHeight
             }));
           };
-          image.onabort = reject;
-          image.onerror = reject;
+          image.onabort = function () {
+            reject(new Error('Aborted to load the image.'));
+          };
+          image.onerror = function () {
+            reject(new Error('Failed to load the image.'));
+          };
           image.alt = file.name;
           image.src = data.url;
         });

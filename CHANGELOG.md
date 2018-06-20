@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.4 (Jun 20, 2018)
+
+- Use native `forEach` method first for better performance.
+- Add more detailed errors.
+
 ## 1.1.3 (Mar 23, 2018)
 
 - Fix black line at the bottom (#31).

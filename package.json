@@ -1,6 +1,6 @@
 {
   "name": "image-compressor.js",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A simple JavaScript image compressor.",
   "main": "dist/image-compressor.common.js",
   "module": "dist/image-compressor.esm.js",
@@ -11,7 +11,7 @@
   "license": "MIT",
   "author": {
     "name": "Chen Fengyuan",
-    "url": "http://chenfengyuan.com"
+    "url": "https://chenfengyuan.com"
   },
   "files": [
     "src",
@@ -34,7 +34,7 @@
     "commitmsg": "commitlint -e",
     "compress": "uglifyjs dist/image-compressor.js -o dist/image-compressor.min.js -c -m --comments /^!/",
     "dev": "rollup -c -m -w",
-    "lint": "eslint src --fix",
+    "lint": "eslint src *.js --fix",
     "release": "npm run clear && npm run lint && npm run build && npm run compress",
     "start": "npm run dev"
   },
@@ -43,22 +43,24 @@
     "is-blob": "^1.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.1.3",
-    "@commitlint/config-angular": "^6.1.3",
-    "babel-core": "^6.26.0",
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-angular": "^7.0.1",
+    "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
+    "change-case": "^3.0.2",
+    "create-banner": "^1.0.0",
     "del-cli": "^1.1.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-import": "^2.12.0",
     "husky": "^0.14.3",
-    "rollup": "^0.54.1",
-    "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-commonjs": "^8.4.1",
+    "rollup": "^0.60.7",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.3.16"
+    "uglify-js": "^3.4.1"
   }
 }

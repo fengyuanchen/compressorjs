@@ -299,6 +299,6 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Xkeshi](http://xkeshi.com)
+[MIT](https://opensource.org/licenses/MIT) © [Xkeshi](http://xkeshi.com)
 
 [⬆ back to top](#table-of-contents)
