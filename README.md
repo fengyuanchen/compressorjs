@@ -106,7 +106,7 @@ Indicates if read the image's Exif Orientation value (JPEG image only), and then
 **Notes:**
 
 - Don't trust this all the time as some JPEG images have incorrect (not standard) Orientation values.
-- If the size of target image is too large (e.g., greater than 10 MB), you should disable this option to avoid out-of-memory crash, see #40 for more information.
+- If the size of target image is too large (e.g., greater than 10 MB), you should disable this option to avoid out-of-memory crash, see [#40](https://github.com/xkeshi/image-compressor/issues/40) for more information.
 
 ### maxWidth
 
