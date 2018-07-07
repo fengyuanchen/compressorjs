@@ -164,8 +164,8 @@ export default class ImageCompressor {
           width = height * aspectRatio;
         }
 
-        width = Math.min(Math.max(width, minWidth), maxWidth);
-        height = Math.min(Math.max(height, minHeight), maxHeight);
+        width = Math.floor(Math.min(Math.max(width, minWidth), maxWidth));
+        height = Math.floor(Math.min(Math.max(height, minHeight), maxHeight));
 
         const destX = -width / 2;
         const destY = -height / 2;
