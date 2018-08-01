@@ -5,7 +5,7 @@
  * Copyright 2017-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-07-07T22:18:46.660Z
+ * Date: 2018-06-20T07:28:41.051Z
  */
 
 (function (global, factory) {
@@ -689,8 +689,8 @@
 	            width = height * aspectRatio;
 	          }
 
-	          width = Math.floor(Math.min(Math.max(width, minWidth), maxWidth));
-	          height = Math.floor(Math.min(Math.max(height, minHeight), maxHeight));
+	          width = Math.min(Math.max(width, minWidth), maxWidth);
+	          height = Math.min(Math.max(height, minHeight), maxHeight);
 
 	          var destX = -width / 2;
 	          var destY = -height / 2;
@@ -807,4 +807,3 @@
 	return ImageCompressor;
 
 })));
-//# sourceMappingURL=image-compressor.js.map
