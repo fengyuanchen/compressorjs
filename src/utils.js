@@ -96,7 +96,7 @@ export function getOrientation(arrayBuffer) {
     const length = dataView.byteLength;
     let offset = 2;
 
-    while (offset < length) {
+    while (offset < length - 1) {
       if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
         app1Start = offset;
         break;
