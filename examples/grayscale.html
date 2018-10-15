@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Compressor.js</title>
+  <style>
+    .container {
+      max-width: 40rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+
+    .col {
+      flex: 1;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Grayscale</h1>
+    <div class="row">
+      <div class="col">
+        <h3>Input</h3>
+        <div id="input">
+          <img id="image" src="../docs/images/picture.png" alt="Picture">
+        </div>
+      </div>
+      <div class="col">
+        <h3>Output</h3>
+        <div id="output"></div>
+      </div>
+    </div>
+  </div>
+  <script src="../dist/compressor.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var Compressor = window.Compressor;
+      var URL = window.URL || window.webkitURL;
+      var image = document.getElementById('image');
+      var output = document.getElementById('output');
+      var xhr = new XMLHttpRequest();
+
+      xhr.onload = function () {
+        new Compressor(xhr.response, {
+          strict: false,
+          beforeDraw(context) {
+            context.filter = 'grayscale(100%)';
+          },
+          success: function (result) {
+            var newImage = new Image();
+
+            newImage.src = URL.createObjectURL(result);
+            newImage.alt = 'Compressed image';
+            output.appendChild(newImage);
+          },
+          error: function (err) {
+            window.alert(err.message);
+          },
+        });
+      };
+
+      xhr.open('GET', image.src);
+      xhr.responseType = 'blob';
+      xhr.send();
+    });
+  </script>
+</body>
+</html>
