@@ -195,7 +195,7 @@ export default class ImageCompressor {
         }
 
         // Override the default fill color (#000, black)
-        context.fillStyle = defaultFillStyle;
+        context.fillStyle = options.fillStyle || defaultFillStyle;
         context.fillRect(0, 0, width, height);
         context.save();
         context.translate(width / 2, height / 2);
