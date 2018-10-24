@@ -192,7 +192,6 @@ export default class Compressor {
 
     canvas.width = width;
     canvas.height = height;
-    context.save();
 
     if (!isImageType(options.mimeType)) {
       options.mimeType = file.type;
@@ -209,9 +208,6 @@ export default class Compressor {
     // Override the default fill color (#000, black)
     context.fillStyle = fillStyle;
     context.fillRect(0, 0, width, height);
-    context.translate(width / 2, height / 2);
-    context.rotate((rotate * Math.PI) / 180);
-    context.scale(scaleX, scaleY);
 
     if (options.beforeDraw) {
       options.beforeDraw.call(this, context, canvas);
@@ -221,6 +217,10 @@ export default class Compressor {
       return;
     }
 
+    context.save();
+    context.translate(width / 2, height / 2);
+    context.rotate((rotate * Math.PI) / 180);
+    context.scale(scaleX, scaleY);
     context.drawImage(image, destX, destY, destWidth, destHeight);
     context.restore();
 
