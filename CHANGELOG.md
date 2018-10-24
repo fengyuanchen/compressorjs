@@ -1,8 +1,9 @@
 # Changelog
 
-# next
+## 1.0.1 (Oct 24, 2018)
 
-- Ignore range error when the image does not have correct Exif information
+- Simplify the state of canvas for the `beforeDraw` option.
+- Ignore range error when the image does not have correct Exif information.
 
 ## 1.0.0 (Oct 15, 2018)
 

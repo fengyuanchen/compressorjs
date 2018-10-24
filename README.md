@@ -227,7 +227,9 @@ The hook function to execute before draw the image into the canvas for compressi
 
 ```js
 new Compressor(file, {
-  beforeDraw(context) {
+  beforeDraw(context, canvas) {
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
     context.filter = 'grayscale(100%)';
   },
 });
