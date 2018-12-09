@@ -18,18 +18,35 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbar-collapse" role="navigation">
-        <nav class="nav navbar-nav">
-          <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs/blob/master/README.md">Docs</a>
-          <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs" title="View the GitHub project">GitHub</a>
-          <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs/blob/master/LICENSE">License</a>
-          <a class="nav-link" href="https://fengyuanchen.github.io" title="More projects">More</a>
-          <a class="nav-link" href="https://chenfengyuan.com" title="About the author">About</a>
-        </nav>
+        <ul class="nav navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs/blob/master/README.md">Docs</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Examples
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="examples/grayscale.html">Grayscale</a>
+              <a class="dropdown-item" href="examples/watermark.html">Watermark</a>
+              <a class="dropdown-item" href="examples/work-with-promise.html">Work with promise</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs" title="View the GitHub project">GitHub</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="https://fengyuanchen.github.io" title="Explore more projects">Explore</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="https://chenfengyuan.com" title="About the author">About</a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
 
-  <div class="jumbotron rounded-0 bg-primary text-white">
+  <div class="jumbotron bg-primary text-white rounded-0">
     <div class="container">
         <div class="row">
           <div class="col-md">
@@ -38,7 +55,7 @@
           </div>
           <div class="col-md">
             <div class="carbonads">
-              <script id="_carbonads_js" src="//cdn.carbonads.com/carbon.js?serve=CKYI55Q7&placement=fengyuanchengithubio" async></script>
+              <script id="_carbonads_js" src="https://cdn.carbonads.com/carbon.js?serve=CKYI55Q7&placement=fengyuanchengithubio" async></script>
             </div>
           </div>
         </div>
@@ -46,7 +63,7 @@
   </div>
 
   <div class="container">
-    <h3>Example</h3>
+    <h3>Playground</h3>
     <hr>
     <div id="app">
       <div class="card bg-light mb-4" @change="change" @dragover="dragover" @drop="drop">
@@ -214,7 +231,7 @@
       <p class="heart"></p>
       <nav class="nav flex-wrap justify-content-center mb-3">
         <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs">GitHub</a>
-        <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs/tree/master/examples">Examples</a>
+        <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs/releases">Releases</a>
         <a class="nav-link" href="https://github.com/fengyuanchen/compressorjs/blob/master/LICENSE">License</a>
         <a class="nav-link" href="https://chenfengyuan.com">About</a>
       </nav>
@@ -223,7 +240,7 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
+  <script src="https://unpkg.com/vue@2.5.18/dist/vue.min.js"></script>
   <script src="https://fengyuanchen.github.io/js/common.js"></script>
   <script src="js/compressor.js"></script>
   <script src="js/main.js"></script>
