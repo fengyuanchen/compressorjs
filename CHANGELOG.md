@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 (Dec 10, 2018)
+
+- Upgrade `is-blob` to v2.
+- Move `examples` folder to `docs` folder.
+
 ## 1.0.1 (Oct 24, 2018)
 
 - Simplify the state of canvas for the `beforeDraw` option.

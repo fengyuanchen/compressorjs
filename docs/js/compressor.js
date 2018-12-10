@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.0.1
+ * Compressor.js v1.0.2
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-10-24T12:55:20.512Z
+ * Date: 2018-12-10T13:23:38.356Z
  */
 
 (function (global, factory) {
@@ -212,12 +212,12 @@
     })(window);
   });
 
-  /* globals Blob */
+  var isBlob = function isBlob(input) {
+    if (typeof Blob === 'undefined') {
+      return false;
+    }
 
-  var toString = Object.prototype.toString;
-
-  var isBlob = function (x) {
-    return x instanceof Blob || toString.call(x) === '[object Blob]';
+    return input instanceof Blob || Object.prototype.toString.call(input) === '[object Blob]';
   };
 
   var DEFAULTS = {
