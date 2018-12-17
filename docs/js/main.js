@@ -105,16 +105,17 @@ window.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      var vm = this;
       var xhr = new XMLHttpRequest();
 
-      xhr.onload = () => {
+      xhr.onload = function () {
         var blob = xhr.response;
         var date = new Date();
 
         blob.lastModified = date.getTime();
         blob.lastModifiedDate = date;
         blob.name = 'picture.jpg';
-        this.compress(blob);
+        vm.compress(blob);
       };
       xhr.open('GET', 'images/picture.jpg');
       xhr.responseType = 'blob';
