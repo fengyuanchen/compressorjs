@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.0.2
+ * Compressor.js v1.0.3
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-12-10T13:23:38.356Z
+ * Date: 2018-12-18T14:20:45.661Z
  */
 
 function _classCallCheck(instance, Constructor) {
@@ -80,26 +80,6 @@ function _objectSpread(target) {
   }
 
   return target;
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
 function createCommonjsModule(fn, module) {
@@ -340,6 +320,16 @@ var DEFAULTS = {
 var IN_BROWSER = typeof window !== 'undefined';
 var WINDOW = IN_BROWSER ? window : {};
 
+var slice = Array.prototype.slice;
+/**
+ * Convert array-like or iterable object to an array.
+ * @param {*} value - The value to convert.
+ * @returns {Array} Returns a new array.
+ */
+
+function toArray(value) {
+  return Array.from ? Array.from(value) : slice.call(value);
+}
 var REGEXP_IMAGE_TYPE = /^image\/.+$/;
 /**
  * Check if the given value is a mime type of image.
@@ -399,7 +389,8 @@ function arrayBufferToDataURL(arrayBuffer, mimeType) {
   var uint8 = new Uint8Array(arrayBuffer);
 
   while (uint8.length > 0) {
-    chunks.push(fromCharCode.apply(void 0, _toConsumableArray(uint8.subarray(0, chunkSize))));
+    // eslint-disable-next-line prefer-spread
+    chunks.push(fromCharCode.apply(null, toArray(uint8.subarray(0, chunkSize))));
     uint8 = uint8.subarray(chunkSize);
   }
 
