@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Convert `TypedArray` to `Array` manually instead of using Babel helpers for better browser compatibility (#60).
+
 ## 1.0.2 (Dec 10, 2018)
 
 - Upgrade `is-blob` to v2.
