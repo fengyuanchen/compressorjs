@@ -80,7 +80,7 @@ export default class Compressor {
           // Should reset the orientation value to its default value first
           // as some iOS browsers will render image with its orientation
           ...parseOrientation(resetAndGetOrientation(result)),
-          url: arrayBufferToDataURL(result, mimeType),
+          url: URL ? URL.createObjectURL(file) : arrayBufferToDataURL(result, mimeType),
         } : {
           url: result,
         });
