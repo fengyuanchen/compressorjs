@@ -80,15 +80,14 @@ export default class Compressor {
         };
 
         if (checkOrientation) {
-          // Should reset the orientation value to its default value first
+          // Reset the orientation value to its default value 1
           // as some iOS browsers will render image with its orientation
           const orientation = resetAndGetOrientation(result);
 
-          Object.assign(data, parseOrientation(orientation));
-
-          // Regenerate the url only when the orientation was reset for better performance.
           if (orientation > 1) {
+            // Generate a new URL which has the default orientation value
             data.url = arrayBufferToDataURL(result, mimeType);
+            Object.assign(data, parseOrientation(orientation));
           }
         }
 
