@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.0.3
+ * Compressor.js v1.0.4
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-12-18T14:20:45.661Z
+ * Date: 2019-01-19T07:56:15.407Z
  */
 
 function _classCallCheck(instance, Constructor) {
@@ -389,6 +389,7 @@ function arrayBufferToDataURL(arrayBuffer, mimeType) {
   var uint8 = new Uint8Array(arrayBuffer);
 
   while (uint8.length > 0) {
+    // XXX: Babel's `toConsumableArray` helper will throw error in IE or Safari 9
     // eslint-disable-next-line prefer-spread
     chunks.push(fromCharCode.apply(null, toArray(uint8.subarray(0, chunkSize))));
     uint8 = uint8.subarray(chunkSize);
@@ -618,12 +619,24 @@ function () {
         reader.onload = function (_ref) {
           var target = _ref.target;
           var result = target.result;
-
-          _this.load(checkOrientation ? _objectSpread({}, parseOrientation(resetAndGetOrientation(result)), {
-            url: arrayBufferToDataURL(result, mimeType)
-          }) : {
+          var data = {
             url: result
-          });
+          };
+
+          if (checkOrientation) {
+            // Reset the orientation value to its default value 1
+            // as some iOS browsers will render image with its orientation
+            var orientation = resetAndGetOrientation(result);
+
+            if (orientation > 1) {
+              // Generate a new URL which has the default orientation value
+              data.url = arrayBufferToDataURL(result, mimeType);
+
+              _extends(data, parseOrientation(orientation));
+            }
+          }
+
+          _this.load(data);
         };
 
         reader.onabort = function () {
