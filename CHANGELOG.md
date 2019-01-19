@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Regenerate the initial url only when the orientation was reset for better performance (#63).
+
 ## 1.0.3 (Dec 18, 2018)
 
 - Convert `TypedArray` to `Array` manually instead of using Babel helpers for better browser compatibility (#60).

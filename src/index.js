@@ -75,15 +75,24 @@ export default class Compressor {
       this.reader = reader;
       reader.onload = ({ target }) => {
         const { result } = target;
+        const data = {
+          url: result,
+        };
 
-        this.load(checkOrientation ? {
+        if (checkOrientation) {
           // Should reset the orientation value to its default value first
           // as some iOS browsers will render image with its orientation
-          ...parseOrientation(resetAndGetOrientation(result)),
-          url: arrayBufferToDataURL(result, mimeType),
-        } : {
-          url: result,
-        });
+          const orientation = resetAndGetOrientation(result);
+
+          Object.assign(data, parseOrientation(orientation));
+
+          // Regenerate the url only when the orientation was reset for better performance.
+          if (orientation > 1) {
+            data.url = arrayBufferToDataURL(result, mimeType);
+          }
+        }
+
+        this.load(data);
       };
       reader.onabort = () => {
         this.fail(new Error('Aborted to read the image with FileReader.'));
