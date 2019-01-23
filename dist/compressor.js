@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.0.4
+ * Compressor.js v1.0.5
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-01-19T07:56:15.407Z
+ * Date: 2019-01-23T10:53:08.724Z
  */
 
 (function (global, factory) {
@@ -625,21 +625,25 @@
           reader.onload = function (_ref) {
             var target = _ref.target;
             var result = target.result;
-            var data = {
-              url: result
-            };
+            var data = {};
 
             if (checkOrientation) {
               // Reset the orientation value to its default value 1
               // as some iOS browsers will render image with its orientation
               var orientation = resetAndGetOrientation(result);
 
-              if (orientation > 1) {
+              if (orientation > 1 || !URL) {
                 // Generate a new URL which has the default orientation value
                 data.url = arrayBufferToDataURL(result, mimeType);
 
-                _extends(data, parseOrientation(orientation));
+                if (orientation > 1) {
+                  _extends(data, parseOrientation(orientation));
+                }
+              } else {
+                data.url = URL.createObjectURL(file);
               }
+            } else {
+              data.url = result;
             }
 
             _this.load(data);
