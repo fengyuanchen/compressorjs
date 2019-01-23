@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Fix wrong generated URL when the given image's orientation is 1 (#64).
+
 ## 1.0.4 (Jan 19, 2018)
 
 - Regenerate the initial url only when the orientation was reset for better performance (#63).
