@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.0.5
+ * Compressor.js v1.0.6
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-01-23T10:53:08.724Z
+ * Date: 2019-11-23T04:43:12.442Z
  */
 
 function _classCallCheck(instance, Constructor) {
@@ -63,20 +63,35 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _objectSpread(target) {
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
 
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
   }
 
   return target;
@@ -178,7 +193,7 @@ var canvasToBlob = createCommonjsModule(function (module) {
       }
     }
 
-    if (module.exports) {
+    if ( module.exports) {
       module.exports = dataURLtoBlob;
     } else {
       window.dataURLtoBlob = dataURLtoBlob;
@@ -317,8 +332,8 @@ var DEFAULTS = {
   error: null
 };
 
-var IN_BROWSER = typeof window !== 'undefined';
-var WINDOW = IN_BROWSER ? window : {};
+var IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+var WINDOW = IS_BROWSER ? window : {};
 
 var slice = Array.prototype.slice;
 /**
@@ -525,8 +540,6 @@ function parseOrientation(orientation) {
     case 8:
       rotate = -90;
       break;
-
-    default:
   }
 
   return {
@@ -538,7 +551,7 @@ function parseOrientation(orientation) {
 var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 /**
  * Normalize decimal number.
- * Check out {@link http://0.30000000000000004.com/}
+ * Check out {@link https://0.30000000000000004.com/}
  * @param {number} value - The value to normalize.
  * @param {number} [times=100000000000] - The times for normalizing.
  * @returns {number} Returns the normalized number.
@@ -572,7 +585,7 @@ function () {
 
     this.file = file;
     this.image = new Image();
-    this.options = _objectSpread({}, DEFAULTS, options);
+    this.options = _objectSpread2({}, DEFAULTS, {}, options);
     this.aborted = false;
     this.result = null;
     this.init();
@@ -671,7 +684,7 @@ function () {
           image = this.image;
 
       image.onload = function () {
-        _this2.draw(_objectSpread({}, data, {
+        _this2.draw(_objectSpread2({}, data, {
           naturalWidth: image.naturalWidth,
           naturalHeight: image.naturalHeight
         }));
@@ -683,7 +696,14 @@ function () {
 
       image.onerror = function () {
         _this2.fail(new Error('Failed to load the image.'));
-      };
+      }; // Match all browsers that use WebKit as the layout engine in iOS devices,
+      // such as Safari for iOS, Chrome for iOS, and in-app browsers.
+
+
+      if (WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent)) {
+        // Fix the `The operation is insecure` error (#57)
+        image.crossOrigin = 'anonymous';
+      }
 
       image.alt = file.name;
       image.src = data.url;

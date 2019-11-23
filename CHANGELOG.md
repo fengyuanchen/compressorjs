@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.0.6 (Nov 23, 2019)
 
 - Fix the `The operation is insecure` error (#57).
 
