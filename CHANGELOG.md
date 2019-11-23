@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Fix the `The operation is insecure` error (#57).
+
 ## 1.0.5 (Jan 23, 2019)
 
 - Fix wrong generated URL when the given image's orientation is 1 (#64).

@@ -132,6 +132,14 @@ export default class Compressor {
     image.onerror = () => {
       this.fail(new Error('Failed to load the image.'));
     };
+
+    // Match all browsers that use WebKit as the layout engine in iOS devices,
+    // such as Safari for iOS, Chrome for iOS, and in-app browsers.
+    if (WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent)) {
+      // Fix the `The operation is insecure` error (#57)
+      image.crossOrigin = 'anonymous';
+    }
+
     image.alt = file.name;
     image.src = data.url;
   }
