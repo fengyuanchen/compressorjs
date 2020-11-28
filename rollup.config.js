@@ -29,6 +29,7 @@ module.exports = {
       banner,
       file: `dist/${pkg.name}.common.js`,
       format: 'cjs',
+      exports: 'auto',
     },
     {
       banner,
