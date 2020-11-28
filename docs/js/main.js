@@ -4,6 +4,8 @@ window.addEventListener('DOMContentLoaded', function () {
   var XMLHttpRequest = window.XMLHttpRequest;
   var Compressor = window.Compressor;
 
+  Vue.component('VueCompareImage', window.vueCompareImage);
+
   new Vue({
     el: '#app',
 
