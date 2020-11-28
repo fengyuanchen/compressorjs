@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7 (Nov 28, 2020)
+
+- Update the builtin dependencies for better adaptability.
+
 ## 1.0.6 (Nov 23, 2019)
 
 - Fix the `The operation is insecure` error (#57).
