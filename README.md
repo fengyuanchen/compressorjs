@@ -175,11 +175,11 @@ The height of the output image. If not specified, the natural height of the orig
 - Type: `number`
 - Default: `0.8`
 
-The quality of the output image.
-It must be a number between `0` and `1`. Be careful to use `1` as it may make the size of the output image become larger.
-Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) for more detail.
+The quality of the output image. It must be a number between `0` and `1`. If this argument is anything else, the default values `0.92` and `0.80` are used for `image/jpeg` and `image/webp` respectively. Other arguments are ignored. Be careful to use `1` as it may make the size of the output image become larger.
 
 **Note:** This option only available for `image/jpeg` and `image/webp` images.
+
+> Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) for more detail.
 
 **Examples**:
 
