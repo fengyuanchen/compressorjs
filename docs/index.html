@@ -7,12 +7,12 @@
   <meta name="description" content="JavaScript image compressor.">
   <meta name="author" content="Chen Fengyuan">
   <title>Compressor.js</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <header class="navbar navbar-light navbar-expand-md">
-    <nav class="container">
+    <div class="container">
       <a class="navbar-brand" href="./">Compressor.js</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,23 +43,23 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </div>
   </header>
 
   <div class="jumbotron bg-primary text-white rounded-0">
     <div class="container">
-        <div class="row">
-          <div class="col-md">
-            <h1>Compressor.js <small class="h6">v1.0.6</small></h1>
-            <p class="lead">JavaScript image compressor.</p>
-          </div>
-          <div class="col-md">
-            <div class="carbonads">
-              <script id="_carbonads_js" src="https://cdn.carbonads.com/carbon.js?serve=CKYI55Q7&placement=fengyuanchengithubio" async></script>
-            </div>
+      <div class="row">
+        <div class="col-md">
+          <h1>Compressor.js <small class="h6">v1.0.7</small></h1>
+          <p class="lead">JavaScript image compressor.</p>
+        </div>
+        <div class="col-md">
+          <div class="carbonads">
+            <script id="_carbonads_js" src="https://cdn.carbonads.com/carbon.js?serve=CKYI55Q7&placement=fengyuanchengithubio" async></script>
           </div>
         </div>
       </div>
+    </div>
   </div>
 
   <div class="container">
@@ -73,10 +73,9 @@
       </div>
       <div class="row">
         <div class="col-lg-4 mb-4">
-          <div class="card">
+          <div class="card h-100">
+            <h4 class="card-header">Options</h4>
             <div class="card-body">
-              <h3 class="card-title">Options</h3>
-              <hr>
               <fieldset class="form-group">
                 <div class="form-check form-check-inline">
                   <input type="checkbox" name="strict" class="form-check-input" id="inputStrict" v-model="options.strict">
@@ -90,44 +89,44 @@
                 </div>
               </fieldset>
               <div class="form-group row">
-                <label for="inputMaxWidth" class="col-sm-5 col-form-label">maxWidth</label>
-                <div class="col-sm-7">
+                <label for="inputMaxWidth" class="col-5 col-form-label">maxWidth</label>
+                <div class="col-7">
                   <input type="number" name="maxWidth" class="form-control" id="inputMaxWidth" placeholder="Infinity" v-model.number="options.maxWidth">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputMaxHeight" class="col-sm-5 col-form-label">maxHeight</label>
-                <div class="col-sm-7">
+                <label for="inputMaxHeight" class="col-5 col-form-label">maxHeight</label>
+                <div class="col-7">
                   <input type="number" name="maxHeight" class="form-control" id="inputMaxHeight" placeholder="Infinity" v-model.number="options.maxHeight">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputMinWidth" class="col-sm-5 col-form-label">minWidth</label>
-                <div class="col-sm-7">
+                <label for="inputMinWidth" class="col-5 col-form-label">minWidth</label>
+                <div class="col-7">
                   <input type="number" name="minWidth" class="form-control" id="inputMinWidth" placeholder="0" v-model.number="options.minWidth">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputMinHeight" class="col-sm-5 col-form-label">minHeight</label>
-                <div class="col-sm-7">
+                <label for="inputMinHeight" class="col-5 col-form-label">minHeight</label>
+                <div class="col-7">
                   <input type="number" name="minHeight" class="form-control" id="inputMinHeight" placeholder="0" v-model.number="options.minHeight">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputWidth" class="col-sm-5 col-form-label">width</label>
-                <div class="col-sm-7">
+                <label for="inputWidth" class="col-5 col-form-label">width</label>
+                <div class="col-7">
                   <input type="number" name="width" class="form-control" id="inputWidth" placeholder="undefined" v-model.number="options.width">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputHeight" class="col-sm-5 col-form-label">height</label>
-                <div class="col-sm-7">
+                <label for="inputHeight" class="col-5 col-form-label">height</label>
+                <div class="col-7">
                   <input type="number" name="height" class="form-control" id="inputHeight" placeholder="undefined" v-model.number="options.height">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputQuality" class="col-sm-5 col-form-label">quality</label>
-                <div class="col-sm-7">
+                <label for="inputQuality" class="col-5 col-form-label">quality</label>
+                <div class="col-7">
                   <select class="form-control" name="quality" id="inputQuality" v-model.number="options.quality">
                     <option value="0">0</option>
                     <option value="0.1">0.1</option>
@@ -145,14 +144,14 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputMimeType" class="col-sm-5 col-form-label">mimeType</label>
-                <div class="col-sm-7">
+                <label for="inputMimeType" class="col-5 col-form-label">mimeType</label>
+                <div class="col-7">
                   <input type="text" name="mimeType" class="form-control" id="inputMimeType" placeholder="auto" v-model.number="options.mimeType">
                 </div>
               </div>
               <div class="form-group row mb-0">
-                <label for="inputConvertSize" class="col-sm-5 col-form-label">convertSize</label>
-                <div class="col-sm-7">
+                <label for="inputConvertSize" class="col-5 col-form-label">convertSize</label>
+                <div class="col-7">
                   <input type="number" name="convertSize" class="form-control" id="inputConvertSize" placeholder="5000000" v-model.number="options.convertSize">
                 </div>
               </div>
@@ -161,11 +160,13 @@
         </div>
         <div class="col-lg-8 mb-4">
           <div class="card mb-4">
+            <h5 class="card-header d-flex align-items-center justify-content-between">
+              <span>Input image <small class="text-secondary">(original image)</small></span>
+              <a class="btn btn-sm btn-blocks btn-outline-primary" :download="input.name" :href="inputURL" title="Download the compressed image">Download</a>
+            </h5>
             <div class="card-body">
-              <h3 class="card-title">Input (original)</h3>
-              <hr>
               <div class="row">
-                <div class="col-md-4 d-flex">
+                <div class="col-md-4 d-flex mb-3">
                   <div class="w-100 text-center" v-if="inputURL">
                     <img class="mw-100" :src="inputURL" :alt="input.name">
                   </div>
@@ -173,47 +174,46 @@
                 </div>
                 <div class="col-md-8">
                   <dl class="row">
-                    <dt class="col-sm-5">lastModified:</dt>
-                    <dd class="col-sm-7">{{ input.lastModified || 'N/A' }}</dd>
-                    <dt class="col-sm-5">lastModifiedDate:</dt>
-                    <dd class="col-sm-7">{{ input.lastModifiedDate || 'N/A' }}</dd>
-                    <dt class="col-sm-5">name:</dt>
-                    <dd class="col-sm-7">{{ input.name || 'N/A' }}</dd>
-                    <dt class="col-sm-5">type:</dt>
-                    <dd class="col-sm-7">{{ input.type || 'N/A' }}</dd>
-                    <dt class="col-sm-5">size:</dt>
-                    <dd class="col-sm-7">{{ input.size | prettySize }}</dd>
+                    <dt class="col-5">lastModified:</dt>
+                    <dd class="col-7">{{ input.lastModified || 'N/A' }}</dd>
+                    <dt class="col-5">lastModifiedDate:</dt>
+                    <dd class="col-7">{{ input.lastModifiedDate || 'N/A' }}</dd>
+                    <dt class="col-5">name:</dt>
+                    <dd class="col-7">{{ input.name || 'N/A' }}</dd>
+                    <dt class="col-5">type:</dt>
+                    <dd class="col-7">{{ input.type || 'N/A' }}</dd>
+                    <dt class="col-5">size:</dt>
+                    <dd class="col-7">{{ input.size | prettySize }}</dd>
                   </dl>
                 </div>
               </div>
             </div>
           </div>
           <div class="card">
+            <h5 class="card-header d-flex align-items-center justify-content-between">
+              <span>Output image <small class="text-secondary">(compressed image)</small></span>
+              <a class="btn btn-sm btn-blocks btn-outline-primary" :download="output.name" :href="outputURL" title="Download the compressed image">Download</a>
+            </h5>
             <div class="card-body">
-              <h3 class="card-title">Output (compressed)</h3>
-              <hr>
               <div class="row">
-                <div class="col-md-4 d-flex justify-content-center">
+                <div class="col-md-4 d-flex mb-3">
                   <div class="w-100 text-center" v-if="outputURL">
                     <img class="mw-100" :src="outputURL" :alt="output.name">
-                    <div class="mt-2">
-                      <a class="btn btn-sm btn-blocks btn-outline-primary mt-2" :download="output.name" :href="outputURL" title="Download the compressed image">Download</a>
-                    </div>
                   </div>
                   <div v-else class="w-100 bg-light"></div>
                 </div>
                 <div class="col-md-8">
                   <dl class="row">
-                    <dt class="col-sm-5">lastModified:</dt>
-                    <dd class="col-sm-7">{{ output.lastModified || 'N/A' }}</dd>
-                    <dt class="col-sm-5">lastModifiedDate:</dt>
-                    <dd class="col-sm-7">{{ output.lastModifiedDate || 'N/A' }}</dd>
-                    <dt class="col-sm-5">name:</dt>
-                    <dd class="col-sm-7">{{ output.name || 'N/A' }}</dd>
-                    <dt class="col-sm-5">type:</dt>
-                    <dd class="col-sm-7">{{ output.type || 'N/A' }}</dd>
-                    <dt class="col-sm-5">size:</dt>
-                    <dd class="col-sm-7">{{ output.size | prettySize }}
+                    <dt class="col-5">lastModified:</dt>
+                    <dd class="col-7">{{ output.lastModified || 'N/A' }}</dd>
+                    <dt class="col-5">lastModifiedDate:</dt>
+                    <dd class="col-7">{{ output.lastModifiedDate || 'N/A' }}</dd>
+                    <dt class="col-5">name:</dt>
+                    <dd class="col-7">{{ output.name || 'N/A' }}</dd>
+                    <dt class="col-5">type:</dt>
+                    <dd class="col-7">{{ output.type || 'N/A' }}</dd>
+                    <dt class="col-5">size:</dt>
+                    <dd class="col-7">{{ output.size | prettySize }}
                       <span v-if="output.size">({{ ((1 - (output.size / input.size)) * 100).toFixed(2) }}% off)</span>
                     </dd>
                   </dl>
@@ -221,6 +221,12 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="card" v-if="inputURL && outputURL">
+        <h4 class="card-header">Comparing images</h4>
+        <div class="card-body">
+          <vue-compare-image v-if="inputURL && outputURL" :left-image="inputURL" :left-image-alt="input.name" left-label="Input image" :right-image="outputURL" :right-image-alt="output.name" right-label="Output image"></vue-compare-image>
         </div>
       </div>
     </div>
@@ -238,9 +244,10 @@
     </div>
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/jquery@3/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap@4/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/vue@2/dist/vue.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue-compare-image@0.2/dist/vueCompareImage.umd.min.js" crossorigin="anonymous"></script>
   <script src="https://fengyuanchen.github.io/shared/google-analytics.js" crossorigin="anonymous"></script>
   <script src="js/compressor.js"></script>
   <script src="js/main.js"></script>

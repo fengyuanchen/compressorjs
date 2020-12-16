@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.0.6
+ * Compressor.js v1.0.7
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-11-23T04:43:12.442Z
+ * Date: 2020-11-28T07:13:17.754Z
  */
 
 'use strict';
@@ -99,8 +99,18 @@ function _objectSpread2(target) {
   return target;
 }
 
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
+function createCommonjsModule(fn, basedir, module) {
+	return module = {
+		path: basedir,
+		exports: {},
+		require: function (path, base) {
+			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
+		}
+	}, fn(module, module.exports), module.exports;
+}
+
+function commonjsRequire () {
+	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
 }
 
 var canvasToBlob = createCommonjsModule(function (module) {
@@ -186,12 +196,25 @@ var canvasToBlob = createCommonjsModule(function (module) {
           });
         };
       } else if (CanvasPrototype.toDataURL && dataURLtoBlob) {
-        CanvasPrototype.toBlob = function (callback, type, quality) {
-          var self = this;
-          setTimeout(function () {
-            callback(dataURLtoBlob(self.toDataURL(type, quality)));
-          });
-        };
+        if (CanvasPrototype.msToBlob) {
+          CanvasPrototype.toBlob = function (callback, type, quality) {
+            var self = this;
+            setTimeout(function () {
+              if ((type && type !== 'image/png' || quality) && CanvasPrototype.toDataURL && dataURLtoBlob) {
+                callback(dataURLtoBlob(self.toDataURL(type, quality)));
+              } else {
+                callback(self.msToBlob(type));
+              }
+            });
+          };
+        } else {
+          CanvasPrototype.toBlob = function (callback, type, quality) {
+            var self = this;
+            setTimeout(function () {
+              callback(dataURLtoBlob(self.toDataURL(type, quality)));
+            });
+          };
+        }
       }
     }
 
@@ -203,12 +226,12 @@ var canvasToBlob = createCommonjsModule(function (module) {
   })(window);
 });
 
-var isBlob = function isBlob(input) {
+var isBlob = function isBlob(value) {
   if (typeof Blob === 'undefined') {
     return false;
   }
 
-  return input instanceof Blob || Object.prototype.toString.call(input) === '[object Blob]';
+  return value instanceof Blob || Object.prototype.toString.call(value) === '[object Blob]';
 };
 
 var DEFAULTS = {
@@ -574,9 +597,7 @@ var AnotherCompressor = WINDOW.Compressor;
  * @class
  */
 
-var Compressor =
-/*#__PURE__*/
-function () {
+var Compressor = /*#__PURE__*/function () {
   /**
    * The constructor of Compressor.
    * @param {File|Blob} file - The target image file for compressing.
@@ -587,7 +608,7 @@ function () {
 
     this.file = file;
     this.image = new Image();
-    this.options = _objectSpread2({}, DEFAULTS, {}, options);
+    this.options = _objectSpread2(_objectSpread2({}, DEFAULTS), options);
     this.aborted = false;
     this.result = null;
     this.init();
@@ -686,7 +707,7 @@ function () {
           image = this.image;
 
       image.onload = function () {
-        _this2.draw(_objectSpread2({}, data, {
+        _this2.draw(_objectSpread2(_objectSpread2({}, data), {}, {
           naturalWidth: image.naturalWidth,
           naturalHeight: image.naturalHeight
         }));

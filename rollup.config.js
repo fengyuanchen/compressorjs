@@ -1,9 +1,9 @@
-const babel = require('rollup-plugin-babel');
+const { babel } = require('@rollup/plugin-babel');
 const changeCase = require('change-case');
-const commonjs = require('rollup-plugin-commonjs');
+const commonjs = require('@rollup/plugin-commonjs');
 const createBanner = require('create-banner');
-const nodeResolve = require('rollup-plugin-node-resolve');
-const postprocess = require('rollup-plugin-postprocess');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const replace = require('@rollup/plugin-replace');
 const pkg = require('./package');
 
 pkg.name = pkg.name.replace('js', '');
@@ -29,6 +29,7 @@ module.exports = {
       banner,
       file: `dist/${pkg.name}.common.js`,
       format: 'cjs',
+      exports: 'auto',
     },
     {
       banner,
@@ -45,15 +46,15 @@ module.exports = {
   plugins: [
     nodeResolve(),
     commonjs(),
-    babel(),
-    postprocess([
-      [
-        /var canvasToBlob = createCommonjsModule\(function \(module\) \{/,
-        `var canvasToBlob = createCommonjsModule(function (module) {
+    babel({
+      babelHelpers: 'bundled',
+    }),
+    replace({
+      delimiters: ['', ''],
+      'var canvasToBlob = createCommonjsModule(function (module) {': `var canvasToBlob = createCommonjsModule(function (module) {
     if (typeof window === 'undefined') {
       return;
     }`,
-      ],
-    ]),
+    }),
   ],
 };

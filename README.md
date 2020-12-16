@@ -1,6 +1,6 @@
 # Compressor.js
 
-[![Build Status](https://img.shields.io/travis/fengyuanchen/compressorjs.svg)](https://travis-ci.org/fengyuanchen/compressorjs) [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Dependencies](https://img.shields.io/david/fengyuanchen/compressorjs.svg)](https://www.npmjs.com/package/compressorjs)
+[![Build Status](https://img.shields.io/travis/fengyuanchen/compressorjs.svg)](https://travis-ci.org/fengyuanchen/compressorjs) [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js) [![Dependencies](https://img.shields.io/david/fengyuanchen/compressorjs.svg)](https://www.npmjs.com/package/compressorjs)
 
 > JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work, which means it is lossy compression. General use this to precompress a client image file before upload it.
 
@@ -175,11 +175,11 @@ The height of the output image. If not specified, the natural height of the orig
 - Type: `number`
 - Default: `0.8`
 
-The quality of the output image.
-It must be a number between `0` and `1`. Be careful to use `1` as it may make the size of the output image become larger.
-Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) for more detail.
+The quality of the output image. It must be a number between `0` and `1`. If this argument is anything else, the default values `0.92` and `0.80` are used for `image/jpeg` and `image/webp` respectively. Other arguments are ignored. Be careful to use `1` as it may make the size of the output image become larger.
 
 **Note:** This option only available for `image/jpeg` and `image/webp` images.
+
+> Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) for more detail.
 
 **Examples**:
 
