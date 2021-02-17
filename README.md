@@ -125,6 +125,7 @@ Indicates if read the image's Exif Orientation value (JPEG image only), and then
 
 - Don't trust this all the time as some JPEG images have incorrect (not standard) Orientation values.
 - If the size of target image is too large (e.g., greater than 10 MB), you should disable this option to avoid out-of-memory crash.
+- The image's Exif information will be removed after compressed, so if you need the Exif information, you may need to upload the original image as well.
 
 ### maxWidth
 
