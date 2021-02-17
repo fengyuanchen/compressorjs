@@ -31,14 +31,14 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "clear": "del-cli dist",
+    "clean": "del-cli dist",
     "codecov": "cat coverage/lcov.info | codecov",
     "compress": "uglifyjs dist/compressor.js -o dist/compressor.min.js -c -m --comments /^!/",
     "dev": "rollup -c -m -w",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint {docs,examples}/**/*.{css,html} --fix",
     "lint:js": "eslint src test *.js --fix",
-    "release": "npm run clear && npm run lint && npm run build && npm run compress && npm test",
+    "release": "npm run clean && npm run lint && npm run build && npm run compress && npm test",
     "start": "npm run dev",
     "test": "cross-env NODE_ENV=test karma start test/karma.conf.js"
   },
