@@ -4,7 +4,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const createBanner = require('create-banner');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
-const pkg = require('./package');
+const pkg = require('./package.json');
 
 pkg.name = pkg.name.replace('js', '');
 
