@@ -127,7 +127,7 @@ Indicates if read the image's Exif Orientation value (JPEG image only), and then
 **Notes:**
 
 - Don't trust this all the time as some JPEG images have incorrect (not standard) Orientation values.
-- If the size of target image is too large (e.g., greater than 10 MB), you should disable this option to avoid out-of-memory crash.
+- If the size of the target image is too large (e.g., greater than 10 MB), you should disable this option to avoid an out-of-memory crash.
 - The image's Exif information will be removed after compressed, so if you need the Exif information, you may need to upload the original image as well.
 
 ### maxWidth
@@ -135,9 +135,9 @@ Indicates if read the image's Exif Orientation value (JPEG image only), and then
 - Type: `number`
 - Default: `Infinity`
 
-The max width of the output image. The value should be greater than `0`.
+The max-width of the output image. The value should be greater than `0`.
 
-> Avoid to get a blank output image, you might need to set the `maxWidth` and `maxHeight` options to limited numbers, because of [the size limits of a canvas element](https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element), recommend to use `4096` or lesser.
+> Avoid getting a blank output image, you might need to set the `maxWidth` and `maxHeight` options to limited numbers, because of [the size limits of a canvas element](https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element), recommend to use `4096` or lesser.
 
 ### maxHeight
 
@@ -151,14 +151,14 @@ The max height of the output image. The value should be greater than `0`.
 - Type: `number`
 - Default: `0`
 
-The min width of the output image. The value should be greater than `0` and should not be greater than the `maxWidth`.
+The min-width of the output image. The value should be greater than `0` and should not be greater than the `maxWidth`.
 
 ### minHeight
 
 - Type: `number`
 - Default: `0`
 
-The min height of the output image. The value should be greater than `0` and should not be greater than the `maxHeight`.
+The min-height of the output image. The value should be greater than `0` and should not be greater than the `maxHeight`.
 
 ### width
 
@@ -227,7 +227,7 @@ PNG files over this value will be converted to JPEGs. To disable this, just set 
   - `context`: The 2d rendering context of the canvas.
   - `canvas`: The canvas for compression.
 
-The hook function to execute before draw the image into the canvas for compression.
+The hook function to execute before drawing the image into the canvas for compression.
 
 ```js
 new Compressor(file, {
@@ -247,7 +247,7 @@ new Compressor(file, {
   - `context`: The 2d rendering context of the canvas.
   - `canvas`: The canvas for compression.
 
-The hook function to execute after drew the image into the canvas for compression.
+The hook function to execute after drawing the image into the canvas for compression.
 
 ```js
 new Compressor(file, {
@@ -266,7 +266,7 @@ new Compressor(file, {
 - Parameters:
   - `result`: The compressed image (a `File` (**read only**) or `Blob` object).
 
-The hook function to execute when success to compress the image.
+The hook function to execute when successful to compress the image.
 
 ### error(err)
 
@@ -275,7 +275,7 @@ The hook function to execute when success to compress the image.
 - Parameters:
   - `err`: The compression error (an `Error` object).
 
-The hook function to execute when fail to compress the image.
+The hook function executes when fails to compress the image.
 
 [⬆ back to top](#table-of-contents)
 
@@ -294,7 +294,7 @@ compressor.abort();
 
 ## No conflict
 
-If you have to use other compressor with the same namespace, just call the `Compressor.noConflict` static method to revert to it.
+If you have to use another compressor with the same namespace, just call the `Compressor.noConflict` static method to revert to it.
 
 ```html
 <script src="other-compressor.js"></script>

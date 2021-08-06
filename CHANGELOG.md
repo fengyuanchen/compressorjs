@@ -2,7 +2,7 @@
 
 ## 1.0.7 (Nov 28, 2020)
 
-- Update the builtin dependencies for better adaptability.
+- Update the built-in dependencies for better adaptability.
 
 ## 1.0.6 (Nov 23, 2019)
 
@@ -10,7 +10,7 @@
 
 ## 1.0.5 (Jan 23, 2019)
 
-- Fix wrong generated URL when the given image's orientation is 1 (#64).
+- Fix the wrong generated URL when the given image's orientation is 1 (#64).
 
 ## 1.0.4 (Jan 19, 2019)
 
