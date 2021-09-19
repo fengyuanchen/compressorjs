@@ -288,6 +288,8 @@ export default class Compressor {
         || options.height > naturalHeight
         || options.minWidth > naturalWidth
         || options.minHeight > naturalHeight
+        || options.maxWidth < naturalWidth
+        || options.maxHeight < naturalHeight
       )) {
         result = file;
       } else {

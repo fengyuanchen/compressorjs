@@ -116,6 +116,8 @@ Indicates if output the original image instead of the compressed one when the si
 - The `height` option is set and its value is greater than the natural height of the image.
 - The `minWidth` option is set and its value is greater than the natural width of the image.
 - The `minHeight` option is set and its value is greater than the natural height of the image.
+- The `maxWidth` option is set and its value is less than the natural width of the image.
+- The `maxHeight` option is set and its value is less than the natural height of the image.
 
 ### checkOrientation
 

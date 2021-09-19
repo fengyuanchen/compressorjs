@@ -1,5 +1,10 @@
 # Changelog
 
+## next
+
+- Ignore the `strict` option when the `maxWidth/Height` option is set and its value is less than the natural width/height of the image (#134).
+.
+
 ## 1.0.7 (Nov 28, 2020)
 
 - Update the built-in dependencies for better adaptability.
