@@ -51,6 +51,7 @@ module.exports = {
     }),
     replace({
       delimiters: ['', ''],
+      preventAssignment: true,
       'var canvasToBlob = createCommonjsModule(function (module) {': `var canvasToBlob = createCommonjsModule(function (module) {
     if (typeof window === 'undefined') {
       return;
