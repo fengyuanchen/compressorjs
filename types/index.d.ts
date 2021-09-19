@@ -10,6 +10,7 @@ declare namespace Compressor {
     height?: number;
     quality?: number;
     mimeType?: string;
+    convertTypes?: string | string[];
     convertSize?: number;
     beforeDraw?(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void;
     drew?(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void;

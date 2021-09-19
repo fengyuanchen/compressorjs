@@ -24,6 +24,7 @@ window.addEventListener('DOMContentLoaded', function () {
           height: undefined,
           quality: 0.8,
           mimeType: '',
+          convertTypes: 'image/png',
           convertSize: 5000000,
           success: function (result) {
             console.log('Output: ', result);

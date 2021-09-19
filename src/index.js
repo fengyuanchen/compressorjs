@@ -221,7 +221,7 @@ export default class Compressor {
     let fillStyle = 'transparent';
 
     // Converts PNG files over the `convertSize` to JPEGs.
-    if (file.size > options.convertSize && options.mimeType === 'image/png') {
+    if (file.size > options.convertSize && options.convertTypes.indexOf(options.mimeType) >= 0) {
       fillStyle = '#fff';
       options.mimeType = 'image/jpeg';
     }

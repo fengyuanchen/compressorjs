@@ -206,12 +206,22 @@ The quality of the output image. It must be a number between `0` and `1`. If thi
 
 The mime type of the output image. By default, the original mime type of the source image file will be used.
 
+### convertTypes
+
+- Type: `Array` or `string` (multiple types should be separated by commas)
+- Default: `['image/png']`
+- Examples:
+  - `['image/png', 'image/webp']`
+  - `'image/png,image/webp'`
+
+Files whose file type is included in this list, and whose file size exceeds the `convertSize` value will be converted to JPEGs.
+
 ### convertSize
 
 - Type: `number`
 - Default: `5000000` (5 MB)
 
-PNG files over this value will be converted to JPEGs. To disable this, just set the value to `Infinity`.
+Files whose file type is included in the `convertTypes` list, and whose file size exceeds this value will be converted to JPEGs. To disable this, just set the value to `Infinity`.
 
 **Examples**:
 
