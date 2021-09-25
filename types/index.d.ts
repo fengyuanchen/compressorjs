@@ -15,7 +15,7 @@ declare namespace Compressor {
     convertSize?: number;
     beforeDraw?(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void;
     drew?(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void;
-    success?(file: Blob): void;
+    success?(file: File | Blob): void;
     error?(error: Error): void;
   }
 }
