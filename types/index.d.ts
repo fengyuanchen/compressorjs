@@ -8,6 +8,7 @@ declare namespace Compressor {
     minHeight?: number;
     width?: number;
     height?: number;
+    resize?: 'contain' | 'cover' | 'none';
     quality?: number;
     mimeType?: string;
     convertTypes?: string | string[];

@@ -6,8 +6,10 @@ import {
 } from './constants';
 import {
   arrayBufferToDataURL,
+  getAdjustedSizes,
   imageTypeToExtension,
   isImageType,
+  isPositiveNumber,
   normalizeDecimalNumber,
   parseOrientation,
   resetAndGetOrientation,
@@ -154,14 +156,14 @@ export default class Compressor {
     const { file, image, options } = this;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const aspectRatio = naturalWidth / naturalHeight;
     const is90DegreesRotated = Math.abs(rotate) % 180 === 90;
+    const resizable = (options.resize === 'contain' || options.resize === 'cover') && isPositiveNumber(options.width) && isPositiveNumber(options.height);
     let maxWidth = Math.max(options.maxWidth, 0) || Infinity;
     let maxHeight = Math.max(options.maxHeight, 0) || Infinity;
     let minWidth = Math.max(options.minWidth, 0) || 0;
     let minHeight = Math.max(options.minHeight, 0) || 0;
-    let width = Math.max(options.width, 0) || naturalWidth;
-    let height = Math.max(options.height, 0) || naturalHeight;
+    let aspectRatio = naturalWidth / naturalHeight;
+    let { width, height } = options;
 
     if (is90DegreesRotated) {
       [maxWidth, maxHeight] = [maxHeight, maxWidth];
@@ -169,34 +171,33 @@ export default class Compressor {
       [width, height] = [height, width];
     }
 
-    if (maxWidth < Infinity && maxHeight < Infinity) {
-      if (maxHeight * aspectRatio > maxWidth) {
-        maxHeight = maxWidth / aspectRatio;
-      } else {
-        maxWidth = maxHeight * aspectRatio;
-      }
-    } else if (maxWidth < Infinity) {
-      maxHeight = maxWidth / aspectRatio;
-    } else if (maxHeight < Infinity) {
-      maxWidth = maxHeight * aspectRatio;
+    if (resizable) {
+      aspectRatio = width / height;
     }
 
-    if (minWidth > 0 && minHeight > 0) {
-      if (minHeight * aspectRatio > minWidth) {
-        minHeight = minWidth / aspectRatio;
-      } else {
-        minWidth = minHeight * aspectRatio;
-      }
-    } else if (minWidth > 0) {
-      minHeight = minWidth / aspectRatio;
-    } else if (minHeight > 0) {
-      minWidth = minHeight * aspectRatio;
-    }
+    ({ width: maxWidth, height: maxHeight } = getAdjustedSizes({
+      aspectRatio,
+      width: maxWidth,
+      height: maxHeight,
+    }, 'contain'));
+    ({ width: minWidth, height: minHeight } = getAdjustedSizes({
+      aspectRatio,
+      width: minWidth,
+      height: minHeight,
+    }, 'cover'));
 
-    if (height * aspectRatio > width) {
-      height = width / aspectRatio;
+    if (resizable) {
+      ({ width, height } = getAdjustedSizes({
+        aspectRatio,
+        width,
+        height,
+      }, options.resize));
     } else {
-      width = height * aspectRatio;
+      ({ width = naturalWidth, height = naturalHeight } = getAdjustedSizes({
+        aspectRatio,
+        width,
+        height,
+      }));
     }
 
     width = Math.floor(normalizeDecimalNumber(Math.min(Math.max(width, minWidth), maxWidth)));
@@ -206,6 +207,29 @@ export default class Compressor {
     const destY = -height / 2;
     const destWidth = width;
     const destHeight = height;
+    const params = [];
+
+    if (resizable) {
+      let srcX = 0;
+      let srcY = 0;
+      let srcWidth = naturalWidth;
+      let srcHeight = naturalHeight;
+
+      ({ width: srcWidth, height: srcHeight } = getAdjustedSizes({
+        aspectRatio,
+        width: naturalWidth,
+        height: naturalHeight,
+      }, {
+        contain: 'cover',
+        cover: 'contain',
+      }[options.resize]));
+      srcX = (naturalWidth - srcWidth) / 2;
+      srcY = (naturalHeight - srcHeight) / 2;
+
+      params.push(srcX, srcY, srcWidth, srcHeight);
+    }
+
+    params.push(destX, destY, destWidth, destHeight);
 
     if (is90DegreesRotated) {
       [width, height] = [height, width];
@@ -222,8 +246,11 @@ export default class Compressor {
 
     // Converts PNG files over the `convertSize` to JPEGs.
     if (file.size > options.convertSize && options.convertTypes.indexOf(options.mimeType) >= 0) {
-      fillStyle = '#fff';
       options.mimeType = 'image/jpeg';
+    }
+
+    if (options.mimeType === 'image/jpeg') {
+      fillStyle = '#fff';
     }
 
     // Override the default fill color (#000, black)
@@ -242,7 +269,7 @@ export default class Compressor {
     context.translate(width / 2, height / 2);
     context.rotate((rotate * Math.PI) / 180);
     context.scale(scaleX, scaleY);
-    context.drawImage(image, destX, destY, destWidth, destHeight);
+    context.drawImage(image, ...params);
     context.restore();
 
     if (options.drew) {

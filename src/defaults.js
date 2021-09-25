@@ -52,6 +52,13 @@ export default {
   height: undefined,
 
   /**
+   * Sets how the size of the image should be resized to the container
+   * specified by the `width` and `height` options.
+   * @type {string}
+   */
+  resize: 'none',
+
+  /**
    * The quality of the output image.
    * It must be a number between `0` and `1`,
    * and only available for `image/jpeg` and `image/webp` images.

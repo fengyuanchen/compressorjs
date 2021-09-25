@@ -70,8 +70,8 @@ describe('minHeight', () => {
           const newImage = new Image();
 
           newImage.onload = () => {
-            expect(newImage.naturalWidth).to.equal(750);
-            expect(newImage.naturalHeight).to.equal(900);
+            expect(newImage.naturalWidth).to.equal(833);
+            expect(newImage.naturalHeight).to.equal(1000);
             done();
           };
           newImage.src = URL.createObjectURL(result);

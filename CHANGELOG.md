@@ -2,7 +2,7 @@
 
 ## next
 
-- Add a new option: `convertTypes` (#123).
+- Add 2 new options: `convertTypes` (#123) and `resize` (#130).
 - Ignore the `strict` option when the `maxWidth/Height` option is set and its value is less than the natural width/height of the image (#134).
 .
 

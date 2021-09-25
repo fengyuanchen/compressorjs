@@ -125,6 +125,16 @@
                 </div>
               </div>
               <div class="form-group row">
+                <label for="inputResize" class="col-5 col-form-label">resize</label>
+                <div class="col-7">
+                  <select class="form-control" name="resize" id="inputResize" v-model.number="options.resize">
+                    <option value="none">none</option>
+                    <option value="contain">contain</option>
+                    <option value="cover">cover</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
                 <label for="inputQuality" class="col-5 col-form-label">quality</label>
                 <div class="col-7">
                   <select class="form-control" name="quality" id="inputQuality" v-model.number="options.quality">

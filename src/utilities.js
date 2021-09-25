@@ -2,6 +2,13 @@ import {
   WINDOW,
 } from './constants';
 
+/**
+ * Check if the given value is a positive number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
+ */
+export const isPositiveNumber = (value) => value > 0 && value < Infinity;
+
 const { slice } = Array.prototype;
 
 /**
@@ -232,4 +239,43 @@ const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
  */
 export function normalizeDecimalNumber(value, times = 100000000000) {
   return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
+}
+
+/**
+ * Get the max sizes in a rectangle under the given aspect ratio.
+ * @param {Object} data - The original sizes.
+ * @param {string} [type='contain'] - The adjust type.
+ * @returns {Object} The result sizes.
+ */
+export function getAdjustedSizes(
+  {
+    aspectRatio,
+    height,
+    width,
+  },
+
+  // 'none' | 'contain' | 'cover'
+  type = 'none',
+) {
+  const isValidWidth = isPositiveNumber(width);
+  const isValidHeight = isPositiveNumber(height);
+
+  if (isValidWidth && isValidHeight) {
+    const adjustedWidth = height * aspectRatio;
+
+    if (((type === 'contain' || type === 'none') && adjustedWidth > width) || (type === 'cover' && adjustedWidth < width)) {
+      height = width / aspectRatio;
+    } else {
+      width = height * aspectRatio;
+    }
+  } else if (isValidWidth) {
+    height = width / aspectRatio;
+  } else if (isValidHeight) {
+    width = height * aspectRatio;
+  }
+
+  return {
+    width,
+    height,
+  };
 }

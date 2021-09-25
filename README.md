@@ -176,6 +176,16 @@ The width of the output image. If not specified, the natural width of the origin
 
 The height of the output image. If not specified, the natural height of the original image will be used, or if the `width` option is set, the height will be computed automatically by the natural aspect ratio.
 
+### resize
+
+- Type: `string`
+- Default: `"none"`
+- Options: `"none"`, `"contain"`, and `"cover"`.
+
+Sets how the size of the image should be resized to the container specified by the `width` and `height` options.
+
+**Note:** This option only available when both the `width` and `height` options are specified.
+
 ### quality
 
 - Type: `number`

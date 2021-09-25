@@ -22,6 +22,7 @@ window.addEventListener('DOMContentLoaded', function () {
           minHeight: 0,
           width: undefined,
           height: undefined,
+          resize: 'none',
           quality: 0.8,
           mimeType: '',
           convertTypes: 'image/png',
