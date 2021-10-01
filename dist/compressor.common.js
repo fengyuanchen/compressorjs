@@ -1,14 +1,52 @@
 /*!
- * Compressor.js v1.0.7
+ * Compressor.js v1.1.0
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2020-11-28T07:13:17.754Z
+ * Date: 2021-10-01T06:37:01.455Z
  */
 
 'use strict';
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -65,58 +103,23 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
+var canvasToBlob = {exports: {}};
 
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
+/*
+ * JavaScript Canvas to Blob
+ * https://github.com/blueimp/JavaScript-Canvas-to-Blob
+ *
+ * Copyright 2012, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * https://opensource.org/licenses/MIT
+ *
+ * Based on stackoverflow user Stoive's code snippet:
+ * http://stackoverflow.com/q/4998908
+ */
 
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function createCommonjsModule(fn, basedir, module) {
-	return module = {
-		path: basedir,
-		exports: {},
-		require: function (path, base) {
-			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-		}
-	}, fn(module, module.exports), module.exports;
-}
-
-function commonjsRequire () {
-	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-}
-
-var canvasToBlob = createCommonjsModule(function (module) {
-    if (typeof window === 'undefined') {
-      return;
-    }
+(function (module) {
 
   (function (window) {
 
@@ -218,13 +221,15 @@ var canvasToBlob = createCommonjsModule(function (module) {
       }
     }
 
-    if ( module.exports) {
+    if (module.exports) {
       module.exports = dataURLtoBlob;
     } else {
       window.dataURLtoBlob = dataURLtoBlob;
     }
   })(window);
-});
+})(canvasToBlob);
+
+var toBlob = canvasToBlob.exports;
 
 var isBlob = function isBlob(value) {
   if (typeof Blob === 'undefined') {
@@ -288,6 +293,13 @@ var DEFAULTS = {
   height: undefined,
 
   /**
+   * Sets how the size of the image should be resized to the container
+   * specified by the `width` and `height` options.
+   * @type {string}
+   */
+  resize: 'none',
+
+  /**
    * The quality of the output image.
    * It must be a number between `0` and `1`,
    * and only available for `image/jpeg` and `image/webp` images.
@@ -304,7 +316,14 @@ var DEFAULTS = {
   mimeType: 'auto',
 
   /**
-   * PNG files over this value (5 MB by default) will be converted to JPEGs.
+   * Files whose file type is included in this list,
+   * and whose file size exceeds the `convertSize` value will be converted to JPEGs.
+   * @type {string｜Array}
+   */
+  convertTypes: ['image/png'],
+
+  /**
+   * PNG files over this size (5 MB by default) will be converted to JPEGs.
    * To disable this, just set the value to `Infinity`.
    * @type {number}
    */
@@ -360,6 +379,15 @@ var DEFAULTS = {
 var IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
 var WINDOW = IS_BROWSER ? window : {};
 
+/**
+ * Check if the given value is a positive number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
+ */
+
+var isPositiveNumber = function isPositiveNumber(value) {
+  return value > 0 && value < Infinity;
+};
 var slice = Array.prototype.slice;
 /**
  * Convert array-like or iterable object to an array.
@@ -477,14 +505,14 @@ function resetAndGetOrientation(arrayBuffer) {
         if (littleEndian || endianness === 0x4D4D
         /* bigEndian */
         ) {
-            if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-              var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+          if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+            var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
 
-              if (firstIFDOffset >= 0x00000008) {
-                ifdStart = tiffOffset + firstIFDOffset;
-              }
+            if (firstIFDOffset >= 0x00000008) {
+              ifdStart = tiffOffset + firstIFDOffset;
             }
           }
+        }
       }
     }
 
@@ -501,14 +529,14 @@ function resetAndGetOrientation(arrayBuffer) {
         if (dataView.getUint16(_offset, littleEndian) === 0x0112
         /* Orientation */
         ) {
-            // 8 is the offset of the current tag's value
-            _offset += 8; // Get the original orientation value
+          // 8 is the offset of the current tag's value
+          _offset += 8; // Get the original orientation value
 
-            orientation = dataView.getUint16(_offset, littleEndian); // Override the orientation with its default value
+          orientation = dataView.getUint16(_offset, littleEndian); // Override the orientation with its default value
 
-            dataView.setUint16(_offset, 1, littleEndian);
-            break;
-          }
+          dataView.setUint16(_offset, 1, littleEndian);
+          break;
+        }
       }
     }
   } catch (e) {
@@ -585,6 +613,40 @@ var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 function normalizeDecimalNumber(value) {
   var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
   return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
+}
+/**
+ * Get the max sizes in a rectangle under the given aspect ratio.
+ * @param {Object} data - The original sizes.
+ * @param {string} [type='contain'] - The adjust type.
+ * @returns {Object} The result sizes.
+ */
+
+function getAdjustedSizes(_ref) {
+  var aspectRatio = _ref.aspectRatio,
+      height = _ref.height,
+      width = _ref.width;
+  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'none';
+  var isValidWidth = isPositiveNumber(width);
+  var isValidHeight = isPositiveNumber(height);
+
+  if (isValidWidth && isValidHeight) {
+    var adjustedWidth = height * aspectRatio;
+
+    if ((type === 'contain' || type === 'none') && adjustedWidth > width || type === 'cover' && adjustedWidth < width) {
+      height = width / aspectRatio;
+    } else {
+      width = height * aspectRatio;
+    }
+  } else if (isValidWidth) {
+    height = width / aspectRatio;
+  } else if (isValidHeight) {
+    width = height * aspectRatio;
+  }
+
+  return {
+    width: width,
+    height: height
+  };
 }
 
 var ArrayBuffer$1 = WINDOW.ArrayBuffer,
@@ -749,14 +811,15 @@ var Compressor = /*#__PURE__*/function () {
           options = this.options;
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
-      var aspectRatio = naturalWidth / naturalHeight;
       var is90DegreesRotated = Math.abs(rotate) % 180 === 90;
+      var resizable = (options.resize === 'contain' || options.resize === 'cover') && isPositiveNumber(options.width) && isPositiveNumber(options.height);
       var maxWidth = Math.max(options.maxWidth, 0) || Infinity;
       var maxHeight = Math.max(options.maxHeight, 0) || Infinity;
       var minWidth = Math.max(options.minWidth, 0) || 0;
       var minHeight = Math.max(options.minHeight, 0) || 0;
-      var width = Math.max(options.width, 0) || naturalWidth;
-      var height = Math.max(options.height, 0) || naturalHeight;
+      var aspectRatio = naturalWidth / naturalHeight;
+      var width = options.width,
+          height = options.height;
 
       if (is90DegreesRotated) {
         var _ref3 = [maxHeight, maxWidth];
@@ -770,34 +833,48 @@ var Compressor = /*#__PURE__*/function () {
         height = _ref5[1];
       }
 
-      if (maxWidth < Infinity && maxHeight < Infinity) {
-        if (maxHeight * aspectRatio > maxWidth) {
-          maxHeight = maxWidth / aspectRatio;
-        } else {
-          maxWidth = maxHeight * aspectRatio;
-        }
-      } else if (maxWidth < Infinity) {
-        maxHeight = maxWidth / aspectRatio;
-      } else if (maxHeight < Infinity) {
-        maxWidth = maxHeight * aspectRatio;
+      if (resizable) {
+        aspectRatio = width / height;
       }
 
-      if (minWidth > 0 && minHeight > 0) {
-        if (minHeight * aspectRatio > minWidth) {
-          minHeight = minWidth / aspectRatio;
-        } else {
-          minWidth = minHeight * aspectRatio;
-        }
-      } else if (minWidth > 0) {
-        minHeight = minWidth / aspectRatio;
-      } else if (minHeight > 0) {
-        minWidth = minHeight * aspectRatio;
-      }
+      var _getAdjustedSizes = getAdjustedSizes({
+        aspectRatio: aspectRatio,
+        width: maxWidth,
+        height: maxHeight
+      }, 'contain');
 
-      if (height * aspectRatio > width) {
-        height = width / aspectRatio;
+      maxWidth = _getAdjustedSizes.width;
+      maxHeight = _getAdjustedSizes.height;
+
+      var _getAdjustedSizes2 = getAdjustedSizes({
+        aspectRatio: aspectRatio,
+        width: minWidth,
+        height: minHeight
+      }, 'cover');
+
+      minWidth = _getAdjustedSizes2.width;
+      minHeight = _getAdjustedSizes2.height;
+
+      if (resizable) {
+        var _getAdjustedSizes3 = getAdjustedSizes({
+          aspectRatio: aspectRatio,
+          width: width,
+          height: height
+        }, options.resize);
+
+        width = _getAdjustedSizes3.width;
+        height = _getAdjustedSizes3.height;
       } else {
-        width = height * aspectRatio;
+        var _getAdjustedSizes4 = getAdjustedSizes({
+          aspectRatio: aspectRatio,
+          width: width,
+          height: height
+        });
+
+        var _getAdjustedSizes4$wi = _getAdjustedSizes4.width;
+        width = _getAdjustedSizes4$wi === void 0 ? naturalWidth : _getAdjustedSizes4$wi;
+        var _getAdjustedSizes4$he = _getAdjustedSizes4.height;
+        height = _getAdjustedSizes4$he === void 0 ? naturalHeight : _getAdjustedSizes4$he;
       }
 
       width = Math.floor(normalizeDecimalNumber(Math.min(Math.max(width, minWidth), maxWidth)));
@@ -806,6 +883,31 @@ var Compressor = /*#__PURE__*/function () {
       var destY = -height / 2;
       var destWidth = width;
       var destHeight = height;
+      var params = [];
+
+      if (resizable) {
+        var srcX = 0;
+        var srcY = 0;
+        var srcWidth = naturalWidth;
+        var srcHeight = naturalHeight;
+
+        var _getAdjustedSizes5 = getAdjustedSizes({
+          aspectRatio: aspectRatio,
+          width: naturalWidth,
+          height: naturalHeight
+        }, {
+          contain: 'cover',
+          cover: 'contain'
+        }[options.resize]);
+
+        srcWidth = _getAdjustedSizes5.width;
+        srcHeight = _getAdjustedSizes5.height;
+        srcX = (naturalWidth - srcWidth) / 2;
+        srcY = (naturalHeight - srcHeight) / 2;
+        params.push(srcX, srcY, srcWidth, srcHeight);
+      }
+
+      params.push(destX, destY, destWidth, destHeight);
 
       if (is90DegreesRotated) {
         var _ref6 = [height, width];
@@ -822,9 +924,12 @@ var Compressor = /*#__PURE__*/function () {
 
       var fillStyle = 'transparent'; // Converts PNG files over the `convertSize` to JPEGs.
 
-      if (file.size > options.convertSize && options.mimeType === 'image/png') {
-        fillStyle = '#fff';
+      if (file.size > options.convertSize && options.convertTypes.indexOf(options.mimeType) >= 0) {
         options.mimeType = 'image/jpeg';
+      }
+
+      if (options.mimeType === 'image/jpeg') {
+        fillStyle = '#fff';
       } // Override the default fill color (#000, black)
 
 
@@ -843,7 +948,7 @@ var Compressor = /*#__PURE__*/function () {
       context.translate(width / 2, height / 2);
       context.rotate(rotate * Math.PI / 180);
       context.scale(scaleX, scaleY);
-      context.drawImage(image, destX, destY, destWidth, destHeight);
+      context.drawImage.apply(context, [image].concat(params));
       context.restore();
 
       if (options.drew) {
@@ -867,7 +972,7 @@ var Compressor = /*#__PURE__*/function () {
       if (canvas.toBlob) {
         canvas.toBlob(done, options.mimeType, options.quality);
       } else {
-        done(canvasToBlob(canvas.toDataURL(options.mimeType, options.quality)));
+        done(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
       }
     }
   }, {
@@ -886,7 +991,7 @@ var Compressor = /*#__PURE__*/function () {
 
       if (result) {
         // Returns original file if the result is greater than it and without size related options
-        if (options.strict && result.size > file.size && options.mimeType === file.type && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight)) {
+        if (options.strict && result.size > file.size && options.mimeType === file.type && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight || options.maxWidth < naturalWidth || options.maxHeight < naturalHeight)) {
           result = file;
         } else {
           var date = new Date();
