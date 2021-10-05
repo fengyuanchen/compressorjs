@@ -51,11 +51,12 @@ module.exports = {
     }),
     replace({
       delimiters: ['', ''],
+      exclude: ['node_modules/**'],
       preventAssignment: true,
-      'var canvasToBlob = createCommonjsModule(function (module) {': `var canvasToBlob = createCommonjsModule(function (module) {
-    if (typeof window === 'undefined') {
-      return;
-    }`,
+      '(function (module) {': `(function (module) {
+  if (typeof window === 'undefined') {
+    return;
+  }`,
     }),
   ],
 };
