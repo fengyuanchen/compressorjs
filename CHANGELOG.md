@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 (Oct 5, 2021)
+
+- Fix loading error in Node.js (#137).
+
 ## 1.1.0 (Oct 1, 2021)
 
 - Add 2 new options: `convertTypes` (#123) and `resize` (#130).
