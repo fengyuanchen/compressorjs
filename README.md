@@ -2,7 +2,7 @@
 
 [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js) [![Dependencies](https://img.shields.io/david/fengyuanchen/compressorjs.svg)](https://www.npmjs.com/package/compressorjs)
 
-> JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. General use this to precompress a client image file before upload it.
+> JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress a image on the client side before uploading it.
 
 - [Website](https://fengyuanchen.github.io/compressorjs)
 
@@ -94,6 +94,7 @@ document.getElementById('file').addEventListener('change', (e) => {
       console.log(err.message);
     },
   });
+  
 });
 ```
 
@@ -109,7 +110,7 @@ If you want to change the global default options, You may use `Compressor.setDef
 - Type: `boolean`
 - Default: `true`
 
-Indicates if output the original image instead of the compressed one when the size of the compressed image is greater than the original one's, except the following cases:
+Indicates whether to output the original image instead of the compressed one when the size of the compressed image is greater than the original one's, except the following cases:
 
 - The `mimeType` option is set and its value is different from the mime type of the image.
 - The `width` option is set and its value is greater than the natural width of the image.
@@ -124,7 +125,7 @@ Indicates if output the original image instead of the compressed one when the si
 - Type: `boolean`
 - Default: `true`
 
-Indicates if read the image's Exif Orientation value (JPEG image only), and then rotate or flip the image automatically with the value.
+Indicates whether to read the image's Exif Orientation value (JPEG image only), and then rotate or flip the image automatically with the value.
 
 **Notes:**
 
