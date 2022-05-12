@@ -96,8 +96,8 @@ export default class Compressor {
           }
         } else {
           data.url = result;
+          data.rotate = this.options.rotate;
         }
-
         this.load(data);
       };
       reader.onabort = () => {

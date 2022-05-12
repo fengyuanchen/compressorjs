@@ -133,4 +133,10 @@ export default {
    * }
    */
   error: null,
+
+  /**
+   * The rotate of the output image.
+   * @type {number}
+   */
+  rotate: 0
 };
