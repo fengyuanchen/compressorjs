@@ -187,6 +187,13 @@ Sets how the size of the image should be resized to the container specified by t
 
 **Note:** This option only available when both the `width` and `height` options are specified.
 
+### ratete
+
+- Type: `number`
+- Default: `0`
+
+The rotate of the output image. If not specified, keep current image rotate.
+
 ### quality
 
 - Type: `number`
