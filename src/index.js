@@ -13,6 +13,11 @@ import {
   normalizeDecimalNumber,
   parseOrientation,
   resetAndGetOrientation,
+  getEXIF,
+  insertEXIF,
+  base64ToArrayBuffer,
+  blobToBase64,
+  dataURItoBlob,
 } from './utilities';
 
 const { ArrayBuffer, FileReader } = WINDOW;
@@ -37,6 +42,7 @@ export default class Compressor {
       ...DEFAULTS,
       ...options,
     };
+    this.exif = [];
     this.aborted = false;
     this.result = null;
     this.init();
@@ -79,6 +85,9 @@ export default class Compressor {
         const { result } = target;
         const data = {};
 
+        if (options.retainExif) {
+          this.exif = getEXIF(result);
+        }
         if (checkOrientation) {
           // Reset the orientation value to its default value 1
           // as some iOS browsers will render image with its orientation
@@ -279,14 +288,29 @@ export default class Compressor {
     if (this.aborted) {
       return;
     }
-
+    const that = this;
     const done = (result) => {
       if (!this.aborted) {
-        this.done({
-          naturalWidth,
-          naturalHeight,
-          result,
-        });
+        if (options.retainExif && result) {
+          blobToBase64(result, (base64) => {
+            that.done({
+              naturalWidth,
+              naturalHeight,
+              result: dataURItoBlob(
+                arrayBufferToDataURL(
+                  insertEXIF(base64ToArrayBuffer(base64, options.mimeType), that.exif),
+                  options.mimeType,
+                ),
+              ),
+            }, that);
+          });
+        } else {
+          this.done({
+            naturalWidth,
+            naturalHeight,
+            result,
+          });
+        }
       }
     };
 
@@ -301,8 +325,9 @@ export default class Compressor {
     naturalWidth,
     naturalHeight,
     result,
-  }) {
-    const { file, image, options } = this;
+  }, _this = undefined) {
+    const that = _this || this;
+    const { file, image, options } = that;
 
     if (URL && !options.checkOrientation) {
       URL.revokeObjectURL(image.src);

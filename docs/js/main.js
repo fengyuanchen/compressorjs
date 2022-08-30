@@ -24,6 +24,7 @@ window.addEventListener('DOMContentLoaded', function () {
           height: undefined,
           resize: 'none',
           quality: 0.8,
+          retainExif: false,
           mimeType: '',
           convertTypes: 'image/png',
           convertSize: 5000000,
