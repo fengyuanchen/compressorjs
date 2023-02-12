@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Add a new option: `retainExif` (#159).
+
 ## 1.1.1 (Oct 5, 2021)
 
 - Fix loading error in Node.js (#137).
