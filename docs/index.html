@@ -88,6 +88,12 @@
                   <label class="form-check-label" for="inputCheckOrientation">checkOrientation</label>
                 </div>
               </fieldset>
+              <fieldset class="form-group">
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" name="retainExif" class="form-check-input" id="inputRetainExif" v-model="options.retainExif">
+                  <label class="form-check-label" for="inputRetainExif">retainExif</label>
+                </div>
+              </fieldset>
               <div class="form-group row">
                 <label for="inputMaxWidth" class="col-5 col-form-label">maxWidth</label>
                 <div class="col-7">
@@ -150,15 +156,6 @@
                     <option value="0.9">0.9</option>
                     <option value="1">1</option>
                     <option value="">NaN</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputRetainExif" class="col-5 col-form-label">retainExif</label>
-                <div class="col-7">
-                  <select class="form-control" name="retainExif" id="inputRetainExif" v-model.number="options.retainExif">
-                    <option :value="false">false</option>
-                    <option :value="true">true</option>
                   </select>
                 </div>
               </div>

@@ -5,7 +5,7 @@
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2021-10-05T02:32:40.212Z
+ * Date: 2023-02-12T06:45:05.457Z
  */
 
 'use strict';
@@ -256,6 +256,12 @@ var DEFAULTS = {
    * @type {boolean}
    */
   checkOrientation: true,
+
+  /**
+   * Indicates if retain the image's Exif information after compressed.
+   * @type {boolean}
+  */
+  retainExif: false,
 
   /**
    * The max width of the output image.
@@ -651,6 +657,63 @@ function getAdjustedSizes(_ref) {
     height: height
   };
 }
+/**
+ * Get Exif information from the given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to read.
+ * @returns {Array} The read Exif information.
+ */
+
+function getExif(arrayBuffer) {
+  var array = toArray(new Uint8Array(arrayBuffer));
+  var length = array.length;
+  var segments = [];
+  var head = 0;
+  var endPoint;
+
+  while (head + 1 < length) {
+    // SOS (Start of Scan)
+    if (array[head] === 0xff && array[head + 1] === 0xda) {
+      break;
+    } // SOI (Start of Image)
+
+
+    if (array[head] === 0xff && array[head + 1] === 0xd8) {
+      head += 2;
+    } else {
+      var len = array[head + 2] * 256 + array[head + 3];
+      endPoint = head + len + 2;
+      var segment = array.slice(head, endPoint);
+      segments.push(segment);
+      head = endPoint;
+    }
+  }
+
+  return segments.reduce(function (exifArray, current) {
+    if (current[0] === 0xff && current[1] === 0xe1) {
+      return exifArray.concat(current);
+    }
+
+    return exifArray;
+  }, []);
+}
+/**
+ * Insert Exif information into the given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to insert.
+ * @param {Array} exifArray - The Exif information array.
+ * @returns {ArrayBuffer} The transformed array buffer.
+ */
+
+function insertExif(arrayBuffer, exifArray) {
+  var array = toArray(new Uint8Array(arrayBuffer));
+
+  if (array[2] !== 0xff || array[3] !== 0xe0) {
+    return arrayBuffer;
+  }
+
+  var app0Length = array[4] * 256 + array[5];
+  var newArrayBuffer = [0xff, 0xd8].concat(exifArray, array.slice(4 + app0Length));
+  return new Uint8Array(newArrayBuffer);
+}
 
 var ArrayBuffer$1 = WINDOW.ArrayBuffer,
     FileReader = WINDOW.FileReader;
@@ -672,6 +735,7 @@ var Compressor = /*#__PURE__*/function () {
     _classCallCheck(this, Compressor);
 
     this.file = file;
+    this.exif = [];
     this.image = new Image();
     this.options = _objectSpread2(_objectSpread2({}, DEFAULTS), options);
     this.aborted = false;
@@ -706,9 +770,10 @@ var Compressor = /*#__PURE__*/function () {
 
       if (!ArrayBuffer$1) {
         options.checkOrientation = false;
+        options.retainExif = false;
       }
 
-      if (URL && !options.checkOrientation) {
+      if (URL && !options.checkOrientation && !options.retainExif) {
         this.load({
           url: URL.createObjectURL(file)
         });
@@ -741,6 +806,10 @@ var Compressor = /*#__PURE__*/function () {
             data.url = result;
           }
 
+          if (options.retainExif) {
+            _this.exif = getExif(result);
+          }
+
           _this.load(data);
         };
 
@@ -756,7 +825,7 @@ var Compressor = /*#__PURE__*/function () {
           _this.reader = null;
         };
 
-        if (checkOrientation) {
+        if (checkOrientation || options.retainExif) {
           reader.readAsArrayBuffer(file);
         } else {
           reader.readAsDataURL(file);
@@ -962,28 +1031,66 @@ var Compressor = /*#__PURE__*/function () {
         return;
       }
 
-      var done = function done(result) {
+      var callback = function callback(blob) {
         if (!_this3.aborted) {
-          _this3.done({
-            naturalWidth: naturalWidth,
-            naturalHeight: naturalHeight,
-            result: result
-          });
+          var done = function done(result) {
+            return _this3.done({
+              naturalWidth: naturalWidth,
+              naturalHeight: naturalHeight,
+              result: result
+            });
+          };
+
+          if (options.retainExif && blob) {
+            var next = function next(arrayBuffer) {
+              return done(toBlob(arrayBufferToDataURL(insertExif(arrayBuffer, _this3.exif), options.mimeType)));
+            };
+
+            if (blob.arrayBuffer) {
+              blob.arrayBuffer().then(next).catch(function () {
+                _this3.fail(new Error('Failed to read the compressed image with Blob.arrayBuffer().'));
+              });
+            } else {
+              var reader = new FileReader();
+              _this3.reader = reader;
+
+              reader.onload = function (_ref7) {
+                var target = _ref7.target;
+                next(target.result);
+              };
+
+              reader.onabort = function () {
+                _this3.fail(new Error('Aborted to read the compressed image with FileReader.'));
+              };
+
+              reader.onerror = function () {
+                _this3.fail(new Error('Failed to read the compressed image with FileReader.'));
+              };
+
+              reader.onloadend = function () {
+                _this3.reader = null;
+              };
+
+              reader.readAsArrayBuffer(blob);
+            }
+          } else {
+            done(blob);
+          }
         }
       };
 
       if (canvas.toBlob) {
-        canvas.toBlob(done, options.mimeType, options.quality);
+        canvas.toBlob(callback, options.mimeType, options.quality);
       } else {
-        done(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
+        callback(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
       }
     }
   }, {
     key: "done",
-    value: function done(_ref7) {
-      var naturalWidth = _ref7.naturalWidth,
-          naturalHeight = _ref7.naturalHeight,
-          result = _ref7.result;
+    value: function done(_ref8) {
+      var naturalWidth = _ref8.naturalWidth,
+          naturalHeight = _ref8.naturalHeight,
+          result = _ref8.result;
       var file = this.file,
           image = this.image,
           options = this.options;
@@ -1071,3 +1178,4 @@ var Compressor = /*#__PURE__*/function () {
 }();
 
 module.exports = Compressor;
+//# sourceMappingURL=compressor.common.js.map

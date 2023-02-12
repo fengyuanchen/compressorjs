@@ -112,6 +112,7 @@ If you want to change the global default options, You may use `Compressor.setDef
 
 Indicates whether to output the original image instead of the compressed one when the size of the compressed image is greater than the original one's, except the following cases:
 
+- The `retainExif` option is set to `true`.
 - The `mimeType` option is set and its value is different from the mime type of the image.
 - The `width` option is set and its value is greater than the natural width of the image.
 - The `height` option is set and its value is greater than the natural height of the image.
@@ -132,6 +133,13 @@ Indicates whether to read the image's Exif Orientation value (JPEG image only), 
 - Don't trust this all the time as some JPEG images have incorrect (not standard) Orientation values.
 - If the size of the target image is too large (e.g., greater than 10 MB), you should disable this option to avoid an out-of-memory crash.
 - The image's Exif information will be removed after compressed, so if you need the Exif information, you may need to upload the original image as well.
+
+### retainExif
+
+- Type: `boolean`
+- Default: `false`
+
+Indicates whether to retain the image's Exif information after compressed.
 
 ### maxWidth
 

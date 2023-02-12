@@ -2,6 +2,7 @@ declare namespace Compressor {
   export interface Options {
     strict?: boolean;
     checkOrientation?: boolean;
+    retainExif?: boolean;
     maxWidth?: number;
     maxHeight?: number;
     minWidth?: number;
@@ -10,7 +11,6 @@ declare namespace Compressor {
     height?: number;
     resize?: 'contain' | 'cover' | 'none';
     quality?: number;
-    retainExif?: boolean;
     mimeType?: string;
     convertTypes?: string | string[];
     convertSize?: number;

@@ -280,81 +280,63 @@ export function getAdjustedSizes(
   };
 }
 
-export function getEXIF(arrayBuffer) {
-  let head = 0;
+/**
+ * Get Exif information from the given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to read.
+ * @returns {Array} The read Exif information.
+ */
+export function getExif(arrayBuffer) {
+  const array = toArray(new Uint8Array(arrayBuffer));
+  const { length } = array;
   const segments = [];
-  let length;
-  let endPoint;
-  let seg;
-  const arr = [].slice.call(new Uint8Array(arrayBuffer), 0);
+  let start = 0;
 
-  while (true) {
-    // SOS(Start of Scan)
-    if (arr[head] === 0xff && arr[head + 1] === 0xda) { break; }
-    // SOI(Start of Image)
-    if (arr[head] === 0xff && arr[head + 1] === 0xd8) {
-      head += 2;
-    } else {
-      length = arr[head + 2] * 256 + arr[head + 3];
-      endPoint = head + length + 2;
-      seg = arr.slice(head, endPoint);
-      head = endPoint;
-      segments.push(seg);
-    }
-    if (head > arr.length) {
+  while (start + 3 < length) {
+    const value = array[start];
+    const next = array[start + 1];
+
+    // SOS (Start of Scan)
+    if (value === 0xFF && next === 0xDA) {
       break;
     }
-  }
-  if (!segments.length) { return []; }
-  let res = [];
-  for (let x = 0; x < segments.length; x += 1) {
-    const s = segments[x];
-    if (s[0] === 0xff && s[1] === 0xe1) {
-      res = res.concat(s);
+
+    // SOI (Start of Image)
+    if (value === 0xFF && next === 0xD8) {
+      start += 2;
+    } else {
+      const offset = array[start + 2] * 256 + array[start + 3];
+      const end = start + offset + 2;
+      const segment = array.slice(start, end);
+
+      segments.push(segment);
+      start = end;
     }
   }
-  return res;
+
+  return segments.reduce((exifArray, current) => {
+    if (current[0] === 0xFF && current[1] === 0xE1) {
+      return exifArray.concat(current);
+    }
+
+    return exifArray;
+  }, []);
 }
 
-export function insertEXIF(resizedImg, exifArr) {
-  const arr = [].slice.call(new Uint8Array(resizedImg), 0);
-  if (arr[2] !== 0xff || arr[3] !== 0xe0) {
-    return resizedImg;
+/**
+ * Insert Exif information into the given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
+ * @param {Array} exifArray - The Exif information to insert.
+ * @returns {ArrayBuffer} The transformed array buffer.
+ */
+export function insertExif(arrayBuffer, exifArray) {
+  const array = toArray(new Uint8Array(arrayBuffer));
+
+  if (array[2] !== 0xFF || array[3] !== 0xE0) {
+    return arrayBuffer;
   }
-  const app0Length = arr[4] * 256 + arr[5];
 
-  const newImg = [0xff, 0xd8].concat(exifArr, arr.slice(4 + app0Length));
-  return new Uint8Array(newImg);
-}
+  const app0Length = array[4] * 256 + array[5];
+  const newArrayBuffer = [0xFF, 0xD8].concat(exifArray, array.slice(4 + app0Length));
 
-export function dataURItoBlob(dataURI, mimeType = null) {
-  const mimeString = mimeType || dataURI.split(',')[0].split(':')[1].split(';')[0];
-  const byteString = atob(dataURI.split(',')[1]);
-  const arrayBuffer = new ArrayBuffer(byteString.length);
-  const intArray = new Uint8Array(arrayBuffer);
-
-  for (let i = 0; i < byteString.length; i += 1) {
-    intArray[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([intArray], { type: mimeString });
-}
-
-export function base64ToArrayBuffer(base64) {
-  base64 = base64.replace(/^data:([^;]+);base64,/gim, '');
-  const binary = atob(base64);
-  const len = binary.length;
-  const buffer = new ArrayBuffer(len);
-  const view = new Uint8Array(buffer);
-  for (let i = 0; i < len; i += 1) {
-    view[i] = binary.charCodeAt(i);
-  }
-  return buffer;
-}
-
-export function blobToBase64(blob, callback) {
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    callback(reader.result);
-  };
-  reader.readAsDataURL(blob);
+  return new Uint8Array(newArrayBuffer);
 }

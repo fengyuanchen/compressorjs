@@ -16,6 +16,7 @@ window.addEventListener('DOMContentLoaded', function () {
         options: {
           strict: true,
           checkOrientation: true,
+          retainExif: false,
           maxWidth: undefined,
           maxHeight: undefined,
           minWidth: 0,
@@ -24,7 +25,6 @@ window.addEventListener('DOMContentLoaded', function () {
           height: undefined,
           resize: 'none',
           quality: 0.8,
-          retainExif: false,
           mimeType: '',
           convertTypes: 'image/png',
           convertSize: 5000000,

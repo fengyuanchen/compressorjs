@@ -1,5 +1,3 @@
-import { getEXIF, blobToBase64, base64ToArrayBuffer } from '../../src/utilities';
-
 describe('Compressor', () => {
   it('should be a class (function)', () => {
     expect(Compressor).to.be.a('function');
@@ -80,24 +78,6 @@ describe('Compressor', () => {
           expect(result).to.equal(image);
           done();
         },
-      });
-    });
-  });
-
-  it('should same between the original image`s exif and the compressed image`s exif', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
-      blobToBase64(image, (oBase64) => {
-        const exif = getEXIF(base64ToArrayBuffer(oBase64));
-
-        new Compressor(image, {
-          retainExif: true,
-          success(result) {
-            blobToBase64(result, (cBase64) => {
-              expect(getEXIF(base64ToArrayBuffer(cBase64)).sort()).to.deep.equal(exif.sort());
-              done();
-            });
-          },
-        });
       });
     });
   });

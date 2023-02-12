@@ -14,6 +14,12 @@ export default {
   checkOrientation: true,
 
   /**
+   * Indicates if retain the image's Exif information after compressed.
+   * @type {boolean}
+  */
+  retainExif: false,
+
+  /**
    * The max width of the output image.
    * @type {number}
    */
@@ -66,12 +72,6 @@ export default {
    * @type {number}
    */
   quality: 0.8,
-
-  /**
-   * If set `true`, the compressed image will retain exif.
-   * @type {boolean}
-  */
-  retainExif: false,
 
   /**
    * The mime type of the output image.

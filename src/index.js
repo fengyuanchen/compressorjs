@@ -13,11 +13,8 @@ import {
   normalizeDecimalNumber,
   parseOrientation,
   resetAndGetOrientation,
-  getEXIF,
-  insertEXIF,
-  base64ToArrayBuffer,
-  blobToBase64,
-  dataURItoBlob,
+  getExif,
+  insertExif,
 } from './utilities';
 
 const { ArrayBuffer, FileReader } = WINDOW;
@@ -37,12 +34,12 @@ export default class Compressor {
    */
   constructor(file, options) {
     this.file = file;
+    this.exif = [];
     this.image = new Image();
     this.options = {
       ...DEFAULTS,
       ...options,
     };
-    this.exif = [];
     this.aborted = false;
     this.result = null;
     this.init();
@@ -70,9 +67,10 @@ export default class Compressor {
 
     if (!ArrayBuffer) {
       options.checkOrientation = false;
+      options.retainExif = false;
     }
 
-    if (URL && !options.checkOrientation) {
+    if (URL && !options.checkOrientation && !options.retainExif) {
       this.load({
         url: URL.createObjectURL(file),
       });
@@ -85,9 +83,6 @@ export default class Compressor {
         const { result } = target;
         const data = {};
 
-        if (options.retainExif) {
-          this.exif = getEXIF(result);
-        }
         if (checkOrientation) {
           // Reset the orientation value to its default value 1
           // as some iOS browsers will render image with its orientation
@@ -107,6 +102,10 @@ export default class Compressor {
           data.url = result;
         }
 
+        if (options.retainExif) {
+          this.exif = getExif(result);
+        }
+
         this.load(data);
       };
       reader.onabort = () => {
@@ -119,7 +118,7 @@ export default class Compressor {
         this.reader = null;
       };
 
-      if (checkOrientation) {
+      if (checkOrientation || options.retainExif) {
         reader.readAsArrayBuffer(file);
       } else {
         reader.readAsDataURL(file);
@@ -288,36 +287,53 @@ export default class Compressor {
     if (this.aborted) {
       return;
     }
-    const that = this;
-    const done = (result) => {
+
+    const callback = (blob) => {
       if (!this.aborted) {
-        if (options.retainExif && result) {
-          blobToBase64(result, (base64) => {
-            that.done({
-              naturalWidth,
-              naturalHeight,
-              result: dataURItoBlob(
-                arrayBufferToDataURL(
-                  insertEXIF(base64ToArrayBuffer(base64, options.mimeType), that.exif),
-                  options.mimeType,
-                ),
-              ),
-            }, that);
-          });
+        const done = (result) => this.done({
+          naturalWidth,
+          naturalHeight,
+          result,
+        });
+
+        if (options.retainExif && blob) {
+          const next = (arrayBuffer) => done(toBlob(arrayBufferToDataURL(
+            insertExif(arrayBuffer, this.exif),
+            options.mimeType,
+          )));
+
+          if (blob.arrayBuffer) {
+            blob.arrayBuffer().then(next).catch(() => {
+              this.fail(new Error('Failed to read the compressed image with Blob.arrayBuffer().'));
+            });
+          } else {
+            const reader = new FileReader();
+
+            this.reader = reader;
+            reader.onload = ({ target }) => {
+              next(target.result);
+            };
+            reader.onabort = () => {
+              this.fail(new Error('Aborted to read the compressed image with FileReader.'));
+            };
+            reader.onerror = () => {
+              this.fail(new Error('Failed to read the compressed image with FileReader.'));
+            };
+            reader.onloadend = () => {
+              this.reader = null;
+            };
+            reader.readAsArrayBuffer(blob);
+          }
         } else {
-          this.done({
-            naturalWidth,
-            naturalHeight,
-            result,
-          });
+          done(blob);
         }
       }
     };
 
     if (canvas.toBlob) {
-      canvas.toBlob(done, options.mimeType, options.quality);
+      canvas.toBlob(callback, options.mimeType, options.quality);
     } else {
-      done(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
+      callback(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
     }
   }
 
@@ -325,9 +341,8 @@ export default class Compressor {
     naturalWidth,
     naturalHeight,
     result,
-  }, _this = undefined) {
-    const that = _this || this;
-    const { file, image, options } = that;
+  }) {
+    const { file, image, options } = this;
 
     if (URL && !options.checkOrientation) {
       URL.revokeObjectURL(image.src);
@@ -335,14 +350,20 @@ export default class Compressor {
 
     if (result) {
       // Returns original file if the result is greater than it and without size related options
-      if (options.strict && result.size > file.size && options.mimeType === file.type && !(
-        options.width > naturalWidth
-        || options.height > naturalHeight
-        || options.minWidth > naturalWidth
-        || options.minHeight > naturalHeight
-        || options.maxWidth < naturalWidth
-        || options.maxHeight < naturalHeight
-      )) {
+      if (
+        options.strict
+        && !options.retainExif
+        && result.size > file.size
+        && options.mimeType === file.type
+        && !(
+          options.width > naturalWidth
+          || options.height > naturalHeight
+          || options.minWidth > naturalWidth
+          || options.minHeight > naturalHeight
+          || options.maxWidth < naturalWidth
+          || options.maxHeight < naturalHeight
+        )
+      ) {
         result = file;
       } else {
         const date = new Date();
