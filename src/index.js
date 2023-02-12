@@ -98,6 +98,8 @@ export default class Compressor {
           } else {
             data.url = URL.createObjectURL(file);
           }
+        } else if (options.retainExif) {
+          data.url = URL.createObjectURL(file);
         } else {
           data.url = result;
         }
@@ -344,7 +346,7 @@ export default class Compressor {
   }) {
     const { file, image, options } = this;
 
-    if (URL && !options.checkOrientation) {
+    if (URL && image.src.indexOf('blob:') === 0) {
       URL.revokeObjectURL(image.src);
     }
 
