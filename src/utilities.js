@@ -279,3 +279,82 @@ export function getAdjustedSizes(
     height,
   };
 }
+
+export function getEXIF(arrayBuffer) {
+  let head = 0;
+  const segments = [];
+  let length;
+  let endPoint;
+  let seg;
+  const arr = [].slice.call(new Uint8Array(arrayBuffer), 0);
+
+  while (true) {
+    // SOS(Start of Scan)
+    if (arr[head] === 0xff && arr[head + 1] === 0xda) { break; }
+    // SOI(Start of Image)
+    if (arr[head] === 0xff && arr[head + 1] === 0xd8) {
+      head += 2;
+    } else {
+      length = arr[head + 2] * 256 + arr[head + 3];
+      endPoint = head + length + 2;
+      seg = arr.slice(head, endPoint);
+      head = endPoint;
+      segments.push(seg);
+    }
+    if (head > arr.length) {
+      break;
+    }
+  }
+  if (!segments.length) { return []; }
+  let res = [];
+  for (let x = 0; x < segments.length; x += 1) {
+    const s = segments[x];
+    if (s[0] === 0xff && s[1] === 0xe1) {
+      res = res.concat(s);
+    }
+  }
+  return res;
+}
+
+export function insertEXIF(resizedImg, exifArr) {
+  const arr = [].slice.call(new Uint8Array(resizedImg), 0);
+  if (arr[2] !== 0xff || arr[3] !== 0xe0) {
+    return resizedImg;
+  }
+  const app0Length = arr[4] * 256 + arr[5];
+
+  const newImg = [0xff, 0xd8].concat(exifArr, arr.slice(4 + app0Length));
+  return new Uint8Array(newImg);
+}
+
+export function dataURItoBlob(dataURI, mimeType = null) {
+  const mimeString = mimeType || dataURI.split(',')[0].split(':')[1].split(';')[0];
+  const byteString = atob(dataURI.split(',')[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const intArray = new Uint8Array(arrayBuffer);
+
+  for (let i = 0; i < byteString.length; i += 1) {
+    intArray[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([intArray], { type: mimeString });
+}
+
+export function base64ToArrayBuffer(base64) {
+  base64 = base64.replace(/^data:([^;]+);base64,/gim, '');
+  const binary = atob(base64);
+  const len = binary.length;
+  const buffer = new ArrayBuffer(len);
+  const view = new Uint8Array(buffer);
+  for (let i = 0; i < len; i += 1) {
+    view[i] = binary.charCodeAt(i);
+  }
+  return buffer;
+}
+
+export function blobToBase64(blob, callback) {
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    callback(reader.result);
+  };
+  reader.readAsDataURL(blob);
+}

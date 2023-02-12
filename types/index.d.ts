@@ -10,6 +10,7 @@ declare namespace Compressor {
     height?: number;
     resize?: 'contain' | 'cover' | 'none';
     quality?: number;
+    retainExif?: boolean;
     mimeType?: string;
     convertTypes?: string | string[];
     convertSize?: number;

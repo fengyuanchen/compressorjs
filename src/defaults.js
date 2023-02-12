@@ -68,6 +68,12 @@ export default {
   quality: 0.8,
 
   /**
+   * If set `true`, the compressed image will retain exif.
+   * @type {boolean}
+  */
+  retainExif: false,
+
+  /**
    * The mime type of the output image.
    * By default, the original mime type of the source image file will be used.
    * @type {string}
