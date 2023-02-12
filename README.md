@@ -1,6 +1,6 @@
 # Compressor.js
 
-[![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js) [![Dependencies](https://img.shields.io/david/fengyuanchen/compressorjs.svg)](https://www.npmjs.com/package/compressorjs)
+[![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js)
 
 > JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress a image on the client side before uploading it.
 
@@ -94,7 +94,7 @@ document.getElementById('file').addEventListener('change', (e) => {
       console.log(err.message);
     },
   });
-  
+
 });
 ```
 
