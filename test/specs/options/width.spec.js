@@ -64,6 +64,7 @@ describe('width', () => {
   it('should be floored when it contains decimal number', (done) => {
     window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
       new Compressor(image, {
+        // eslint-disable-next-line no-loss-of-precision
         width: 100.30000000000000004,
         success(result) {
           const newImage = new Image();
