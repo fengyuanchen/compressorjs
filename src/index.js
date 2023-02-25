@@ -70,7 +70,11 @@ export default class Compressor {
       options.retainExif = false;
     }
 
-    if (URL && ((!options.checkOrientation && !options.retainExif) || mimeType !== 'image/jpeg')) {
+    const isJPEGImage = mimeType === 'image/jpeg';
+    const checkOrientation = isJPEGImage && options.checkOrientation;
+    const retainExif = isJPEGImage && options.retainExif;
+
+    if (URL && !checkOrientation && !retainExif) {
       this.load({
         url: URL.createObjectURL(file),
       });
@@ -81,27 +85,35 @@ export default class Compressor {
       reader.onload = ({ target }) => {
         const { result } = target;
         const data = {};
+        let orientation = 1;
 
-        if (options.checkOrientation) {
+        if (checkOrientation) {
           // Reset the orientation value to its default value 1
           // as some iOS browsers will render image with its orientation
-          const orientation = resetAndGetOrientation(result);
+          orientation = resetAndGetOrientation(result);
 
-          if (orientation > 1 || !URL) {
-            // Generate a new URL which has the default orientation value
+          if (orientation > 1) {
+            Object.assign(data, parseOrientation(orientation));
+          }
+        }
+
+        if (retainExif) {
+          this.exif = getExif(result);
+        }
+
+        if (checkOrientation || retainExif) {
+          if (
+            !URL
+
+            // Generate a new URL with the default orientation value 1.
+            || orientation > 1
+          ) {
             data.url = arrayBufferToDataURL(result, mimeType);
-
-            if (orientation > 1) {
-              Object.assign(data, parseOrientation(orientation));
-            }
           } else {
             data.url = URL.createObjectURL(file);
           }
         } else {
-          data.url = URL.createObjectURL(file);
-        }
-        if (options.retainExif) {
-          this.exif = getExif(result);
+          data.url = result;
         }
 
         this.load(data);
@@ -115,7 +127,12 @@ export default class Compressor {
       reader.onloadend = () => {
         this.reader = null;
       };
-      reader.readAsArrayBuffer(file);
+
+      if (checkOrientation || retainExif) {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsDataURL(file);
+      }
     }
   }
 
@@ -250,7 +267,9 @@ export default class Compressor {
       options.mimeType = 'image/jpeg';
     }
 
-    if (options.mimeType === 'image/jpeg') {
+    const isJPEGImage = options.mimeType === 'image/jpeg';
+
+    if (isJPEGImage) {
       fillStyle = '#fff';
     }
 
@@ -289,7 +308,7 @@ export default class Compressor {
           result,
         });
 
-        if (options.retainExif && blob && this.exif && this.exif.length) {
+        if (blob && isJPEGImage && options.retainExif && this.exif && this.exif.length > 0) {
           const next = (arrayBuffer) => done(toBlob(arrayBufferToDataURL(
             insertExif(arrayBuffer, this.exif),
             options.mimeType,
