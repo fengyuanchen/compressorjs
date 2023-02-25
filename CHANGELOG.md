@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.2.0 (Feb 25, 2023)
 
 - Add a new option: `retainExif` (#159).
 
