@@ -70,20 +70,19 @@ export default class Compressor {
       options.retainExif = false;
     }
 
-    if (URL && !options.checkOrientation && !options.retainExif) {
+    if (URL && ((!options.checkOrientation && !options.retainExif) || mimeType !== 'image/jpeg')) {
       this.load({
         url: URL.createObjectURL(file),
       });
     } else {
       const reader = new FileReader();
-      const checkOrientation = options.checkOrientation && mimeType === 'image/jpeg';
 
       this.reader = reader;
       reader.onload = ({ target }) => {
         const { result } = target;
         const data = {};
 
-        if (checkOrientation) {
+        if (options.checkOrientation) {
           // Reset the orientation value to its default value 1
           // as some iOS browsers will render image with its orientation
           const orientation = resetAndGetOrientation(result);
@@ -98,12 +97,9 @@ export default class Compressor {
           } else {
             data.url = URL.createObjectURL(file);
           }
-        } else if (options.retainExif) {
-          data.url = URL.createObjectURL(file);
         } else {
-          data.url = result;
+          data.url = URL.createObjectURL(file);
         }
-
         if (options.retainExif) {
           this.exif = getExif(result);
         }
@@ -119,12 +115,7 @@ export default class Compressor {
       reader.onloadend = () => {
         this.reader = null;
       };
-
-      if (checkOrientation || options.retainExif) {
-        reader.readAsArrayBuffer(file);
-      } else {
-        reader.readAsDataURL(file);
-      }
+      reader.readAsArrayBuffer(file);
     }
   }
 
@@ -298,7 +289,7 @@ export default class Compressor {
           result,
         });
 
-        if (options.retainExif && blob) {
+        if (options.retainExif && blob && this.exif && this.exif.length) {
           const next = (arrayBuffer) => done(toBlob(arrayBufferToDataURL(
             insertExif(arrayBuffer, this.exif),
             options.mimeType,
