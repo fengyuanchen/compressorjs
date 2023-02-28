@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.2.0
+ * Compressor.js v1.2.1
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2023-02-25T11:35:56.625Z
+ * Date: 2023-02-28T14:09:41.732Z
  */
 
 (function (global, factory) {
@@ -14,6 +14,63 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Compressor = factory());
 })(this, (function () { 'use strict';
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+    }
+  }
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
+    return Constructor;
+  }
+  function _defineProperty(obj, key, value) {
+    key = _toPropertyKey(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
   function _extends() {
     _extends = Object.assign ? Object.assign.bind() : function (target) {
       for (var i = 1; i < arguments.length; i++) {
@@ -27,6 +84,20 @@
       return target;
     };
     return _extends.apply(this, arguments);
+  }
+  function _toPrimitive(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
+  function _toPropertyKey(arg) {
+    var key = _toPrimitive(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
   }
 
   var canvasToBlob = {exports: {}};
@@ -144,7 +215,7 @@
   })(canvasToBlob);
   var toBlob = canvasToBlob.exports;
 
-  var isBlob = value => {
+  var isBlob = function isBlob(value) {
     if (typeof Blob === 'undefined') {
       return false;
     }
@@ -277,18 +348,18 @@
     error: null
   };
 
-  const IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
-  const WINDOW = IS_BROWSER ? window : {};
+  var IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+  var WINDOW = IS_BROWSER ? window : {};
 
   /**
    * Check if the given value is a positive number.
    * @param {*} value - The value to check.
    * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
    */
-  const isPositiveNumber = value => value > 0 && value < Infinity;
-  const {
-    slice
-  } = Array.prototype;
+  var isPositiveNumber = function isPositiveNumber(value) {
+    return value > 0 && value < Infinity;
+  };
+  var slice = Array.prototype.slice;
 
   /**
    * Convert array-like or iterable object to an array.
@@ -298,7 +369,7 @@
   function toArray(value) {
     return Array.from ? Array.from(value) : slice.call(value);
   }
-  const REGEXP_IMAGE_TYPE = /^image\/.+$/;
+  var REGEXP_IMAGE_TYPE = /^image\/.+$/;
 
   /**
    * Check if the given value is a mime type of image.
@@ -315,15 +386,13 @@
    * @returns {boolean} Returns the image extension.
    */
   function imageTypeToExtension(value) {
-    let extension = isImageType(value) ? value.substr(6) : '';
+    var extension = isImageType(value) ? value.substr(6) : '';
     if (extension === 'jpeg') {
       extension = 'jpg';
     }
-    return `.${extension}`;
+    return ".".concat(extension);
   }
-  const {
-    fromCharCode
-  } = String;
+  var fromCharCode = String.fromCharCode;
 
   /**
    * Get string from char code in data view.
@@ -333,17 +402,15 @@
    * @returns {string} The read result.
    */
   function getStringFromCharCode(dataView, start, length) {
-    let str = '';
-    let i;
+    var str = '';
+    var i;
     length += start;
     for (i = start; i < length; i += 1) {
       str += fromCharCode(dataView.getUint8(i));
     }
     return str;
   }
-  const {
-    btoa
-  } = WINDOW;
+  var btoa = WINDOW.btoa;
 
   /**
    * Transform array buffer to Data URL.
@@ -352,16 +419,16 @@
    * @returns {string} The result Data URL.
    */
   function arrayBufferToDataURL(arrayBuffer, mimeType) {
-    const chunks = [];
-    const chunkSize = 8192;
-    let uint8 = new Uint8Array(arrayBuffer);
+    var chunks = [];
+    var chunkSize = 8192;
+    var uint8 = new Uint8Array(arrayBuffer);
     while (uint8.length > 0) {
       // XXX: Babel's `toConsumableArray` helper will throw error in IE or Safari 9
       // eslint-disable-next-line prefer-spread
       chunks.push(fromCharCode.apply(null, toArray(uint8.subarray(0, chunkSize))));
       uint8 = uint8.subarray(chunkSize);
     }
-    return `data:${mimeType};base64,${btoa(chunks.join(''))}`;
+    return "data:".concat(mimeType, ";base64,").concat(btoa(chunks.join('')));
   }
 
   /**
@@ -370,19 +437,19 @@
    * @returns {number} The read orientation value.
    */
   function resetAndGetOrientation(arrayBuffer) {
-    const dataView = new DataView(arrayBuffer);
-    let orientation;
+    var dataView = new DataView(arrayBuffer);
+    var orientation;
 
     // Ignores range error when the image does not have correct Exif information
     try {
-      let littleEndian;
-      let app1Start;
-      let ifdStart;
+      var littleEndian;
+      var app1Start;
+      var ifdStart;
 
       // Only handle JPEG image (start by 0xFFD8)
       if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
-        const length = dataView.byteLength;
-        let offset = 2;
+        var length = dataView.byteLength;
+        var offset = 2;
         while (offset + 1 < length) {
           if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
             app1Start = offset;
@@ -392,14 +459,14 @@
         }
       }
       if (app1Start) {
-        const exifIDCode = app1Start + 4;
-        const tiffOffset = app1Start + 10;
+        var exifIDCode = app1Start + 4;
+        var tiffOffset = app1Start + 10;
         if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
-          const endianness = dataView.getUint16(tiffOffset);
+          var endianness = dataView.getUint16(tiffOffset);
           littleEndian = endianness === 0x4949;
           if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
             if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-              const firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+              var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
               if (firstIFDOffset >= 0x00000008) {
                 ifdStart = tiffOffset + firstIFDOffset;
               }
@@ -408,20 +475,20 @@
         }
       }
       if (ifdStart) {
-        const length = dataView.getUint16(ifdStart, littleEndian);
-        let offset;
-        let i;
-        for (i = 0; i < length; i += 1) {
-          offset = ifdStart + i * 12 + 2;
-          if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+        var _length = dataView.getUint16(ifdStart, littleEndian);
+        var _offset;
+        var i;
+        for (i = 0; i < _length; i += 1) {
+          _offset = ifdStart + i * 12 + 2;
+          if (dataView.getUint16(_offset, littleEndian) === 0x0112 /* Orientation */) {
             // 8 is the offset of the current tag's value
-            offset += 8;
+            _offset += 8;
 
             // Get the original orientation value
-            orientation = dataView.getUint16(offset, littleEndian);
+            orientation = dataView.getUint16(_offset, littleEndian);
 
             // Override the orientation with its default value
-            dataView.setUint16(offset, 1, littleEndian);
+            dataView.setUint16(_offset, 1, littleEndian);
             break;
           }
         }
@@ -438,9 +505,9 @@
    * @returns {Object} The parsed result.
    */
   function parseOrientation(orientation) {
-    let rotate = 0;
-    let scaleX = 1;
-    let scaleY = 1;
+    var rotate = 0;
+    var scaleX = 1;
+    var scaleY = 1;
     switch (orientation) {
       // Flip horizontal
       case 2:
@@ -480,12 +547,12 @@
         break;
     }
     return {
-      rotate,
-      scaleX,
-      scaleY
+      rotate: rotate,
+      scaleX: scaleX,
+      scaleY: scaleY
     };
   }
-  const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
+  var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 
   /**
    * Normalize decimal number.
@@ -495,7 +562,7 @@
    * @returns {number} Returns the normalized number.
    */
   function normalizeDecimalNumber(value) {
-    let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
+    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
     return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
   }
 
@@ -506,16 +573,14 @@
    * @returns {Object} The result sizes.
    */
   function getAdjustedSizes(_ref) {
-    let {
-      aspectRatio,
-      height,
-      width
-    } = _ref;
-    let type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'none';
-    const isValidWidth = isPositiveNumber(width);
-    const isValidHeight = isPositiveNumber(height);
+    var aspectRatio = _ref.aspectRatio,
+      height = _ref.height,
+      width = _ref.width;
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'none';
+    var isValidWidth = isPositiveNumber(width);
+    var isValidHeight = isPositiveNumber(height);
     if (isValidWidth && isValidHeight) {
-      const adjustedWidth = height * aspectRatio;
+      var adjustedWidth = height * aspectRatio;
       if ((type === 'contain' || type === 'none') && adjustedWidth > width || type === 'cover' && adjustedWidth < width) {
         height = width / aspectRatio;
       } else {
@@ -527,8 +592,8 @@
       width = height * aspectRatio;
     }
     return {
-      width,
-      height
+      width: width,
+      height: height
     };
   }
 
@@ -538,15 +603,13 @@
    * @returns {Array} The read Exif information.
    */
   function getExif(arrayBuffer) {
-    const array = toArray(new Uint8Array(arrayBuffer));
-    const {
-      length
-    } = array;
-    const segments = [];
-    let start = 0;
+    var array = toArray(new Uint8Array(arrayBuffer));
+    var length = array.length;
+    var segments = [];
+    var start = 0;
     while (start + 3 < length) {
-      const value = array[start];
-      const next = array[start + 1];
+      var value = array[start];
+      var next = array[start + 1];
 
       // SOS (Start of Scan)
       if (value === 0xFF && next === 0xDA) {
@@ -557,14 +620,14 @@
       if (value === 0xFF && next === 0xD8) {
         start += 2;
       } else {
-        const offset = array[start + 2] * 256 + array[start + 3];
-        const end = start + offset + 2;
-        const segment = array.slice(start, end);
+        var offset = array[start + 2] * 256 + array[start + 3];
+        var end = start + offset + 2;
+        var segment = array.slice(start, end);
         segments.push(segment);
         start = end;
       }
     }
-    return segments.reduce((exifArray, current) => {
+    return segments.reduce(function (exifArray, current) {
       if (current[0] === 0xFF && current[1] === 0xE1) {
         return exifArray.concat(current);
       }
@@ -579,415 +642,421 @@
    * @returns {ArrayBuffer} The transformed array buffer.
    */
   function insertExif(arrayBuffer, exifArray) {
-    const array = toArray(new Uint8Array(arrayBuffer));
+    var array = toArray(new Uint8Array(arrayBuffer));
     if (array[2] !== 0xFF || array[3] !== 0xE0) {
       return arrayBuffer;
     }
-    const app0Length = array[4] * 256 + array[5];
-    const newArrayBuffer = [0xFF, 0xD8].concat(exifArray, array.slice(4 + app0Length));
+    var app0Length = array[4] * 256 + array[5];
+    var newArrayBuffer = [0xFF, 0xD8].concat(exifArray, array.slice(4 + app0Length));
     return new Uint8Array(newArrayBuffer);
   }
 
-  const {
-    ArrayBuffer: ArrayBuffer$1,
-    FileReader
-  } = WINDOW;
-  const URL = WINDOW.URL || WINDOW.webkitURL;
-  const REGEXP_EXTENSION = /\.\w+$/;
-  const AnotherCompressor = WINDOW.Compressor;
+  var ArrayBuffer$1 = WINDOW.ArrayBuffer,
+    FileReader = WINDOW.FileReader;
+  var URL = WINDOW.URL || WINDOW.webkitURL;
+  var REGEXP_EXTENSION = /\.\w+$/;
+  var AnotherCompressor = WINDOW.Compressor;
 
   /**
    * Creates a new image compressor.
    * @class
    */
-  class Compressor {
+  var Compressor = /*#__PURE__*/function () {
     /**
      * The constructor of Compressor.
      * @param {File|Blob} file - The target image file for compressing.
      * @param {Object} [options] - The options for compressing.
      */
-    constructor(file, options) {
+    function Compressor(file, options) {
+      _classCallCheck(this, Compressor);
       this.file = file;
       this.exif = [];
       this.image = new Image();
-      this.options = {
-        ...DEFAULTS,
-        ...options
-      };
+      this.options = _objectSpread2(_objectSpread2({}, DEFAULTS), options);
       this.aborted = false;
       this.result = null;
       this.init();
     }
-    init() {
-      const {
-        file,
-        options
-      } = this;
-      if (!isBlob(file)) {
-        this.fail(new Error('The first argument must be a File or Blob object.'));
-        return;
-      }
-      const mimeType = file.type;
-      if (!isImageType(mimeType)) {
-        this.fail(new Error('The first argument must be an image File or Blob object.'));
-        return;
-      }
-      if (!URL || !FileReader) {
-        this.fail(new Error('The current browser does not support image compression.'));
-        return;
-      }
-      if (!ArrayBuffer$1) {
-        options.checkOrientation = false;
-        options.retainExif = false;
-      }
-      const isJPEGImage = mimeType === 'image/jpeg';
-      const checkOrientation = isJPEGImage && options.checkOrientation;
-      const retainExif = isJPEGImage && options.retainExif;
-      if (URL && !checkOrientation && !retainExif) {
-        this.load({
-          url: URL.createObjectURL(file)
-        });
-      } else {
-        const reader = new FileReader();
-        this.reader = reader;
-        reader.onload = _ref => {
-          let {
-            target
-          } = _ref;
-          const {
-            result
-          } = target;
-          const data = {};
-          let orientation = 1;
-          if (checkOrientation) {
-            // Reset the orientation value to its default value 1
-            // as some iOS browsers will render image with its orientation
-            orientation = resetAndGetOrientation(result);
-            if (orientation > 1) {
-              _extends(data, parseOrientation(orientation));
-            }
-          }
-          if (retainExif) {
-            this.exif = getExif(result);
-          }
-          if (checkOrientation || retainExif) {
-            if (!URL
-
-            // Generate a new URL with the default orientation value 1.
-            || orientation > 1) {
-              data.url = arrayBufferToDataURL(result, mimeType);
-            } else {
-              data.url = URL.createObjectURL(file);
-            }
-          } else {
-            data.url = result;
-          }
-          this.load(data);
-        };
-        reader.onabort = () => {
-          this.fail(new Error('Aborted to read the image with FileReader.'));
-        };
-        reader.onerror = () => {
-          this.fail(new Error('Failed to read the image with FileReader.'));
-        };
-        reader.onloadend = () => {
-          this.reader = null;
-        };
-        if (checkOrientation || retainExif) {
-          reader.readAsArrayBuffer(file);
-        } else {
-          reader.readAsDataURL(file);
+    _createClass(Compressor, [{
+      key: "init",
+      value: function init() {
+        var _this = this;
+        var file = this.file,
+          options = this.options;
+        if (!isBlob(file)) {
+          this.fail(new Error('The first argument must be a File or Blob object.'));
+          return;
         }
-      }
-    }
-    load(data) {
-      const {
-        file,
-        image
-      } = this;
-      image.onload = () => {
-        this.draw({
-          ...data,
-          naturalWidth: image.naturalWidth,
-          naturalHeight: image.naturalHeight
-        });
-      };
-      image.onabort = () => {
-        this.fail(new Error('Aborted to load the image.'));
-      };
-      image.onerror = () => {
-        this.fail(new Error('Failed to load the image.'));
-      };
-
-      // Match all browsers that use WebKit as the layout engine in iOS devices,
-      // such as Safari for iOS, Chrome for iOS, and in-app browsers.
-      if (WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent)) {
-        // Fix the `The operation is insecure` error (#57)
-        image.crossOrigin = 'anonymous';
-      }
-      image.alt = file.name;
-      image.src = data.url;
-    }
-    draw(_ref2) {
-      let {
-        naturalWidth,
-        naturalHeight,
-        rotate = 0,
-        scaleX = 1,
-        scaleY = 1
-      } = _ref2;
-      const {
-        file,
-        image,
-        options
-      } = this;
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      const is90DegreesRotated = Math.abs(rotate) % 180 === 90;
-      const resizable = (options.resize === 'contain' || options.resize === 'cover') && isPositiveNumber(options.width) && isPositiveNumber(options.height);
-      let maxWidth = Math.max(options.maxWidth, 0) || Infinity;
-      let maxHeight = Math.max(options.maxHeight, 0) || Infinity;
-      let minWidth = Math.max(options.minWidth, 0) || 0;
-      let minHeight = Math.max(options.minHeight, 0) || 0;
-      let aspectRatio = naturalWidth / naturalHeight;
-      let {
-        width,
-        height
-      } = options;
-      if (is90DegreesRotated) {
-        [maxWidth, maxHeight] = [maxHeight, maxWidth];
-        [minWidth, minHeight] = [minHeight, minWidth];
-        [width, height] = [height, width];
-      }
-      if (resizable) {
-        aspectRatio = width / height;
-      }
-      ({
-        width: maxWidth,
-        height: maxHeight
-      } = getAdjustedSizes({
-        aspectRatio,
-        width: maxWidth,
-        height: maxHeight
-      }, 'contain'));
-      ({
-        width: minWidth,
-        height: minHeight
-      } = getAdjustedSizes({
-        aspectRatio,
-        width: minWidth,
-        height: minHeight
-      }, 'cover'));
-      if (resizable) {
-        ({
-          width,
-          height
-        } = getAdjustedSizes({
-          aspectRatio,
-          width,
-          height
-        }, options.resize));
-      } else {
-        ({
-          width = naturalWidth,
-          height = naturalHeight
-        } = getAdjustedSizes({
-          aspectRatio,
-          width,
-          height
-        }));
-      }
-      width = Math.floor(normalizeDecimalNumber(Math.min(Math.max(width, minWidth), maxWidth)));
-      height = Math.floor(normalizeDecimalNumber(Math.min(Math.max(height, minHeight), maxHeight)));
-      const destX = -width / 2;
-      const destY = -height / 2;
-      const destWidth = width;
-      const destHeight = height;
-      const params = [];
-      if (resizable) {
-        let srcX = 0;
-        let srcY = 0;
-        let srcWidth = naturalWidth;
-        let srcHeight = naturalHeight;
-        ({
-          width: srcWidth,
-          height: srcHeight
-        } = getAdjustedSizes({
-          aspectRatio,
-          width: naturalWidth,
-          height: naturalHeight
-        }, {
-          contain: 'cover',
-          cover: 'contain'
-        }[options.resize]));
-        srcX = (naturalWidth - srcWidth) / 2;
-        srcY = (naturalHeight - srcHeight) / 2;
-        params.push(srcX, srcY, srcWidth, srcHeight);
-      }
-      params.push(destX, destY, destWidth, destHeight);
-      if (is90DegreesRotated) {
-        [width, height] = [height, width];
-      }
-      canvas.width = width;
-      canvas.height = height;
-      if (!isImageType(options.mimeType)) {
-        options.mimeType = file.type;
-      }
-      let fillStyle = 'transparent';
-
-      // Converts PNG files over the `convertSize` to JPEGs.
-      if (file.size > options.convertSize && options.convertTypes.indexOf(options.mimeType) >= 0) {
-        options.mimeType = 'image/jpeg';
-      }
-      const isJPEGImage = options.mimeType === 'image/jpeg';
-      if (isJPEGImage) {
-        fillStyle = '#fff';
-      }
-
-      // Override the default fill color (#000, black)
-      context.fillStyle = fillStyle;
-      context.fillRect(0, 0, width, height);
-      if (options.beforeDraw) {
-        options.beforeDraw.call(this, context, canvas);
-      }
-      if (this.aborted) {
-        return;
-      }
-      context.save();
-      context.translate(width / 2, height / 2);
-      context.rotate(rotate * Math.PI / 180);
-      context.scale(scaleX, scaleY);
-      context.drawImage(image, ...params);
-      context.restore();
-      if (options.drew) {
-        options.drew.call(this, context, canvas);
-      }
-      if (this.aborted) {
-        return;
-      }
-      const callback = blob => {
-        if (!this.aborted) {
-          const done = result => this.done({
-            naturalWidth,
-            naturalHeight,
-            result
+        var mimeType = file.type;
+        if (!isImageType(mimeType)) {
+          this.fail(new Error('The first argument must be an image File or Blob object.'));
+          return;
+        }
+        if (!URL || !FileReader) {
+          this.fail(new Error('The current browser does not support image compression.'));
+          return;
+        }
+        if (!ArrayBuffer$1) {
+          options.checkOrientation = false;
+          options.retainExif = false;
+        }
+        var isJPEGImage = mimeType === 'image/jpeg';
+        var checkOrientation = isJPEGImage && options.checkOrientation;
+        var retainExif = isJPEGImage && options.retainExif;
+        if (URL && !checkOrientation && !retainExif) {
+          this.load({
+            url: URL.createObjectURL(file)
           });
-          if (blob && isJPEGImage && options.retainExif && this.exif && this.exif.length > 0) {
-            const next = arrayBuffer => done(toBlob(arrayBufferToDataURL(insertExif(arrayBuffer, this.exif), options.mimeType)));
-            if (blob.arrayBuffer) {
-              blob.arrayBuffer().then(next).catch(() => {
-                this.fail(new Error('Failed to read the compressed image with Blob.arrayBuffer().'));
-              });
-            } else {
-              const reader = new FileReader();
-              this.reader = reader;
-              reader.onload = _ref3 => {
-                let {
-                  target
-                } = _ref3;
-                next(target.result);
-              };
-              reader.onabort = () => {
-                this.fail(new Error('Aborted to read the compressed image with FileReader.'));
-              };
-              reader.onerror = () => {
-                this.fail(new Error('Failed to read the compressed image with FileReader.'));
-              };
-              reader.onloadend = () => {
-                this.reader = null;
-              };
-              reader.readAsArrayBuffer(blob);
+        } else {
+          var reader = new FileReader();
+          this.reader = reader;
+          reader.onload = function (_ref) {
+            var target = _ref.target;
+            var result = target.result;
+            var data = {};
+            var orientation = 1;
+            if (checkOrientation) {
+              // Reset the orientation value to its default value 1
+              // as some iOS browsers will render image with its orientation
+              orientation = resetAndGetOrientation(result);
+              if (orientation > 1) {
+                _extends(data, parseOrientation(orientation));
+              }
             }
+            if (retainExif) {
+              _this.exif = getExif(result);
+            }
+            if (checkOrientation || retainExif) {
+              if (!URL
+
+              // Generate a new URL with the default orientation value 1.
+              || orientation > 1) {
+                data.url = arrayBufferToDataURL(result, mimeType);
+              } else {
+                data.url = URL.createObjectURL(file);
+              }
+            } else {
+              data.url = result;
+            }
+            _this.load(data);
+          };
+          reader.onabort = function () {
+            _this.fail(new Error('Aborted to read the image with FileReader.'));
+          };
+          reader.onerror = function () {
+            _this.fail(new Error('Failed to read the image with FileReader.'));
+          };
+          reader.onloadend = function () {
+            _this.reader = null;
+          };
+          if (checkOrientation || retainExif) {
+            reader.readAsArrayBuffer(file);
           } else {
-            done(blob);
+            reader.readAsDataURL(file);
           }
         }
-      };
-      if (canvas.toBlob) {
-        canvas.toBlob(callback, options.mimeType, options.quality);
-      } else {
-        callback(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
       }
-    }
-    done(_ref4) {
-      let {
-        naturalWidth,
-        naturalHeight,
-        result
-      } = _ref4;
-      const {
-        file,
-        image,
-        options
-      } = this;
-      if (URL && image.src.indexOf('blob:') === 0) {
-        URL.revokeObjectURL(image.src);
+    }, {
+      key: "load",
+      value: function load(data) {
+        var _this2 = this;
+        var file = this.file,
+          image = this.image;
+        image.onload = function () {
+          _this2.draw(_objectSpread2(_objectSpread2({}, data), {}, {
+            naturalWidth: image.naturalWidth,
+            naturalHeight: image.naturalHeight
+          }));
+        };
+        image.onabort = function () {
+          _this2.fail(new Error('Aborted to load the image.'));
+        };
+        image.onerror = function () {
+          _this2.fail(new Error('Failed to load the image.'));
+        };
+
+        // Match all browsers that use WebKit as the layout engine in iOS devices,
+        // such as Safari for iOS, Chrome for iOS, and in-app browsers.
+        if (WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent)) {
+          // Fix the `The operation is insecure` error (#57)
+          image.crossOrigin = 'anonymous';
+        }
+        image.alt = file.name;
+        image.src = data.url;
       }
-      if (result) {
-        // Returns original file if the result is greater than it and without size related options
-        if (options.strict && !options.retainExif && result.size > file.size && options.mimeType === file.type && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight || options.maxWidth < naturalWidth || options.maxHeight < naturalHeight)) {
+    }, {
+      key: "draw",
+      value: function draw(_ref2) {
+        var _this3 = this;
+        var naturalWidth = _ref2.naturalWidth,
+          naturalHeight = _ref2.naturalHeight,
+          _ref2$rotate = _ref2.rotate,
+          rotate = _ref2$rotate === void 0 ? 0 : _ref2$rotate,
+          _ref2$scaleX = _ref2.scaleX,
+          scaleX = _ref2$scaleX === void 0 ? 1 : _ref2$scaleX,
+          _ref2$scaleY = _ref2.scaleY,
+          scaleY = _ref2$scaleY === void 0 ? 1 : _ref2$scaleY;
+        var file = this.file,
+          image = this.image,
+          options = this.options;
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var is90DegreesRotated = Math.abs(rotate) % 180 === 90;
+        var resizable = (options.resize === 'contain' || options.resize === 'cover') && isPositiveNumber(options.width) && isPositiveNumber(options.height);
+        var maxWidth = Math.max(options.maxWidth, 0) || Infinity;
+        var maxHeight = Math.max(options.maxHeight, 0) || Infinity;
+        var minWidth = Math.max(options.minWidth, 0) || 0;
+        var minHeight = Math.max(options.minHeight, 0) || 0;
+        var aspectRatio = naturalWidth / naturalHeight;
+        var width = options.width,
+          height = options.height;
+        if (is90DegreesRotated) {
+          var _ref3 = [maxHeight, maxWidth];
+          maxWidth = _ref3[0];
+          maxHeight = _ref3[1];
+          var _ref4 = [minHeight, minWidth];
+          minWidth = _ref4[0];
+          minHeight = _ref4[1];
+          var _ref5 = [height, width];
+          width = _ref5[0];
+          height = _ref5[1];
+        }
+        if (resizable) {
+          aspectRatio = width / height;
+        }
+        var _getAdjustedSizes = getAdjustedSizes({
+          aspectRatio: aspectRatio,
+          width: maxWidth,
+          height: maxHeight
+        }, 'contain');
+        maxWidth = _getAdjustedSizes.width;
+        maxHeight = _getAdjustedSizes.height;
+        var _getAdjustedSizes2 = getAdjustedSizes({
+          aspectRatio: aspectRatio,
+          width: minWidth,
+          height: minHeight
+        }, 'cover');
+        minWidth = _getAdjustedSizes2.width;
+        minHeight = _getAdjustedSizes2.height;
+        if (resizable) {
+          var _getAdjustedSizes3 = getAdjustedSizes({
+            aspectRatio: aspectRatio,
+            width: width,
+            height: height
+          }, options.resize);
+          width = _getAdjustedSizes3.width;
+          height = _getAdjustedSizes3.height;
+        } else {
+          var _getAdjustedSizes4 = getAdjustedSizes({
+            aspectRatio: aspectRatio,
+            width: width,
+            height: height
+          });
+          var _getAdjustedSizes4$wi = _getAdjustedSizes4.width;
+          width = _getAdjustedSizes4$wi === void 0 ? naturalWidth : _getAdjustedSizes4$wi;
+          var _getAdjustedSizes4$he = _getAdjustedSizes4.height;
+          height = _getAdjustedSizes4$he === void 0 ? naturalHeight : _getAdjustedSizes4$he;
+        }
+        width = Math.floor(normalizeDecimalNumber(Math.min(Math.max(width, minWidth), maxWidth)));
+        height = Math.floor(normalizeDecimalNumber(Math.min(Math.max(height, minHeight), maxHeight)));
+        var destX = -width / 2;
+        var destY = -height / 2;
+        var destWidth = width;
+        var destHeight = height;
+        var params = [];
+        if (resizable) {
+          var srcX = 0;
+          var srcY = 0;
+          var srcWidth = naturalWidth;
+          var srcHeight = naturalHeight;
+          var _getAdjustedSizes5 = getAdjustedSizes({
+            aspectRatio: aspectRatio,
+            width: naturalWidth,
+            height: naturalHeight
+          }, {
+            contain: 'cover',
+            cover: 'contain'
+          }[options.resize]);
+          srcWidth = _getAdjustedSizes5.width;
+          srcHeight = _getAdjustedSizes5.height;
+          srcX = (naturalWidth - srcWidth) / 2;
+          srcY = (naturalHeight - srcHeight) / 2;
+          params.push(srcX, srcY, srcWidth, srcHeight);
+        }
+        params.push(destX, destY, destWidth, destHeight);
+        if (is90DegreesRotated) {
+          var _ref6 = [height, width];
+          width = _ref6[0];
+          height = _ref6[1];
+        }
+        canvas.width = width;
+        canvas.height = height;
+        if (!isImageType(options.mimeType)) {
+          options.mimeType = file.type;
+        }
+        var fillStyle = 'transparent';
+
+        // Converts PNG files over the `convertSize` to JPEGs.
+        if (file.size > options.convertSize && options.convertTypes.indexOf(options.mimeType) >= 0) {
+          options.mimeType = 'image/jpeg';
+        }
+        var isJPEGImage = options.mimeType === 'image/jpeg';
+        if (isJPEGImage) {
+          fillStyle = '#fff';
+        }
+
+        // Override the default fill color (#000, black)
+        context.fillStyle = fillStyle;
+        context.fillRect(0, 0, width, height);
+        if (options.beforeDraw) {
+          options.beforeDraw.call(this, context, canvas);
+        }
+        if (this.aborted) {
+          return;
+        }
+        context.save();
+        context.translate(width / 2, height / 2);
+        context.rotate(rotate * Math.PI / 180);
+        context.scale(scaleX, scaleY);
+        context.drawImage.apply(context, [image].concat(params));
+        context.restore();
+        if (options.drew) {
+          options.drew.call(this, context, canvas);
+        }
+        if (this.aborted) {
+          return;
+        }
+        var callback = function callback(blob) {
+          if (!_this3.aborted) {
+            var done = function done(result) {
+              return _this3.done({
+                naturalWidth: naturalWidth,
+                naturalHeight: naturalHeight,
+                result: result
+              });
+            };
+            if (blob && isJPEGImage && options.retainExif && _this3.exif && _this3.exif.length > 0) {
+              var next = function next(arrayBuffer) {
+                return done(toBlob(arrayBufferToDataURL(insertExif(arrayBuffer, _this3.exif), options.mimeType)));
+              };
+              if (blob.arrayBuffer) {
+                blob.arrayBuffer().then(next).catch(function () {
+                  _this3.fail(new Error('Failed to read the compressed image with Blob.arrayBuffer().'));
+                });
+              } else {
+                var reader = new FileReader();
+                _this3.reader = reader;
+                reader.onload = function (_ref7) {
+                  var target = _ref7.target;
+                  next(target.result);
+                };
+                reader.onabort = function () {
+                  _this3.fail(new Error('Aborted to read the compressed image with FileReader.'));
+                };
+                reader.onerror = function () {
+                  _this3.fail(new Error('Failed to read the compressed image with FileReader.'));
+                };
+                reader.onloadend = function () {
+                  _this3.reader = null;
+                };
+                reader.readAsArrayBuffer(blob);
+              }
+            } else {
+              done(blob);
+            }
+          }
+        };
+        if (canvas.toBlob) {
+          canvas.toBlob(callback, options.mimeType, options.quality);
+        } else {
+          callback(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
+        }
+      }
+    }, {
+      key: "done",
+      value: function done(_ref8) {
+        var naturalWidth = _ref8.naturalWidth,
+          naturalHeight = _ref8.naturalHeight,
+          result = _ref8.result;
+        var file = this.file,
+          image = this.image,
+          options = this.options;
+        if (URL && image.src.indexOf('blob:') === 0) {
+          URL.revokeObjectURL(image.src);
+        }
+        if (result) {
+          // Returns original file if the result is greater than it and without size related options
+          if (options.strict && !options.retainExif && result.size > file.size && options.mimeType === file.type && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight || options.maxWidth < naturalWidth || options.maxHeight < naturalHeight)) {
+            result = file;
+          } else {
+            var date = new Date();
+            result.lastModified = date.getTime();
+            result.lastModifiedDate = date;
+            result.name = file.name;
+
+            // Convert the extension to match its type
+            if (result.name && result.type !== file.type) {
+              result.name = result.name.replace(REGEXP_EXTENSION, imageTypeToExtension(result.type));
+            }
+          }
+        } else {
+          // Returns original file if the result is null in some cases.
           result = file;
+        }
+        this.result = result;
+        if (options.success) {
+          options.success.call(this, result);
+        }
+      }
+    }, {
+      key: "fail",
+      value: function fail(err) {
+        var options = this.options;
+        if (options.error) {
+          options.error.call(this, err);
         } else {
-          const date = new Date();
-          result.lastModified = date.getTime();
-          result.lastModifiedDate = date;
-          result.name = file.name;
-
-          // Convert the extension to match its type
-          if (result.name && result.type !== file.type) {
-            result.name = result.name.replace(REGEXP_EXTENSION, imageTypeToExtension(result.type));
+          throw err;
+        }
+      }
+    }, {
+      key: "abort",
+      value: function abort() {
+        if (!this.aborted) {
+          this.aborted = true;
+          if (this.reader) {
+            this.reader.abort();
+          } else if (!this.image.complete) {
+            this.image.onload = null;
+            this.image.onabort();
+          } else {
+            this.fail(new Error('The compression process has been aborted.'));
           }
         }
-      } else {
-        // Returns original file if the result is null in some cases.
-        result = file;
       }
-      this.result = result;
-      if (options.success) {
-        options.success.call(this, result);
-      }
-    }
-    fail(err) {
-      const {
-        options
-      } = this;
-      if (options.error) {
-        options.error.call(this, err);
-      } else {
-        throw err;
-      }
-    }
-    abort() {
-      if (!this.aborted) {
-        this.aborted = true;
-        if (this.reader) {
-          this.reader.abort();
-        } else if (!this.image.complete) {
-          this.image.onload = null;
-          this.image.onabort();
-        } else {
-          this.fail(new Error('The compression process has been aborted.'));
-        }
-      }
-    }
 
-    /**
-     * Get the no conflict compressor class.
-     * @returns {Compressor} The compressor class.
-     */
-    static noConflict() {
-      window.Compressor = AnotherCompressor;
-      return Compressor;
-    }
+      /**
+       * Get the no conflict compressor class.
+       * @returns {Compressor} The compressor class.
+       */
+    }], [{
+      key: "noConflict",
+      value: function noConflict() {
+        window.Compressor = AnotherCompressor;
+        return Compressor;
+      }
 
-    /**
-     * Change the default options.
-     * @param {Object} options - The new default options.
-     */
-    static setDefaults(options) {
-      _extends(DEFAULTS, options);
-    }
-  }
+      /**
+       * Change the default options.
+       * @param {Object} options - The new default options.
+       */
+    }, {
+      key: "setDefaults",
+      value: function setDefaults(options) {
+        _extends(DEFAULTS, options);
+      }
+    }]);
+    return Compressor;
+  }();
 
   return Compressor;
 
