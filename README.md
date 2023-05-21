@@ -235,6 +235,8 @@ The mime type of the output image. By default, the original mime type of the sou
 
 Files whose file type is included in this list, and whose file size exceeds the `convertSize` value will be converted to JPEGs.
 
+> For image file type support, see the [Image file type and format guide](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types).
+
 ### convertSize
 
 - Type: `number`
