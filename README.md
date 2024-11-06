@@ -343,6 +343,7 @@ If you have to use another compressor with the same namespace, just call the `Co
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)
+  - **Note:** Safari does not support `mimeType` conversion to `webp`. For more details, see the [toBlob browser compatibility documentation](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#browser_compatibility).
 - Opera (latest)
 - Edge (latest)
 - Internet Explorer 10+
