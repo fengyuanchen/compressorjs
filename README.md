@@ -2,7 +2,7 @@
 
 [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js)
 
-> JavaScript image compressor. Uses the Browser's native [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) API to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress a image on the client side before uploading it.
+> JavaScript image compressor. Uses the Browser's native [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress a image on the client side before uploading it.
 
 - [Website](https://fengyuanchen.github.io/compressorjs)
 
@@ -204,7 +204,7 @@ The quality of the output image. It must be a number between `0` and `1`. If thi
 
 **Note:** This option only available for `image/jpeg` and `image/webp` images.
 
-> Check out [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) for more detail.
+> Check out the documentation of the [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method for more detail.
 
 **Examples**:
 
@@ -222,18 +222,19 @@ The quality of the output image. It must be a number between `0` and `1`. If thi
 
 - Type: `string`
 - Default: `'auto'`
+- Options: `"auto"`, `"image/png"`, `"image/jpeg"`, and `"image/webp"`.
 
 The mime type of the output image. By default, the original mime type of the source image file will be used.
 
-> **Note:** Safari does not support `mimeType` conversion to `"image/webp"`. For more details, see the [browser compatibility of the `canvas.toBlob`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#browser_compatibility).
+> **Note:** Safari does not support `mimeType` conversion to `"image/webp"`. For more details, see the [browser compatibility of the `HTMLCanvasElement.toBlob()` method](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#browser_compatibility).
 
 ### convertTypes
 
 - Type: `Array` or `string` (multiple types should be separated by commas)
-- Default: `['image/png']`
+- Default: `["image/png"]`
 - Examples:
-  - `['image/png', 'image/webp']`
-  - `'image/png,image/webp'`
+  - `["image/png", "image/webp"]`
+  - `"image/png,image/webp"`
 
 Files whose file type is included in this list, and whose file size exceeds the `convertSize` value will be converted to JPEGs.
 
