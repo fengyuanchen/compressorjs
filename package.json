@@ -40,8 +40,7 @@
     "prepare": "husky install",
     "release": "npm run clean && npm run lint && npm run build && npm run compress && npm test",
     "start": "npm run dev",
-    "test": "cross-env NODE_ENV=test karma start test/karma.conf.js",
-    "test:coverage": "cat coverage/lcov.info | codecov"
+    "test": "cross-env NODE_ENV=test karma start test/karma.conf.js"
   },
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.29.0",
