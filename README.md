@@ -225,6 +225,8 @@ The quality of the output image. It must be a number between `0` and `1`. If thi
 
 The mime type of the output image. By default, the original mime type of the source image file will be used.
 
+> **Note:** Safari does not support `mimeType` conversion to `"image/webp"`. For more details, see the [browser compatibility of the `canvas.toBlob`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#browser_compatibility).
+
 ### convertTypes
 
 - Type: `Array` or `string` (multiple types should be separated by commas)
