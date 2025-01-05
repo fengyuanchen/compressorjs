@@ -8,7 +8,7 @@
 
 ## Table of contents
 
-- [Main](#main)
+- [Main Files](#main-files)
 - [Getting started](#getting-started)
 - [Options](#options)
 - [Methods](#methods)
@@ -18,7 +18,7 @@
 - [Versioning](#versioning)
 - [License](#license)
 
-## Main
+## Main Files
 
 ```text
 dist/
