@@ -6,28 +6,10 @@
   "module": "dist/compressor.esm.js",
   "browser": "dist/compressor.js",
   "types": "types/index.d.ts",
-  "repository": "fengyuanchen/compressorjs",
-  "homepage": "https://fengyuanchen.github.io/compressorjs",
-  "license": "MIT",
-  "author": {
-    "name": "Chen Fengyuan",
-    "url": "https://chenfengyuan.com/"
-  },
   "files": [
     "src",
     "dist",
     "types"
-  ],
-  "keywords": [
-    "image",
-    "compress",
-    "compressor",
-    "compressor.js",
-    "image-compressor",
-    "lossy-compression",
-    "javascript",
-    "front-end",
-    "web"
   ],
   "scripts": {
     "build": "rollup -c",
@@ -42,6 +24,30 @@
     "start": "npm run dev",
     "test": "cross-env NODE_ENV=test karma start test/karma.conf.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengyuanchen/compressorjs.git"
+  },
+  "keywords": [
+    "image",
+    "compress",
+    "compressor",
+    "compressor.js",
+    "image-compressor",
+    "lossy-compression",
+    "javascript",
+    "front-end",
+    "web"
+  ],
+  "author": {
+    "name": "Chen Fengyuan",
+    "url": "https://chenfengyuan.com/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengyuanchen/compressorjs/issues"
+  },
+  "homepage": "https://fengyuanchen.github.io/compressorjs",
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.29.0",
     "is-blob": "^2.1.0"
