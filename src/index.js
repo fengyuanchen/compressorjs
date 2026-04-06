@@ -387,18 +387,30 @@ export default class Compressor {
       ) {
         result = file;
       } else {
-        const date = new Date();
-
-        result.lastModified = date.getTime();
-        result.lastModifiedDate = date;
-        result.name = file.name;
+        let fileName = file.name;
 
         // Convert the extension to match its type
-        if (result.name && result.type !== file.type) {
-          result.name = result.name.replace(
+        if (fileName && result.type !== file.type) {
+          fileName = fileName.replace(
             REGEXP_EXTENSION,
             imageTypeToExtension(result.type),
           );
+        }
+
+        try {
+          // Convert the resulting Blob object into a File object for modern browsers.
+          result = new File([result], fileName, {
+            type: result.type,
+          });
+        } catch (error) {
+          // Fallback to Blob if the File constructor is not supported.
+          const date = new Date();
+
+          result.name = fileName;
+
+          // The last modified date is not accurate, but it's better than nothing.
+          result.lastModified = date.getTime();
+          result.lastModifiedDate = date;
         }
       }
     } else {

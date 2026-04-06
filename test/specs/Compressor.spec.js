@@ -59,7 +59,7 @@ describe('Compressor', () => {
           canvas.toBlob = null;
         },
         success(result) {
-          expect(result).to.be.a('blob');
+          expect(result).to.be.a('file');
           done();
         },
       });
