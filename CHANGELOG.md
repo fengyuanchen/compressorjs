@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.3.0 (Apr 6, 2026)
 
 - Convert the resulting Blob object into a File object for modern browsers (#146).
 - Output the original image when `canvas.getContext('2d').getImageData()` is unavailable in Firefox's `privacy.resistFingerprinting` mode (#177).

@@ -1,97 +1,78 @@
 /*!
- * Compressor.js v1.2.1
+ * Compressor.js v1.3.0
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2023-02-28T14:09:41.732Z
+ * Date: 2026-04-06T07:12:45.816Z
  */
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
-  }
-  return keys;
+function _classCallCheck(a, n) {
+  if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
 }
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-    });
-  }
-  return target;
-}
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t];
+    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
   }
 }
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-  }
+function _createClass(e, r, t) {
+  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
+    writable: !1
+  }), e;
 }
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-function _defineProperty(obj, key, value) {
-  key = _toPropertyKey(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
+function _defineProperty(e, r, t) {
+  return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
 }
 function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-    return target;
-  };
-  return _extends.apply(this, arguments);
+    return n;
+  }, _extends.apply(null, arguments);
 }
-function _toPrimitive(input, hint) {
-  if (typeof input !== "object" || input === null) return input;
-  var prim = input[Symbol.toPrimitive];
-  if (prim !== undefined) {
-    var res = prim.call(input, hint || "default");
-    if (typeof res !== "object") return res;
+function ownKeys(e, r) {
+  var t = Object.keys(e);
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e);
+    r && (o = o.filter(function (r) {
+      return Object.getOwnPropertyDescriptor(e, r).enumerable;
+    })), t.push.apply(t, o);
+  }
+  return t;
+}
+function _objectSpread2(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {};
+    r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+      _defineProperty(e, r, t[r]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+      Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+    });
+  }
+  return e;
+}
+function _toPrimitive(t, r) {
+  if ("object" != typeof t || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != typeof i) return i;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
-  return (hint === "string" ? String : Number)(input);
+  return ("string" === r ? String : Number)(t);
 }
-function _toPropertyKey(arg) {
-  var key = _toPrimitive(arg, "string");
-  return typeof key === "symbol" ? key : String(key);
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
+  return "symbol" == typeof i ? i : i + "";
 }
 
 var canvasToBlob = {exports: {}};
@@ -404,6 +385,49 @@ function getStringFromCharCode(dataView, start, length) {
   }
   return str;
 }
+
+/**
+ * Check if `canvas.getContext('2d').getImageData` is available,
+ * FireFox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
+ * @link https://github.com/nodeca/pica/blob/master/lib/utils.js
+ * @returns {boolean} Returns `true` if it is available, else `false`.
+ */
+function isCanvasAvailable() {
+  try {
+    var canvas = document.createElement('canvas');
+    canvas.width = 2;
+    canvas.height = 1;
+    var context = canvas.getContext('2d');
+    if (!context) return false;
+
+    // Create 2x1 image data containing RGBA values for two pixels
+    var imageData = context.createImageData(2, 1);
+
+    // First pixel: R=12, G=23, B=34, A=255
+    imageData.data[0] = 12;
+    imageData.data[1] = 23;
+    imageData.data[2] = 34;
+    imageData.data[3] = 255;
+
+    // Second pixel: R=45, G=56, B=67, A=255
+    imageData.data[4] = 45;
+    imageData.data[5] = 56;
+    imageData.data[6] = 67;
+    imageData.data[7] = 255;
+    context.putImageData(imageData, 0, 0);
+    var readBack = context.getImageData(0, 0, 2, 1);
+
+    // Expected pixel data (matching the written values)
+    var expected = [12, 23, 34, 255, 45, 56, 67, 255];
+
+    // Compare element by element to ensure write and read consistency
+    return readBack.data.every(function (value, index) {
+      return value === expected[index];
+    });
+  } catch (error) {
+    return false;
+  }
+}
 var btoa = WINDOW.btoa;
 
 /**
@@ -671,7 +695,7 @@ var Compressor = /*#__PURE__*/function () {
     this.result = null;
     this.init();
   }
-  _createClass(Compressor, [{
+  return _createClass(Compressor, [{
     key: "init",
     value: function init() {
       var _this = this;
@@ -757,10 +781,18 @@ var Compressor = /*#__PURE__*/function () {
       var file = this.file,
         image = this.image;
       image.onload = function () {
-        _this2.draw(_objectSpread2(_objectSpread2({}, data), {}, {
-          naturalWidth: image.naturalWidth,
-          naturalHeight: image.naturalHeight
-        }));
+        if (isCanvasAvailable()) {
+          _this2.draw(_objectSpread2(_objectSpread2({}, data), {}, {
+            naturalWidth: image.naturalWidth,
+            naturalHeight: image.naturalHeight
+          }));
+        } else {
+          _this2.done({
+            naturalWidth: image.naturalWidth,
+            naturalHeight: image.naturalHeight,
+            result: null
+          });
+        }
       };
       image.onabort = function () {
         _this2.fail(new Error('Aborted to load the image.'));
@@ -983,14 +1015,25 @@ var Compressor = /*#__PURE__*/function () {
         if (options.strict && !options.retainExif && result.size > file.size && options.mimeType === file.type && !(options.width > naturalWidth || options.height > naturalHeight || options.minWidth > naturalWidth || options.minHeight > naturalHeight || options.maxWidth < naturalWidth || options.maxHeight < naturalHeight)) {
           result = file;
         } else {
-          var date = new Date();
-          result.lastModified = date.getTime();
-          result.lastModifiedDate = date;
-          result.name = file.name;
+          var fileName = file.name;
 
           // Convert the extension to match its type
-          if (result.name && result.type !== file.type) {
-            result.name = result.name.replace(REGEXP_EXTENSION, imageTypeToExtension(result.type));
+          if (fileName && result.type !== file.type) {
+            fileName = fileName.replace(REGEXP_EXTENSION, imageTypeToExtension(result.type));
+          }
+          try {
+            // Convert the resulting Blob object into a File object for modern browsers.
+            result = new File([result], fileName, {
+              type: result.type
+            });
+          } catch (error) {
+            // Fallback to Blob if the File constructor is not supported.
+            var date = new Date();
+            result.name = fileName;
+
+            // The last modified date is not accurate, but it's better than nothing.
+            result.lastModified = date.getTime();
+            result.lastModifiedDate = date;
           }
         }
       } else {
@@ -1049,7 +1092,6 @@ var Compressor = /*#__PURE__*/function () {
       _extends(DEFAULTS, options);
     }
   }]);
-  return Compressor;
 }();
 
 export { Compressor as default };
