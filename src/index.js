@@ -7,14 +7,15 @@ import {
 import {
   arrayBufferToDataURL,
   getAdjustedSizes,
+  getExif,
   imageTypeToExtension,
+  insertExif,
+  isCanvasAvailable,
   isImageType,
   isPositiveNumber,
   normalizeDecimalNumber,
   parseOrientation,
   resetAndGetOrientation,
-  getExif,
-  insertExif,
 } from './utilities';
 
 const { ArrayBuffer, FileReader } = WINDOW;
@@ -140,11 +141,19 @@ export default class Compressor {
     const { file, image } = this;
 
     image.onload = () => {
-      this.draw({
-        ...data,
-        naturalWidth: image.naturalWidth,
-        naturalHeight: image.naturalHeight,
-      });
+      if (isCanvasAvailable()) {
+        this.draw({
+          ...data,
+          naturalWidth: image.naturalWidth,
+          naturalHeight: image.naturalHeight,
+        });
+      } else {
+        this.done({
+          naturalWidth: image.naturalWidth,
+          naturalHeight: image.naturalHeight,
+          result: null,
+        });
+      }
     };
     image.onabort = () => {
       this.fail(new Error('Aborted to load the image.'));

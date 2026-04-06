@@ -1,6 +1,4 @@
-import {
-  WINDOW,
-} from './constants';
+import { WINDOW } from './constants';
 
 /**
  * Check if the given value is a positive number.
@@ -66,6 +64,52 @@ export function getStringFromCharCode(dataView, start, length) {
   }
 
   return str;
+}
+
+/**
+ * Check if `canvas.getContext('2d').getImageData` is available,
+ * FireFox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
+ * @link https://github.com/nodeca/pica/blob/master/lib/utils.js
+ * @returns {boolean} Returns `true` if it is available, else `false`.
+ */
+export function isCanvasAvailable() {
+  try {
+    const canvas = document.createElement('canvas');
+
+    canvas.width = 2;
+    canvas.height = 1;
+
+    const context = canvas.getContext('2d');
+
+    if (!context) return false;
+
+    // Create 2x1 image data containing RGBA values for two pixels
+    const imageData = context.createImageData(2, 1);
+
+    // First pixel: R=12, G=23, B=34, A=255
+    imageData.data[0] = 12;
+    imageData.data[1] = 23;
+    imageData.data[2] = 34;
+    imageData.data[3] = 255;
+
+    // Second pixel: R=45, G=56, B=67, A=255
+    imageData.data[4] = 45;
+    imageData.data[5] = 56;
+    imageData.data[6] = 67;
+    imageData.data[7] = 255;
+
+    context.putImageData(imageData, 0, 0);
+
+    const readBack = context.getImageData(0, 0, 2, 1);
+
+    // Expected pixel data (matching the written values)
+    const expected = [12, 23, 34, 255, 45, 56, 67, 255];
+
+    // Compare element by element to ensure write and read consistency
+    return readBack.data.every((value, index) => value === expected[index]);
+  } catch (error) {
+    return false;
+  }
 }
 
 const { btoa } = WINDOW;
