@@ -1,20 +1,20 @@
 export default {
   /**
-   * Indicates if output the original image instead of the compressed one
+   * Indicates whether to output the original image instead of the compressed one
    * when the size of the compressed image is greater than the original one's
    * @type {boolean}
    */
   strict: true,
 
   /**
-   * Indicates if read the image's Exif Orientation information,
+   * Indicates whether to read the image's Exif Orientation information,
    * and then rotate or flip the image automatically.
    * @type {boolean}
    */
   checkOrientation: true,
 
   /**
-   * Indicates if retain the image's Exif information after compressed.
+   * Indicates whether to retain the image's Exif information after compression.
    * @type {boolean}
   */
   retainExif: false,
@@ -83,7 +83,7 @@ export default {
   /**
    * Files whose file type is included in this list,
    * and whose file size exceeds the `convertSize` value will be converted to JPEGs.
-   * @type {string｜Array}
+   * @type {string|string[]}
    */
   convertTypes: ['image/png'],
 
@@ -95,9 +95,9 @@ export default {
   convertSize: 5000000,
 
   /**
-   * The hook function to execute before draw the image into the canvas for compression.
+   * The hook function to execute before drawing the image into the canvas for compression.
    * @type {Function}
-   * @param {CanvasRenderingContext2D} context - The 2d rendering context of the canvas.
+   * @param {CanvasRenderingContext2D} context - The 2D rendering context of the canvas.
    * @param {HTMLCanvasElement} canvas - The canvas for compression.
    * @example
    * function (context, canvas) {
@@ -107,9 +107,9 @@ export default {
   beforeDraw: null,
 
   /**
-   * The hook function to execute after drew the image into the canvas for compression.
+   * The hook function to execute after drawing the image into the canvas for compression.
    * @type {Function}
-   * @param {CanvasRenderingContext2D} context - The 2d rendering context of the canvas.
+   * @param {CanvasRenderingContext2D} context - The 2D rendering context of the canvas.
    * @param {HTMLCanvasElement} canvas - The canvas for compression.
    * @example
    * function (context, canvas) {
@@ -119,7 +119,7 @@ export default {
   drew: null,
 
   /**
-   * The hook function to execute when success to compress the image.
+   * The hook function to execute when the image is compressed successfully.
    * @type {Function}
    * @param {File} file - The compressed image File object.
    * @example

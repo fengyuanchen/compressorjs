@@ -21,9 +21,9 @@ export function toArray(value) {
 const REGEXP_IMAGE_TYPE = /^image\/.+$/;
 
 /**
- * Check if the given value is a mime type of image.
+ * Check if the given value is an image MIME type.
  * @param {*} value - The value to check.
- * @returns {boolean} Returns `true` if the given is a mime type of image, else `false`.
+ * @returns {boolean} Returns `true` if the given value is an image MIME type, else `false`.
  */
 export function isImageType(value) {
   return REGEXP_IMAGE_TYPE.test(value);
@@ -32,7 +32,7 @@ export function isImageType(value) {
 /**
  * Convert image type to extension.
  * @param {string} value - The image type to convert.
- * @returns {boolean} Returns the image extension.
+ * @returns {string} Returns the image extension.
  */
 export function imageTypeToExtension(value) {
   let extension = isImageType(value) ? value.substr(6) : '';
@@ -68,7 +68,7 @@ export function getStringFromCharCode(dataView, start, length) {
 
 /**
  * Check if `canvas.getContext('2d').getImageData` is available,
- * FireFox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
+ * Firefox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
  * @link https://github.com/nodeca/pica/blob/master/lib/utils.js
  * @returns {boolean} Returns `true` if it is available, else `false`.
  */
@@ -117,7 +117,7 @@ const { btoa } = WINDOW;
 /**
  * Transform array buffer to Data URL.
  * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
- * @param {string} mimeType - The mime type of the Data URL.
+ * @param {string} mimeType - The MIME type of the Data URL.
  * @returns {string} The result Data URL.
  */
 export function arrayBufferToDataURL(arrayBuffer, mimeType) {
