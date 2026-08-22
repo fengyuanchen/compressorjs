@@ -162,7 +162,7 @@
               <div class="form-group row">
                 <label for="inputMimeType" class="col-5 col-form-label">mimeType</label>
                 <div class="col-7">
-                  <input type="text" name="mimeType" class="form-control" id="inputMimeType" placeholder="auto" v-model.number="options.mimeType">
+                  <input type="text" name="mimeType" class="form-control" id="inputMimeType" placeholder="auto" v-model="options.mimeType">
                 </div>
               </div>
               <div class="form-group row">
@@ -236,7 +236,7 @@
                     <dd class="col-7">{{ output.type || 'N/A' }}</dd>
                     <dt class="col-5">size:</dt>
                     <dd class="col-7">{{ output.size | prettySize }}
-                      <span v-if="output.size">({{ ((1 - (output.size / input.size)) * 100).toFixed(2) }}% off)</span>
+                      <span v-if="input.size > 0 && output.size > 0">({{ ((1 - (output.size / input.size)) * 100).toFixed(2) }}% off)</span>
                     </dd>
                   </dl>
                 </div>

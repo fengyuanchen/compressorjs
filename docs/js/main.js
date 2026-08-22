@@ -25,13 +25,14 @@ window.addEventListener('DOMContentLoaded', function () {
           height: undefined,
           resize: 'none',
           quality: 0.8,
-          mimeType: '',
+          mimeType: 'auto',
           convertTypes: 'image/png',
           convertSize: 5000000,
           success: function (result) {
             console.log('Output: ', result);
 
             if (URL) {
+              vm.releaseURL('outputURL');
               vm.outputURL = URL.createObjectURL(result);
             }
 
@@ -67,6 +68,16 @@ window.addEventListener('DOMContentLoaded', function () {
     },
 
     methods: {
+      releaseURL: function (key) {
+        var url = this[key];
+
+        if (URL && url && url.indexOf('blob:') === 0) {
+          URL.revokeObjectURL(url);
+        }
+
+        this[key] = '';
+      },
+
       compress: function (file) {
         if (!file) {
           return;
@@ -75,6 +86,7 @@ window.addEventListener('DOMContentLoaded', function () {
         console.log('Input: ', file);
 
         if (URL) {
+          this.releaseURL('inputURL');
           this.inputURL = URL.createObjectURL(file);
         }
 
