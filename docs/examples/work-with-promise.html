@@ -7,8 +7,11 @@
   <title>Compressor.js</title>
   <link rel="stylesheet" href="https://unpkg.com/bootstrap@4/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <style>
-    img {
+    .demo-image {
+      display: block;
       width: 100%;
+      max-width: 100%;
+      height: auto;
     }
   </style>
 </head>
@@ -21,12 +24,13 @@
       <div class="col-sm-6">
         <h3>Input</h3>
         <div id="input">
-          <img id="image" src="../images/picture.jpg" alt="Picture">
+          <img id="image" class="demo-image" src="../images/picture.jpg" alt="Picture">
         </div>
       </div>
       <div class="col-sm-6">
         <h3>Output</h3>
         <div id="output"></div>
+        <div id="status" class="mt-3"></div>
       </div>
     </div>
   </div>
@@ -37,27 +41,48 @@
       var URL = window.URL || window.webkitURL;
       var image = document.getElementById('image');
       var output = document.getElementById('output');
+      var status = document.getElementById('status');
+
+      function showStatus(message, type) {
+        status.className = 'mt-3 alert ' + (type === 'error' ? 'alert-danger' : 'alert-success');
+        status.textContent = message;
+      }
+
+      function renderResult(result) {
+        var newImage = new Image();
+
+        newImage.src = URL.createObjectURL(result);
+        newImage.alt = 'Compressed image';
+        newImage.className = 'demo-image';
+        output.innerHTML = '';
+        output.appendChild(newImage);
+      }
+
       var xhr = new XMLHttpRequest();
 
       xhr.onload = function () {
-        new Promise((resolve, reject) => {
+        new Promise(function (resolve, reject) {
           new Compressor(xhr.response, {
             success: resolve,
             error: reject,
           });
-        }).then((result) => {
-          console.log('Compress success');
-          var newImage = new Image();
+        })
+          .then(function (result) {
+            console.log('Compress success');
+            renderResult(result);
+            showStatus('Compression complete.', 'success');
+          })
+          .catch(function (err) {
+            console.log('Compress error');
+            showStatus(err && err.message ? err.message : 'Compression failed.', 'error');
+          })
+          .finally(function () {
+            console.log('Compress complete');
+          });
+      };
 
-          newImage.src = URL.createObjectURL(result);
-          newImage.alt = 'Compressed image';
-          output.appendChild(newImage);
-        }).catch((err) => {
-          console.log('Compress error');
-          window.alert(err.message);
-        }).finally(() => {
-          console.log('Compress complete');
-        });
+      xhr.onerror = function () {
+        showStatus('Unable to load the image.', 'error');
       };
 
       xhr.open('GET', image.src);
