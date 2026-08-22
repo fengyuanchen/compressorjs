@@ -112,7 +112,7 @@ document.getElementById('file').addEventListener('change', (e) => {
 ## Options
 
 You may set compressor options with `new Compressor(file, options)`.
-If you want to change the global default options, You may use `Compressor.setDefaults(options)`.
+If you want to change the global default options, you may use `Compressor.setDefaults(options)`.
 
 ### strict
 
@@ -202,7 +202,7 @@ The height of the output image. If not specified, the natural height of the orig
 
 Sets how the size of the image should be resized to the container specified by the `width` and `height` options.
 
-**Note:** This option only available when both the `width` and `height` options are specified.
+**Note:** This option is only available when both the `width` and `height` options are specified.
 
 ### quality
 
@@ -211,7 +211,7 @@ Sets how the size of the image should be resized to the container specified by t
 
 The quality of the output image. It must be a number between `0` and `1`. If this argument is anything else, the default values `0.92` and `0.80` are used for `image/jpeg` and `image/webp` respectively. Other arguments are ignored. Be careful to use `1` as it may make the size of the output image become larger.
 
-**Note:** This option only available for `image/jpeg` and `image/webp` images.
+**Note:** This option is only available for `image/jpeg` and `image/webp` images.
 
 > Check out the documentation of the [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method for more detail.
 
@@ -272,7 +272,7 @@ Files whose file type is included in the `convertTypes` list, and whose file siz
   - `context`: The 2d rendering context of the canvas.
   - `canvas`: The canvas for compression.
 
-The hook function to execute before drawing the image into the canvas for compression.
+The hook function to execute before drawing the image onto the canvas for compression.
 
 ```js
 new Compressor(file, {
@@ -292,7 +292,7 @@ new Compressor(file, {
   - `context`: The 2d rendering context of the canvas.
   - `canvas`: The canvas for compression.
 
-The hook function to execute after drawing the image into the canvas for compression.
+The hook function to execute after drawing the image onto the canvas for compression.
 
 ```js
 new Compressor(file, {
@@ -320,7 +320,7 @@ The hook function to execute when the image has been successfully compressed.
 - Parameters:
   - `err`: The compression error (an `Error` object).
 
-The hook function executes when fails to compress the image.
+The hook function executes when the image compression fails.
 
 [⬆ back to top](#table-of-contents)
 
