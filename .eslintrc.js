@@ -19,17 +19,17 @@ module.exports = {
   overrides: [
     {
       files: 'test/**/*.spec.js',
-      "env": {
-        "mocha": true
+      env: {
+        mocha: true,
       },
-      "globals": {
-        "Compressor": true,
-        "expect": true
+      globals: {
+        Compressor: true,
+        expect: true,
       },
-      "rules": {
-        "no-new": "off",
-        "no-unused-expressions": "off"
-      }
+      rules: {
+        'no-new': 'off',
+        'no-unused-expressions': 'off',
+      },
     },
   ],
 };
