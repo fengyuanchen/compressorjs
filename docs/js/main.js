@@ -98,11 +98,11 @@ window.addEventListener('DOMContentLoaded', function () {
         this.compress(e.target.files ? e.target.files[0] : null);
       },
 
-      dragover: function(e) {
+      dragover: function (e) {
         e.preventDefault();
       },
 
-      drop: function(e) {
+      drop: function (e) {
         e.preventDefault();
         this.compress(e.dataTransfer.files ? e.dataTransfer.files[0] : null);
       },
