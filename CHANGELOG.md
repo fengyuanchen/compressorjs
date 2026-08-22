@@ -3,7 +3,7 @@
 ## 1.3.0 (Apr 6, 2026)
 
 - Convert the resulting Blob object into a File object for modern browsers (#146).
-- Output the original image when `canvas.getContext('2d').getImageData()` is unavailable in Firefox's `privacy.resistFingerprinting` mode (#177).
+- Output the original image when `canvas.getContext('2d').getImageData()` is unavailable under Firefox's `privacy.resistFingerprinting` mode (#177).
 
 ## 1.2.1 (Feb 28, 2023)
 
@@ -19,13 +19,12 @@
 
 ## 1.1.0 (Oct 1, 2021)
 
-- Add 2 new options: `convertTypes` (#123) and `resize` (#130).
-- Ignore the `strict` option when the `maxWidth/Height` option is set and its value is less than the natural width/height of the image (#134).
-.
+- Add two new options: `convertTypes` (#123) and `resize` (#130).
+- Ignore the `strict` option when the `maxWidth` or `maxHeight` option is set to a value less than the image's natural width or height (#134).
 
 ## 1.0.7 (Nov 28, 2020)
 
-- Update the built-in dependencies for better adaptability.
+- Update the bundled dependencies for better compatibility.
 
 ## 1.0.6 (Nov 23, 2019)
 
@@ -55,7 +54,7 @@
 
 ## 1.0.0 (Oct 15, 2018)
 
-- Supports 15 options: `beforeDraw`, `checkOrientation`, `convertSize`, `drew`, `error`, `height`, `maxHeight`, `maxWidth`, `mimeType`, `minHeight`, `minWidth`, `quality`, `strict`, `success` and `width`.
-- Support 1 method: `abort`.
-- Support to compress images of `File` or `Blob` object.
-- Supports to translate Exif Orientation information.
+- Support 15 options: `beforeDraw`, `checkOrientation`, `convertSize`, `drew`, `error`, `height`, `maxHeight`, `maxWidth`, `mimeType`, `minHeight`, `minWidth`, `quality`, `strict`, `success` and `width`.
+- Support one method: `abort`.
+- Support compressing images from `File` or `Blob` objects.
+- Support translating Exif orientation information.
