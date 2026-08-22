@@ -1,0 +1,6 @@
+*.local*
+.husky
+coverage
+dist
+docs
+node_modules
