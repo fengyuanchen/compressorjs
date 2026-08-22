@@ -64,7 +64,6 @@ The options for compressing. Check out the available [options](#options).
 ```
 
 ```js
-import axios from 'axios';
 import Compressor from 'compressorjs';
 
 document.getElementById('file').addEventListener('change', (e) => {
@@ -78,27 +77,37 @@ document.getElementById('file').addEventListener('change', (e) => {
     quality: 0.6,
 
     // The compression process is asynchronous,
-    // which means you have to access the `result` in the `success` hook function.
+    // which means you need to access the `result` inside the `success` hook.
     success(result) {
       const formData = new FormData();
 
-      // The third parameter is required for server
-      formData.append('file', result, result.name);
+      // The third parameter is required by the server.
+      formData.append('file', result, result.name || 'compressed-image.jpg');
 
-      // Send the compressed image file to server with XMLHttpRequest.
-      axios.post('/path/to/upload', formData).then(() => {
+      fetch('/path/to/upload', {
+        method: 'POST',
+        body: formData,
+      }).then(() => {
         console.log('Upload success');
+      }).catch((error) => {
+        console.error('Upload failed', error);
       });
     },
     error(err) {
       console.log(err.message);
     },
   });
-
 });
 ```
 
 [⬆ back to top](#table-of-contents)
+
+### Tips
+
+- Use `quality` between `0.6` and `0.8` for a good balance between file size and visual quality.
+- Avoid `quality: 1` unless you need the image to stay as close as possible to the original; it can increase the file size.
+- For very large images, set `maxWidth` and `maxHeight` to limit the canvas size and avoid browser memory issues.
+- `convertTypes` and `convertSize` are useful for automatically converting large PNG files to JPEG to reduce file size.
 
 ## Options
 
@@ -300,9 +309,9 @@ new Compressor(file, {
 - Type: `Function`
 - Default: `null`
 - Parameters:
-  - `result`: The compressed image (a `File` (**read only**) or `Blob` object).
+  - `result`: The compressed image (`File` in modern browsers, or `Blob` as a fallback).
 
-The hook function to execute when successful to compress the image.
+The hook function to execute when the image has been successfully compressed.
 
 ### error(err)
 
