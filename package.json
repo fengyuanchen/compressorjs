@@ -48,6 +48,16 @@
     "url": "https://github.com/fengyuanchen/compressorjs/issues"
   },
   "homepage": "https://fengyuanchen.github.io/compressorjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/compressor.esm.js",
+      "require": "./dist/compressor.common.js",
+      "default": "./dist/compressor.esm.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  }
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.29.0",
     "is-blob": "^2.1.0"
