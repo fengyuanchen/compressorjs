@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add the `Compressor.create` static method for creating a new `Compressor` instance without the `new` operator (#167).
+
 ## 1.3.0 (Apr 6, 2026)
 
 - Convert the resulting Blob object into a File object for modern browsers (#146).

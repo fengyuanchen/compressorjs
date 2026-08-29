@@ -24,8 +24,9 @@ declare namespace Compressor {
 declare class Compressor {
   constructor(file: File | Blob, options?: Compressor.Options);
   abort(): void;
-  static noConflict(): Compressor;
+  static create(file: File | Blob, options?: Compressor.Options): Compressor;
   static setDefaults(options: Compressor.Options): void;
+  static noConflict(): Compressor;
 }
 
 declare module 'compressorjs' {

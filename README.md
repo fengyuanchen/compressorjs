@@ -2,18 +2,18 @@
 
 [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js)
 
-> JavaScript image compressor. Uses the Browser's native [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress a image on the client side before uploading it.
+> JavaScript image compressor. Uses the browser's native [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress an image on the client side before uploading it.
 
 - [Website](https://fengyuanchen.github.io/compressorjs)
 
-## Table of contents
+## Table of Contents
 
 - [Main Files](#main-files)
-- [Getting started](#getting-started)
+- [Getting Started](#getting-started)
 - [Options](#options)
 - [Methods](#methods)
-- [No conflict](#no-conflict)
-- [Browser support](#browser-support)
+- [Static Methods](#static-methods)
+- [Browser Support](#browser-support)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
@@ -28,7 +28,7 @@ dist/
 └── compressor.esm.js    (ES Module)
 ```
 
-## Getting started
+## Getting Started
 
 ### Install
 
@@ -44,18 +44,15 @@ npm install compressorjs
 new Compressor(file[, options])
 ```
 
-**file**
+- **file**
+  - Type: [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) or [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob)
+  - The target image file to compress.
 
-- Type: [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) or [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob)
+- **options** (optional)
+  - Type: `Object`
+  - The configuration options. Check out the available [options](#options).
 
-The target image file for compressing.
-
-**options**
-
-- Type: `Object`
-- Optional
-
-The options for compressing. Check out the available [options](#options).
+Alternatively, you may use `Compressor.create(file[, options])`.
 
 #### Example
 
@@ -337,7 +334,31 @@ const compressor = new Compressor(file);
 compressor.abort();
 ```
 
-## No conflict
+[⬆ back to top](#table-of-contents)
+
+## Static Methods
+
+### create(file[, options])
+
+Create a new `Compressor` instance. This is equivalent to `new Compressor(file, options)`.
+
+```js
+const compressor = Compressor.create(file, {
+  quality: 0.6,
+});
+```
+
+### setDefaults(options)
+
+Change the global default options for subsequently created `Compressor` instances. Instance options override these defaults.
+
+```js
+Compressor.setDefaults({
+  quality: 0.6,
+});
+```
+
+### noConflict()
 
 If you have to use another compressor with the same namespace, just call the `Compressor.noConflict` static method to revert to it.
 
@@ -350,7 +371,9 @@ If you have to use another compressor with the same namespace, just call the `Co
 </script>
 ```
 
-## Browser support
+[⬆ back to top](#table-of-contents)
+
+## Browser Support
 
 - Chrome (latest)
 - Firefox (latest)

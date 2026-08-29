@@ -29,11 +29,11 @@ const AnotherCompressor = WINDOW.Compressor;
  */
 export default class Compressor {
   /**
-   * The constructor of Compressor.
-   * @param {File|Blob} file - The target image file for compressing.
-   * @param {Object} [options] - The options for compressing.
+   * Create a new Compressor.
+   * @param {File|Blob} file - The target image file to compress.
+   * @param {Object} [options={}] - The configuration options.
    */
-  constructor(file, options) {
+  constructor(file, options = {}) {
     this.file = file;
     this.exif = [];
     this.image = new Image();
@@ -451,12 +451,13 @@ export default class Compressor {
   }
 
   /**
-   * Get the no conflict compressor class.
-   * @returns {Compressor} The compressor class.
+   * Creates a new Compressor instance.
+   * @param {File|Blob} file - The target image file to compress.
+   * @param {Object} [options={}] - The configuration options.
+   * @returns {Compressor} A new Compressor instance.
    */
-  static noConflict() {
-    window.Compressor = AnotherCompressor;
-    return Compressor;
+  static create(file, options) {
+    return new Compressor(file, options);
   }
 
   /**
@@ -465,5 +466,14 @@ export default class Compressor {
    */
   static setDefaults(options) {
     Object.assign(DEFAULTS, options);
+  }
+
+  /**
+   * Get the no conflict compressor class.
+   * @returns {Compressor} The compressor class.
+   */
+  static noConflict() {
+    window.Compressor = AnotherCompressor;
+    return Compressor;
   }
 }
