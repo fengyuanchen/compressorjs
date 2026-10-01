@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.4.0 (Oct 6, 2026)
 
 - Add the `Compressor.create` static method for creating a new `Compressor` instance without the `new` operator (#167).
 - Improve TypeScript declarations.

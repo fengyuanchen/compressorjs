@@ -1,6 +1,6 @@
 {
   "name": "compressorjs",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "JavaScript image compressor.",
   "main": "dist/compressor.common.js",
   "module": "dist/compressor.esm.js",

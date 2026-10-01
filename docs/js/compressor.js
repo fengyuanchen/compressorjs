@@ -1,11 +1,11 @@
 /*!
- * Compressor.js v1.3.0
+ * Compressor.js v1.4.0
  * https://fengyuanchen.github.io/compressorjs
  *
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2026-04-06T07:12:45.816Z
+ * Date: 2026-10-01T04:45:36.902Z
  */
 
 (function (global, factory) {
@@ -79,6 +79,10 @@
   function _toPropertyKey(t) {
     var i = _toPrimitive(t, "string");
     return "symbol" == typeof i ? i : i + "";
+  }
+
+  function getDefaultExportFromCjs (x) {
+  	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
   }
 
   var canvasToBlob = {exports: {}};
@@ -194,7 +198,8 @@
       }
     })(window);
   })(canvasToBlob);
-  var toBlob = canvasToBlob.exports;
+  var canvasToBlobExports = canvasToBlob.exports;
+  var toBlob = /*@__PURE__*/getDefaultExportFromCjs(canvasToBlobExports);
 
   var isBlob = function isBlob(value) {
     if (typeof Blob === 'undefined') {
@@ -202,22 +207,23 @@
     }
     return value instanceof Blob || Object.prototype.toString.call(value) === '[object Blob]';
   };
+  var isBlob$1 = /*@__PURE__*/getDefaultExportFromCjs(isBlob);
 
   var DEFAULTS = {
     /**
-     * Indicates if output the original image instead of the compressed one
+     * Indicates whether to output the original image instead of the compressed one
      * when the size of the compressed image is greater than the original one's
      * @type {boolean}
      */
     strict: true,
     /**
-     * Indicates if read the image's Exif Orientation information,
+     * Indicates whether to read the image's Exif Orientation information,
      * and then rotate or flip the image automatically.
      * @type {boolean}
      */
     checkOrientation: true,
     /**
-     * Indicates if retain the image's Exif information after compressed.
+     * Indicates whether to retain the image's Exif information after compression.
      * @type {boolean}
     */
     retainExif: false,
@@ -276,7 +282,7 @@
     /**
      * Files whose file type is included in this list,
      * and whose file size exceeds the `convertSize` value will be converted to JPEGs.
-     * @type {string｜Array}
+     * @type {string|string[]}
      */
     convertTypes: ['image/png'],
     /**
@@ -286,9 +292,9 @@
      */
     convertSize: 5000000,
     /**
-     * The hook function to execute before draw the image into the canvas for compression.
+     * The hook function to execute before drawing the image into the canvas for compression.
      * @type {Function}
-     * @param {CanvasRenderingContext2D} context - The 2d rendering context of the canvas.
+     * @param {CanvasRenderingContext2D} context - The 2D rendering context of the canvas.
      * @param {HTMLCanvasElement} canvas - The canvas for compression.
      * @example
      * function (context, canvas) {
@@ -297,9 +303,9 @@
      */
     beforeDraw: null,
     /**
-     * The hook function to execute after drew the image into the canvas for compression.
+     * The hook function to execute after drawing the image into the canvas for compression.
      * @type {Function}
-     * @param {CanvasRenderingContext2D} context - The 2d rendering context of the canvas.
+     * @param {CanvasRenderingContext2D} context - The 2D rendering context of the canvas.
      * @param {HTMLCanvasElement} canvas - The canvas for compression.
      * @example
      * function (context, canvas) {
@@ -308,7 +314,7 @@
      */
     drew: null,
     /**
-     * The hook function to execute when success to compress the image.
+     * The hook function to execute when the image is compressed successfully.
      * @type {Function}
      * @param {File} file - The compressed image File object.
      * @example
@@ -353,9 +359,9 @@
   var REGEXP_IMAGE_TYPE = /^image\/.+$/;
 
   /**
-   * Check if the given value is a mime type of image.
+   * Check if the given value is an image MIME type.
    * @param {*} value - The value to check.
-   * @returns {boolean} Returns `true` if the given is a mime type of image, else `false`.
+   * @returns {boolean} Returns `true` if the given value is an image MIME type, else `false`.
    */
   function isImageType(value) {
     return REGEXP_IMAGE_TYPE.test(value);
@@ -364,7 +370,7 @@
   /**
    * Convert image type to extension.
    * @param {string} value - The image type to convert.
-   * @returns {boolean} Returns the image extension.
+   * @returns {string} Returns the image extension.
    */
   function imageTypeToExtension(value) {
     var extension = isImageType(value) ? value.substr(6) : '';
@@ -394,7 +400,7 @@
 
   /**
    * Check if `canvas.getContext('2d').getImageData` is available,
-   * FireFox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
+   * Firefox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
    * @link https://github.com/nodeca/pica/blob/master/lib/utils.js
    * @returns {boolean} Returns `true` if it is available, else `false`.
    */
@@ -439,7 +445,7 @@
   /**
    * Transform array buffer to Data URL.
    * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
-   * @param {string} mimeType - The mime type of the Data URL.
+   * @param {string} mimeType - The MIME type of the Data URL.
    * @returns {string} The result Data URL.
    */
   function arrayBufferToDataURL(arrayBuffer, mimeType) {
@@ -687,11 +693,12 @@
    */
   var Compressor = /*#__PURE__*/function () {
     /**
-     * The constructor of Compressor.
-     * @param {File|Blob} file - The target image file for compressing.
-     * @param {Object} [options] - The options for compressing.
+     * Create a new Compressor.
+     * @param {File|Blob} file - The target image file to compress.
+     * @param {Object} [options={}] - The configuration options.
      */
-    function Compressor(file, options) {
+    function Compressor(file) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       _classCallCheck(this, Compressor);
       this.file = file;
       this.exif = [];
@@ -707,7 +714,7 @@
         var _this = this;
         var file = this.file,
           options = this.options;
-        if (!isBlob(file)) {
+        if (!isBlob$1(file)) {
           this.fail(new Error('The first argument must be a File or Blob object.'));
           return;
         }
@@ -1078,14 +1085,15 @@
       }
 
       /**
-       * Get the no conflict compressor class.
-       * @returns {Compressor} The compressor class.
+       * Creates a new Compressor instance.
+       * @param {File|Blob} file - The target image file to compress.
+       * @param {Object} [options={}] - The configuration options.
+       * @returns {Compressor} A new Compressor instance.
        */
     }], [{
-      key: "noConflict",
-      value: function noConflict() {
-        window.Compressor = AnotherCompressor;
-        return Compressor;
+      key: "create",
+      value: function create(file, options) {
+        return new Compressor(file, options);
       }
 
       /**
@@ -1096,6 +1104,17 @@
       key: "setDefaults",
       value: function setDefaults(options) {
         _extends(DEFAULTS, options);
+      }
+
+      /**
+       * Get the no conflict compressor class.
+       * @returns {Compressor} The compressor class.
+       */
+    }, {
+      key: "noConflict",
+      value: function noConflict() {
+        window.Compressor = AnotherCompressor;
+        return Compressor;
       }
     }]);
   }();
