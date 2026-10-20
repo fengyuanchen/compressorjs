@@ -11,6 +11,7 @@ import {
   imageTypeToExtension,
   insertExif,
   isCanvasAvailable,
+  isCanvasDrawable,
   isImageType,
   isPositiveNumber,
   normalizeDecimalNumber,
@@ -264,6 +265,11 @@ export default class Compressor {
 
     canvas.width = width;
     canvas.height = height;
+
+    if (width > 0 && height > 0 && !isCanvasDrawable(context, width, height)) {
+      this.fail(new Error(`The canvas size (${width}x${height}) exceeds the limit of the browser, try to set smaller \`maxWidth\` and \`maxHeight\` options.`));
+      return;
+    }
 
     if (!isImageType(options.mimeType)) {
       options.mimeType = file.type;

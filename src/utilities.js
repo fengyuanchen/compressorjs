@@ -67,6 +67,33 @@ export function getStringFromCharCode(dataView, start, length) {
 }
 
 /**
+ * Check if the canvas is drawable, browsers produce a blank canvas silently
+ * when its size exceeds their limits (e.g. 16,777,216 pixels in iOS Safari).
+ * @param {CanvasRenderingContext2D} context - The 2D rendering context of the canvas.
+ * @param {number} width - The width of the canvas.
+ * @param {number} height - The height of the canvas.
+ * @returns {boolean} Returns `true` if it is drawable, else `false`.
+ */
+export function isCanvasDrawable(context, width, height) {
+  try {
+    const x = width - 1;
+    const y = height - 1;
+
+    // Draw an opaque pixel at the bottom-right corner and read it back
+    context.fillStyle = '#000';
+    context.fillRect(x, y, 1, 1);
+
+    const drawable = context.getImageData(x, y, 1, 1).data[3] === 255;
+
+    context.clearRect(x, y, 1, 1);
+
+    return drawable;
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
  * Check if `canvas.getContext('2d').getImageData` is available,
  * Firefox randomizes the output of that function in `privacy.resistFingerprinting` mode (#137)
  * @link https://github.com/nodeca/pica/blob/master/lib/utils.js
